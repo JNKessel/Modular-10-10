@@ -21,12 +21,12 @@ static void ExcluirPeao(void* pVoid);
 
 static void ExcluirJogador(void* pVoid);
 
-static PART_tpCondRet PART_ChecarPeoesDesponiveis(PART_tpJogador* jogadorVez, int dado, LIS_tppLista* PeoesDisponiveisRet) {} /* Não implementada pois foge ao escopo do t2 */
+static PART_tpCondRet PART_ChecarPeoesDesponiveis(PART_tpJogador* jogadorVez, int dado, LIS_tppLista* PeoesDisponiveisRet) {} /* NÃ£o implementada pois foge ao escopo do t2 */
 
-static PART_tpCondRet PART_Escolher(LIS_tppLista* PeoesDisponiveis, PEAO_tppPeao PeaoEscolhidoRet); /* Não implementada pois foge ao escopo do T2 */
+static PART_tpCondRet PART_Escolher(LIS_tppLista* PeoesDisponiveis, PEAO_tppPeao PeaoEscolhidoRet); /* NÃ£o implementada pois foge ao escopo do T2 */
 
 /*******************************************************************************************************************************
-*	Função: PART_CriarPartida
+*	FunÃ§Ã£o: PART_CriarPartida
 */
 PART_tpCondRet PART_CriarPartida(int n) {
 	PEAO_tpCondRet debugPeao;
@@ -34,14 +34,14 @@ PART_tpCondRet PART_CriarPartida(int n) {
 	LIS_tpCondRet debugLista;
 	int i;
 
-	/* Número mínimo e máximo de jogadores de um jogo de ludo */
+	/* NÃºmero mÃ­nimo e mÃ¡ximo de jogadores de um jogo de ludo */
 	if (n < 2 || n > 4)
 		return PART_CondRetNumInvalido;
 	iQtdJogadores = n;
 
-	/* Lista de jogadores é circular */
+	/* Lista de jogadores Ã© circular */
 	debugLstC = LSTC_CriarListaC(&lstJogadores, ExcluirJogador);
-	/* Se não retornou OK, erro */
+	/* Se nÃ£o retornou OK, erro */
 	if (debugLstC) return PART_CondRetErroListaC;
 
 	/* Nenhum jogador jogou ainda */
@@ -62,7 +62,7 @@ PART_tpCondRet PART_CriarPartida(int n) {
 		jog->Cor = cor;
 		debugLista = LIS_CriarLista(&jog->pLstPeoes, ExcluirPeao);
 		if (debugLista)	return PART_CondRetErroLista;
-		/* Criar cada peão do jogador: */
+		/* Criar cada peÃ£o do jogador: */
 		for (i = 0; i < NUM_PEOES; i++) {
 			PEAO_tppPeao tempPeao;
 			debugPeao = PEAO_CriarPeao(&tempPeao, cor, i+1);
@@ -72,16 +72,16 @@ PART_tpCondRet PART_CriarPartida(int n) {
 		}
 	}
 	return PART_CondRetOK;
-} /* Fim Função PART_CriarPartida */
+} /* Fim FunÃ§Ã£o PART_CriarPartida */
 
 /*******************************************************************************************************************************
-*	Função: PART_Jogar
+*	FunÃ§Ã£o: PART_Jogar
 */
-PART_tpCondRet PART_Jogar(){}	/*Não implementada pois foge ao escopo do T2*/
-/* Fim Função PART_Jogar */
+PART_tpCondRet PART_Jogar(){}	/*NÃ£o implementada pois foge ao escopo do T2*/
+/* Fim FunÃ§Ã£o PART_Jogar */
 
 /*******************************************************************************************************************************
-*	Função: PART_ChecarVitoria
+*	FunÃ§Ã£o: PART_ChecarVitoria
 */
 PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet) {
 	int i, qtdPeoes, peoesFinal = 0, qtdJog;
@@ -96,75 +96,75 @@ PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet
 
 	/* Pega jogador que jogou anteriormente */
 	debugListaC = LSTC_ObterElemento(lstJogadores, iQtdJogadores-1, (void**)&jog);
-	/* Se não retornou OK, erro */
+	/* Se nÃ£o retornou OK, erro */
 	if (debugListaC)	return PART_CondRetErroListaC;
 
-	/* Pega quantidade de peões */
+	/* Pega quantidade de peÃµes */
 	lstPeoes = jog->pLstPeoes;
 	debugLista = LIS_ObterTamanhoLista(lstPeoes, &qtdPeoes);
-	/* Se não retornou OK, erro */
+	/* Se nÃ£o retornou OK, erro */
 	if (debugLista)	return PART_CondRetErroLista;
 
-	/* Vai para início da lista de peões do jogador pego */
+	/* Vai para inÃ­cio da lista de peÃµes do jogador pego */
 	debugLista = LIS_IrInicioLista(lstPeoes);
-	/* Se não retornou OK, erro */
+	/* Se nÃ£o retornou OK, erro */
 	if (debugLista)	return PART_CondRetErroLista;
 
-	/* i conta a posição atual na lista de peões */
+	/* i conta a posiÃ§Ã£o atual na lista de peÃµes */
 	i = 0;
 
-	/* Percorre a lista de peões */
+	/* Percorre a lista de peÃµes */
 	while(1) {
 		PEAO_tpCondRet debugPeao;
 		PEAO_tppPeao peao;
 		Estado estado;
 
-		/* Obtém peão */
+		/* ObtÃ©m peÃ£o */
 		debugLista = LIS_ObterValor(lstPeoes, (void**)&peao);
-		/* Se não retornou OK, erro */
+		/* Se nÃ£o retornou OK, erro */
 		if (debugLista)	return PART_CondRetErroLista;
 
-		/* Testa se ele está no final */
+		/* Testa se ele estÃ¡ no final */
 		debugPeao = PEAO_EstaPeaoFinal(peao, &final);
-		/* Se não retornou OK, erro */
+		/* Se nÃ£o retornou OK, erro */
 		if (debugPeao)	return PART_CondRetErroPeao;
 
-		/* Se o peão estiver no final, conta-o */
+		/* Se o peÃ£o estiver no final, conta-o */
 		if (final)
 			peoesFinal++;
 
-		/* Se está no último peão da lista, não avança a lista e para de percorrê-la */
+		/* Se estÃ¡ no Ãºltimo peÃ£o da lista, nÃ£o avanÃ§a a lista e para de percorrÃª-la */
 		if (i >= qtdPeoes-1)
 			break;
 
-		/* Vai para o próximo peão */
+		/* Vai para o prÃ³ximo peÃ£o */
 		debugLista = LIS_AvancarElementoCorrente(jog->pLstPeoes, 1);
-		/* Se não retornou OK, erro */
+		/* Se nÃ£o retornou OK, erro */
 		if (debugLista)	return PART_CondRetErroLista;
 
 		i++;
 	}
 
-	/* Se todos os peões do jogador estão no final, ele ganhou! */
+	/* Se todos os peÃµes do jogador estÃ£o no final, ele ganhou! */
 	if (peoesFinal == qtdPeoes)
 		*BoolRet = True;
 	else
 		*BoolRet = False;
 	*CorVencedorRet = jog->Cor;
 	return PART_CondRetOK;
-} /* Fim Função PART_ChecarVitoria */
+} /* Fim FunÃ§Ã£o PART_ChecarVitoria */
 
 /*******************************************************************************************************************************
-*	Função: PART_DestruirPartida
+*	FunÃ§Ã£o: PART_DestruirPartida
 */
 PART_tpCondRet PART_DestruirPartida() {
 	LSTC_tpCondRet debugListaC;
 	debugListaC = LSTC_DestruirListaC(lstJogadores);
-} /* Fim Função PART_DestruirPartida */
+} /* Fim FunÃ§Ã£o PART_DestruirPartida */
 
 
 /*******************************************************************************************************************************
-*	Função: PART_DestruirPartida
+*	FunÃ§Ã£o: PART_DestruirPartida
 */
 void ExcluirPeao(void* pVoid) {
 	PEAO_tppPeao pPeao = (PEAO_tppPeao) pVoid;

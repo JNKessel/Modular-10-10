@@ -47,7 +47,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		if (debugNo)	return LSTC_CondRetErroNo;
 		if (pLstC->ExcluirElem && tempInfo)
 			pLstC->ExcluirElem(tempInfo);
-		free(temp); // ImplementaÁ„o n„o assume erro em free
+		free(temp); // Implementa√ß√£o n√£o assume erro em free
 	}
 	free(pLstC);
 	return LSTC_CondRetOK;

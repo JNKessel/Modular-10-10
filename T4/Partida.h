@@ -1,17 +1,17 @@
 /*******************************************************************************************************************************
-*	$MCD Módulo de definição: Módulo Partida
+*	$MCD MÃ³dulo de definiÃ§Ã£o: MÃ³dulo Partida
 *	Arquivo:	PARTIDA.H
 *
 *	Autores:	rrc - Rafael Rubim Cabral
 *
-*	$HA Histórico de evolução:
-*		Versâo	Autor	Data		Observações
-*		1.00	rrc		17/10/2016	Começo de implementação, maioria das funções ainda não implementadas
-*		2.00	rrc		12/09/2016	Dodumentação e continuação em implementação de funções
+*	$HA HistÃ³rico de evoluÃ§Ã£o:
+*		VersÃ¢o	Autor	Data		ObservaÃ§Ãµes
+*		1.00	rrc		17/10/2016	ComeÃ§o de implementaÃ§Ã£o, maioria das funÃ§Ãµes ainda nÃ£o implementadas
+*		2.00	rrc		12/09/2016	DodumentaÃ§Ã£o e continuaÃ§Ã£o em implementaÃ§Ã£o de funÃ§Ãµes
 *
-*	$ED Descrição do módulo:
-*		Este módulo permite a criação de uma partida a partir de sua quantidade de jogadores e manipulação de cada turno.
-*		Não pode ser criada mais de uma partida simultaneamente.
+*	$ED DescriÃ§Ã£o do mÃ³dulo:
+*		Este mÃ³dulo permite a criaÃ§Ã£o de uma partida a partir de sua quantidade de jogadores e manipulaÃ§Ã£o de cada turno.
+*		NÃ£o pode ser criada mais de uma partida simultaneamente.
 *******************************************************************************************************************************/
 
 #pragma once
@@ -38,14 +38,14 @@ typedef enum {
 } PART_tpCondRet;
 
 /*******************************************************************************************************************************
-*	$FC Função: PART_CriarPartida
+*	$FC FunÃ§Ã£o: PART_CriarPartida
 *
-*	$ED Descrição da função:
-*		Recebe quantos jogadores participarão da partida e a cria. O mínimo de jogadores é 2 e o máximo é 4. A cor de cada
-*		jogador obedece sempre a seguinte ordem: 1º- AZUL, 2º- VERMELHO, 3º- VERDE, 4º- AMARELO.
+*	$ED DescriÃ§Ã£o da funÃ§Ã£o:
+*		Recebe quantos jogadores participarÃ£o da partida e a cria. O mÃ­nimo de jogadores Ã© 2 e o mÃ¡ximo Ã© 4. A cor de cada
+*		jogador obedece sempre a seguinte ordem: 1Âº- AZUL, 2Âº- VERMELHO, 3Âº- VERDE, 4Âº- AMARELO.
 *
-*	$EP Parâmetros:
-*		$P iNumJogadores	-	número de jogadores participantes
+*	$EP ParÃ¢metros:
+*		$P iNumJogadores	-	nÃºmero de jogadores participantes
 *
 *	$FV Valor retornado:
 *		PART_CondRetOK
@@ -60,16 +60,16 @@ PART_tpCondRet PART_CriarPartida(int iNumJogadores);
 PART_tpCondRet PART_Jogar();
 
 /*******************************************************************************************************************************
-*	$FC Função: PART_ChecarVitoria
+*	$FC FunÃ§Ã£o: PART_ChecarVitoria
 *
-*	$ED Descrição da função:
-*		Retorna se o jogador que jogou o último turno venceu o jogo e em caso positivo, retorna também sua cor.
+*	$ED DescriÃ§Ã£o da funÃ§Ã£o:
+*		Retorna se o jogador que jogou o Ãºltimo turno venceu o jogo e em caso positivo, retorna tambÃ©m sua cor.
 *
-*	$EP Parâmetros:
-*		$P boolRet			-	parâmetro que receberá o retorno da função: True caso o jogador tenha vencido, False caso contrário.
-*								Este parâmetro é passado como referência.
-*		$P CorVencedorRet	-	parâmetro que receberá o a cor do jogador que venceu o jogo.
-*								Este parâmetro é passado como referência.
+*	$EP ParÃ¢metros:
+*		$P boolRet			-	parÃ¢metro que receberÃ¡ o retorno da funÃ§Ã£o: True caso o jogador tenha vencido, False caso contrÃ¡rio.
+*								Este parÃ¢metro Ã© passado como referÃªncia.
+*		$P CorVencedorRet	-	parÃ¢metro que receberÃ¡ o a cor do jogador que venceu o jogo.
+*								Este parÃ¢metro Ã© passado como referÃªncia.
 *
 *	$FV Valor retornado:
 *		PART_CondRetOK

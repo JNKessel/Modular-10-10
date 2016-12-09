@@ -1,5 +1,5 @@
 /*******************************************************
-* $MCD Modulo de definiÁao: Modulo ListaC
+* $MCD Modulo de defini√ßao: Modulo ListaC
 * Arquivo:   ListaC.h
 *
 * Autores: jnk - Julio Neuman Kessel
@@ -27,7 +27,7 @@ typedef enum{
 } LSTC_Deturpacao;
 
 /***********************************************************************
-* $FC FunÁ„oLST_CriarListaC
+* $FC Fun√ß√£oLST_CriarListaC
 * 
 * $FV Valores de Retorno
 *     LSTC_CondRetSemMemoria - Falta de Memoria
@@ -36,150 +36,150 @@ typedef enum{
 LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(void* pInfo));
 
 /***********************************************************************
-* $FC FunÁ„oLST_DestruirLista
+* $FC Fun√ß√£oLST_DestruirLista
 * 
 * $FV Valores de Retorno
-*     LSTC_CondRetErroNo - Erro na destruiÁ„o da lista
+*     LSTC_CondRetErroNo - Erro na destrui√ß√£o da lista
 *     LSTC_CondRetOK - Destruiu sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC);
 
 /***********************************************************************
-* $FC FunÁ„oLST_EhListaCVazia
+* $FC Fun√ß√£oLST_EhListaCVazia
 * 
 * $FV Valores de Retorno
 *     LSTC_CondRetOK
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet);
 
 /***********************************************************************
 * $FC LSTC_EhListaCVaziaAlternativa
 * 
-*(FunÁ„o alternativa para a funÁao "LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet)")
+*(Fun√ß√£o alternativa para a fun√ßao "LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet)")
 *
 * $FV Valores de Retorno
 *     LSTC_CondRetOK
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_EhListaCVaziaAlternativa(LSTC_tppListaC pLstC, int* pEhVazia);
 
 /***********************************************************************
-* $FC FunÁ„oLST_InserirElemento
+* $FC Fun√ß√£oLST_InserirElemento
 * 
 * $FV Valores de Retorno
-*     LSTC_CondRetPosInvalida - Erro posiÁ„o invalida
-*     LSTC_CondRetNoNaoCriado - Erro na criaÁ„o do nÛ
-*     LSTC_CondRetErroNo - Erro ao manipular nÛ
+*     LSTC_CondRetPosInvalida - Erro posi√ß√£o invalida
+*     LSTC_CondRetNoNaoCriado - Erro na cria√ß√£o do n√≥
+*     LSTC_CondRetErroNo - Erro ao manipular n√≥
 *     LSTC_CondRetOK - Elemento inserido sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo);
 
 /***********************************************************************
 * $FC LSTC_InserirElementoAlt
 * 
-*(FunÁ„o alternativa para a funÁao "LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)")
+*(Fun√ß√£o alternativa para a fun√ßao "LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)")
 *
 * $FV Valores de Retorno
-*     LSTC_CondRetPosInvalida - Erro posiÁ„o invalida
-*     LSTC_CondRetNoNaoCriado - Erro na criaÁ„o do nÛ
-*     LSTC_CondRetErroNo - Erro ao manipular nÛ
+*     LSTC_CondRetPosInvalida - Erro posi√ß√£o invalida
+*     LSTC_CondRetNoNaoCriado - Erro na cria√ß√£o do n√≥
+*     LSTC_CondRetErroNo - Erro ao manipular n√≥
 *     LSTC_CondRetOK - Elemento inserido sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_InserirElementoAlt(LSTC_tppListaC pLstC, int iPos, void* pInfo);
 
 /***********************************************************************
-* $FC FunÁ„oLST_RetirarElemento
+* $FC Fun√ß√£oLST_RetirarElemento
 * 
 * $FV Valores de Retorno
-*     LSTC_CondRetPosInvalida - Erro posiÁ„o invalida
-*     LSTC_CondRetErroNo - Erro ao manipular nÛ
+*     LSTC_CondRetPosInvalida - Erro posi√ß√£o invalida
+*     LSTC_CondRetErroNo - Erro ao manipular n√≥
 *     LSTC_CondRetOK - Elemento retirado sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos);
 
 /***********************************************************************
 * $FC LSTC_RetirarElementoAlt
 * 
-*(FunÁ„o alternativa para a funÁao "LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos)")
+*(Fun√ß√£o alternativa para a fun√ßao "LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos)")
 *
 * $FV Valores de Retorno
-*     LSTC_CondRetPosInvalida - Erro posiÁ„o invalida
-*     LSTC_CondRetErroNo - Erro ao manipular nÛ
+*     LSTC_CondRetPosInvalida - Erro posi√ß√£o invalida
+*     LSTC_CondRetErroNo - Erro ao manipular n√≥
 *     LSTC_CondRetOK - Elemento retirado sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos);
 
 /***********************************************************************
-* $FC FunÁ„oLST_AtribuirElemento
+* $FC Fun√ß√£oLST_AtribuirElemento
 * 
 * $FV Valores de Retorno
-*     LSTC_CondRetPosInvalida - Erro posiÁ„o invalida
-*     LSTC_CondRetErroNo - Erro ao manipular nÛ
-*     LSTC_CondRetOK - AtribuiÁ„o realizada sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*     LSTC_CondRetPosInvalida - Erro posi√ß√£o invalida
+*     LSTC_CondRetErroNo - Erro ao manipular n√≥
+*     LSTC_CondRetOK - Atribui√ß√£o realizada sem problemas
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo);
 
 /***********************************************************************
-* $FC FunÁ„oLST_ObterElemento
+* $FC Fun√ß√£oLST_ObterElemento
 * 
 * $FV Valores de Retorno
-*     LSTC_CondRetPosInvalida - Erro posiÁ„o invalida
-*     LSTC_CondRetErroNo - Erro ao manipular nÛ
+*     LSTC_CondRetPosInvalida - Erro posi√ß√£o invalida
+*     LSTC_CondRetErroNo - Erro ao manipular n√≥
 *     LSTC_CondRetOK - Elemento obtido sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_ObterElemento(LSTC_tppListaC pLstC, int iPos, void** pInfoRet);
 
 /***********************************************************************
-* $FC FunÁ„oLST_MoverCorrente
+* $FC Fun√ß√£oLST_MoverCorrente
 * 
 * $FV Valores de Retorno
-*     LSTC_CondRetOK - OperaÁ„o realizada sem problemas
-*     LSTC_CondRetErroNo - Erro ao manipular nÛ
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*     LSTC_CondRetOK - Opera√ß√£o realizada sem problemas
+*     LSTC_CondRetErroNo - Erro ao manipular n√≥
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_MoverCorrente(LSTC_tppListaC pLstC, int iN);
 
 /***********************************************************************
-* $FC FunÁ„oLST_ProcurarElemento
+* $FC Fun√ß√£oLST_ProcurarElemento
 * 
 * $FV Valores de Retorno
-*     LSTC_CondRetErroNo - Erro ao manipular nÛ
-*     LSTC_CondRetElemInexistente - Erro elemento n„o existe
+*     LSTC_CondRetErroNo - Erro ao manipular n√≥
+*     LSTC_CondRetElemInexistente - Erro elemento n√£o existe
 *     LSTC_CondRetOK - Busca realizada sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
-// Retorna o indice do elemento procurado ou -1 se inexistente. "criterio" È a funÁ„o que retorna 1 caso seu par‚metro corresponda ao que se procura (O tipo de elemBuscado pode ser diferente do tipo padr„o da lista)
+// Retorna o indice do elemento procurado ou -1 se inexistente. "criterio" √© a fun√ß√£o que retorna 1 caso seu par√¢metro corresponda ao que se procura (O tipo de elemBuscado pode ser diferente do tipo padr√£o da lista)
 LSTC_tpCondRet LSTC_ProcurarElemento(LSTC_tppListaC pLstC, void* pElemBuscado, int* pIndiceRet, int (*Criterio)(void* pElemBuscado, void* pElemLista));
 
 /***********************************************************************
-* $FC FunÁ„oLST_ObterTamanhoListaC
+* $FC Fun√ß√£oLST_ObterTamanhoListaC
 * 
 * $FV Valores de Retorno
-*     LSTC_CondRetOK - OperaÁ„o realizada sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*     LSTC_CondRetOK - Opera√ß√£o realizada sem problemas
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet);
 
 /***********************************************************************
-* $FC FunÁ„oLST_ObterTamanhoListaCAlt
+* $FC Fun√ß√£oLST_ObterTamanhoListaCAlt
 *
-* (FunÁ„o alternativa para a funÁao "LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet)")
+* (Fun√ß√£o alternativa para a fun√ßao "LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet)")
 * 
 * $FV Valores de Retorno
-*     LSTC_CondRetOK - OperaÁ„o realizada sem problemas
-*	  LSTC_CondRetListaInexistente - N„o existe lista
+*     LSTC_CondRetOK - Opera√ß√£o realizada sem problemas
+*	  LSTC_CondRetListaInexistente - N√£o existe lista
 ***********************************************************************/
 LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet);
 
 /***********************************************************************
-* $FC FunÁ„oLST_ObterTamanhoListaCAlt
+* $FC Fun√ß√£oLST_ObterTamanhoListaCAlt
 ***********************************************************************/
 LSTC_tpCondRet LSTC_Deturpacao(LSTC_tppListaC pLstC, LSTC_Deturpacao cod);

@@ -43,9 +43,11 @@ static TAB_tpCondRet PreencheListaRetaFinal(LIS_tppLista lst);
 
 static TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa casa);
 
+static TAB_tppTabuleiro* tab
+
 /* Código do módulo de implementação */
 
-TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro* tab) {
+TAB_tpCondRet TAB_CriarTabuleiro() {
     int pos=0, i;
     LSTC_tpCondRet debugLSTC;
     LIS_tpCondRet debugLIS;
@@ -209,7 +211,7 @@ static int Criterio(void* pElemBuscado, void* pElemLista){
 	}
 }
 
-TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppTabuleiro tab, TAB_tppCasa c, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno) { /* Esta funcao esta associada com a implementacao da dinamica da partida */
+TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa c, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno) { 
 	int i;
 	TAB_tppCasa casa_temp;
 	DEF_tpBool booleano;
@@ -287,8 +289,8 @@ TAB_tpCondRet TAB_RetornarCasa(DEF_tpCor c, TAB_tppCasa casa, int n, TAB_tppCasa
 	return TAB_CondRetOK;
 }
 
-TAB_tpCondRet TAB_RetornarCasaDeSaida(/*TAB_tppTabuleiro tab,*/ DEF_tpCor cor, TAB_tppCasa* casaRetorno){// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TIRAR COMENTÁRIO PEDRO FRAYHA GRRRRRRRRRRRRRR
-    TAB_tppTabuleiro tab; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TIRAR ISSO DAQUI PEDRO FRAYHA SEU FEIO
+TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor cor, TAB_tppCasa* casaRetorno){
+
 	int pos;
 	LSTC_tpCondRet debugLSTC;
     
@@ -326,7 +328,7 @@ TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa c, DEF_tpBool* finalRetorno){
     return TAB_CondRetOK;
 }
 
-TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro tab){
+TAB_tpCondRet TAB_DestruirTabuleiro(){
 	LIS_tpCondRet debugLIS;
 	LSTC_tpCondRet debugLSTC;
     

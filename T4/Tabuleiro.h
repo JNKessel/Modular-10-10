@@ -47,7 +47,7 @@ typedef struct TAB_tgCasa* TAB_tppCasa;
 *     TAB_CondRetErroLista - Erro no uso de função do modulo Lista
 *     TAB_CondRetOK - Operaçao realizada sem problemas
 ***********************************************************************/
-TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro* tab);
+TAB_tpCondRet TAB_CriarTabuleiro();
 
 
 /***********************************************************************
@@ -60,7 +60,7 @@ TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro* tab);
 * $FV Valores de Retorno:
 *
 ***********************************************************************/
-TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa casa, int n, DEF_tpCor* cRetorno);
+TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno);
 /*Esta funcao esta associada com a implementacao da dinamica da partida*/
 
 
@@ -68,13 +68,13 @@ TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa casa, int n, DEF_tpCor* cRetorno)
 * $FC Funçao: TAB_RetornarCasa
 * 
 * $ED Descriçao da funçao:
-* Retorna em casaRetorno e casa que um peao da cor c deve ir ao andar n casas a
+* Retorna em casaRetorno a casa que um peao da cor c deve ir ao andar n casas a
 * partir de casa
 *
 * $FV Valores de Retorno:
 *
 ***********************************************************************/
-TAB_tpCondRet TAB_RetornarCasa(DEF_tpCor c, TAB_tppCasa casa, int n, TAB_tppCasa casaRetorno);
+TAB_tpCondRet TAB_RetornarCasa(DEF_tpCor c, TAB_tppCasa casa, int n, TAB_tppCasa *casaRetorno);
 /*Esta funcao esta associada com a implementacao da dinamica da partida*/
 
 
@@ -88,7 +88,7 @@ TAB_tpCondRet TAB_RetornarCasa(DEF_tpCor c, TAB_tppCasa casa, int n, TAB_tppCasa
 *     TAB_CondRetErroListaCircular - Erro no uso de função do modulo ListaC
 *     TAB_CondRetOK - Operaçao realizada sem problemas
 ***********************************************************************/
-TAB_tpCondRet TAB_RetornarCasaDeSaida(/*TAB_tppTabuleiro tab,*/ DEF_tpCor c, TAB_tppCasa* casaRetorno); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TIRAR COMENTÁRIO PEDRO FRAYHA GRRRRRRRRRRRRRR
+TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor c, TAB_tppCasa* casaRetorno); 
 
 
 /***********************************************************************
@@ -115,7 +115,7 @@ TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa c, DEF_tpBool* finalRetorno);
 *     TAB_CondRetErroLista - Erro no uso de função do modulo Lista
 *     TAB_CondRetOK - Operaçao realizada sem problemas
 ***********************************************************************/
-TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro tab);
+TAB_tpCondRet TAB_DestruirTabuleiro();
 
 #endif
 /********** Fim da definição: modulo **********/

@@ -102,6 +102,19 @@ PEAO_tpCondRet PEAO_EstaPeaoBase(PEAO_tppPeao pPeao, DEF_tpBool* BoolRet);
 PEAO_tpCondRet PEAO_ObterNumeroPeao(PEAO_tppPeao pPeao, int* NumRet);
  
 /***********************************************************************
+* $FC Funçao: PEAO_ObterCasaPeao
+* 
+* $ED Descriçao da funçao:
+* Recebe um peao e retorna na variavelde casaRetorno um ponteiro para a casa na qual o peao se encontra
+*
+* $FV Valores de Retorno:
+*     PEAO_CondRetPeaoInexistente - Peao nao existe
+*     PEAO_CondRetOK - Operaçao realizada sem problemas
+***********************************************************************/
+
+PEAO_tpCondRet PEAO_ObterCasaPeao(Peao_tppPeao pPeao, TAB_tppCasa* casaRetorno);
+
+/***********************************************************************
 * $FC Funçao: PEAO_ChecarMovimentoDisponivelPeao
 * 
 * $ED Descriçao da funçao:

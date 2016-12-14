@@ -211,33 +211,71 @@ static int Criterio(void* pElemBuscado, void* pElemLista){
 	}
 }
 
-TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa c, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno) { 
+// Se retornar casa inexistente, ultrapassou o final. Se retornar erro, nao encontrou o peao.
+
+TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_tppCasa* casaRetorno) {
 	int i;
 	TAB_tppCasa casa_temp;
 	DEF_tpBool booleano;
 	int indice;
 	LIS_tppLista lis_aux;
+	LIS_tpCondRet debugLis;
+	LSTC_tpCondRet debugListaC;
 
-	LSTC_ProcurarElemento(tab->tabuleiro, c, &indice, Criterio);
-
+	debugListaC = LSTC_ProcurarElemento(tab->tabuleiro, casa, &indice, Criterio);
 	
-	if(indice == -1) {
+	if(debugListaC == LSTC_CondRetListaInexistente 
+	    || debugListaC == LSTC_CondRetErroNo){
+		return TAB_CondRetErroListaCircular;
+	}
+
+	if(debugListaC == LSTC_CondRetElemInexistente) {
 		if(corPeao == AZUL){
-			LIS_ProcurarValor(tab->azul , c);
+			debugLis = LIS_ProcurarValor(tab->azul , casa);
+			lis_aux = tab->azul;
 		}
 		else if(corPeao == AMARELO){
-			LIS_ProcurarValor(tab->amarelo, c);
+			debugLis = LIS_ProcurarValor(tab->amarelo, casa);
+			lis_aux = tab->amarelo;
 		}
 		else if(corPeao == VERDE){
-			LIS_ProcurarValor(tab->amarelo, c);
+			debugLis = LIS_ProcurarValor(tab->verde, casa);
+			lis_aux = tab->verde;
 		}
 		else if(corPeao == VERMELHO){
-			LIS_ProcurarValor(tab->amarelo, c);
+			debugLis = LIS_ProcurarValor(tab->vermelho, casa);
+			lis_aux = tab->vermelho;
 		}
+		
+		
+		if(!debugLis){
+			debugLis = LIS_AvancarElementoCorrente(lis_aux,n);
+			switch(debugLis){
+				case LIS_tpCondRetOK:
+					debugLis = LIS_ObterValor(lis_aux, (void**) &casa_temp);
+					if(debugLis) return TAB_CondRetErroLista;
+					else{
+						*casaRetorno = casa_temp;
+						return TAB_CondRetOK;
+					}
+					
+				case LIS_tpCondRetFimLista:
+					return TAB_CondRetUltrapassouFinal;
+					
+				case LIS_tpCondRetListaVazia:
+					return TAB_CondRetErroLista;
+				default
+			}
+		}
+		else if (debugLis == LIS_tpCondRetNaoEncontrou) TAB_CondRetErro;
+		else return TAB_CondRetErroLista;
 	}
 
 	for(i=1; i<=n ; i++){
-		LSTC_ObterElemento(tab->tabuleiro, indice + i, (void**)&casa_temp);
+		debugListaC = LSTC_ObterElemento(tab->tabuleiro, indice + i, (void**)&casa_temp);
+		
+		if(debugListaC) return TAB_tpCondRetErroListaCircular;
+		
 		if(casa_temp->oscar != NULL){
 			if(casa_temp->oscar == tab->azul 
 				&& corPeao == AZUL){
@@ -278,15 +316,22 @@ TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa c, int n, DEF_tpCor corPeao, DEF_
 	}
 
 
-	*cRetorno = casa_temp->scorPeao;
+	*casaRetorno = casa_temp;
 
     return TAB_CondRetOK;
 }
 
-TAB_tpCondRet TAB_RetornarCasa(DEF_tpCor c, TAB_tppCasa casa, int n, TAB_tppCasa casaRetorno) {
-	/* Esta funcao esta associada com a dinamica do jogo */
+TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno) { 
+	TAB_tppCasa casaRetorno;
+	TAB_tpCondRet debugTab;
+	
+	debugTab = TAB_RetornarCasa(casa, corPeao, n, &casaRetorno);
+	
+	if(!debugTab) *cRetorno = casaRetorno->scorPeao;
+	
+	else *cRetorno = SEM_COR;
 
-	return TAB_CondRetOK;
+	return debugTab;
 }
 
 TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor cor, TAB_tppCasa* casaRetorno){

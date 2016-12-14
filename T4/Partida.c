@@ -1,10 +1,19 @@
 #include "Partida.h"
 
+#include "Peao.h"
+#include "ListaC.h"
+#include "Lista.h"
+#include "Tabuleiro.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <conio.h>
+#include <time.h>
 
 #define NUM_PEOES 4
 	/* Número de peões que cada jogador possui */
+
+#define MAX_REPETICOES_TURNO 3
+	/* Quantidade máxima de turnos consecutivos que um jogador pode jogar */
 
 /*******************************************************************************************************************************
 *	Dados encapsulados no módulo:
@@ -19,12 +28,17 @@ typedef struct PART_tgJogador {
 
 static LSTC_tppListaC lstJogadores = NULL;
 	/* Lista circular de jogadores. O corrente é aquele cujo turno está em andamento. */
+	/* Inicialmente NULL para representar nenhuma partida em andamento */
 
 static int iQtdJogadores;
 	/* Quantidade de jogadores participando da partida. */
 
 static PART_tpJogador* pUltimoJogador;
 	/* Jogador que foi o último a jogar (cujo turno acabou de passar) - NULL se ninguém houver jogado */
+
+static int iNumJogadasRepetidas;
+	/* Número de jogadas repetidas que o jogador de turno atual já jogou. Ele jogará outra jogada repetida caso tire 6 ou coma
+	outro peão em sua vez. Se esse número passar de MAX_REPETICOES_TURNO-1, a vez é passada para o próximo jogador */
 
 /*******************************************************************************************************************************
 *	Protótipos de funções encapsuladas no módulo:
@@ -34,11 +48,11 @@ static void ExcluirPeao(void* pVoid);
 
 static void ExcluirJogador(void* pVoid);
 
-static void ExcluirInt(void* pVoid);
-
-static PART_tpCondRet PART_ChecarPeoesDesponiveis(PART_tpJogador* jogadorVez, int dado, LIS_tppLista peoesDisponiveis);
+static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, int dado, LIS_tppLista peoesDisponiveis);
 
 static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao* peaoEscolhidoRet);
+
+static PART_tpCondRet PART_ImprimirCor(DEF_tpCor cor);
 
 /*******************************************************************************************************************************
 *	Código de funções exportadas pelo módulo:
@@ -51,6 +65,7 @@ PART_tpCondRet PART_CriarPartida(int n) {
 	PEAO_tpCondRet debugPeao;
 	LSTC_tpCondRet debugLstC;
 	LIS_tpCondRet debugLista;
+	TAB_tpCondRet debugTabuleiro;
 	int i;
 
 	/* Número mínimo e máximo de jogadores de um jogo de ludo */
@@ -65,6 +80,14 @@ PART_tpCondRet PART_CriarPartida(int n) {
 
 	/* Nenhum jogador jogou ainda */
 	pUltimoJogador = NULL;
+
+	/* Número de jogadas repetidas ainda é zero */
+	iNumJogadasRepetidas = 0;
+
+	/* Criar tabuleiro */
+	debugTabuleiro = TAB_CriarTabuleiro();
+	/* Se não retornou OK, erro */
+	if (debugTabuleiro)	return PART_CondRetErroTabuleiro;
 
 	/* Criar cada jogador e inseri-lo em lista: */
 	for (i = 0; i < n; i++) {
@@ -97,7 +120,127 @@ PART_tpCondRet PART_CriarPartida(int n) {
 *	Função: PART_Jogar
 */
 PART_tpCondRet PART_Jogar() {
+	LSTC_tpCondRet debugListaC;
+	PART_tpCondRet debugPartida;
+	LIS_tpCondRet debugLista;
+	PEAO_tpCondRet debugPeao;
+	PART_tpJogador* jogAtual;
+	LIS_tppLista lstPeoesDisponiveis;
+	PEAO_tppPeao peaoEscolhido;
+	DEF_tpBool peaoEstaBase;
+	int numDado, qtdPeoesDisponiveis, jogarNovamente = 0;
 
+	if (lstJogadores == NULL)	return PART_CondRetPartidaInexistente;
+
+	/* Pegar jogador atual */
+	debugListaC = LSTC_ObterElemento(lstJogadores, 0, (void**)&jogAtual);
+	/* Se não retornou OK, erro */
+	if (debugListaC)	return PART_CondRetErroListaC;
+
+	printf("Jogada do jogador ");
+	/* Imprimir cor do jogador */
+	debugPartida = PART_ImprimirCor(jogAtual->Cor);
+	/* Se não retornou OK, erro */
+	if (debugPartida)	return debugPartida;
+	printf(":\n\n");
+
+	printf("Pressione qualquer tecla para jogar o dado...");
+
+	getch();
+
+	srand(time(NULL));
+	numDado = (rand() % 6) + 1;
+
+	printf("\nO dado rola... Voce sorteou um %d!\n", numDado);
+
+	if (numDado == 6)
+		jogarNovamente = 1;
+
+	/* Criar lista vazia temporária para colocar peões disponíveis (sem função de exclusão pois a lista é de ponteiros temporários) */
+	debugLista = LIS_CriarLista(&lstPeoesDisponiveis, NULL);
+	/* Se não retornou OK, erro */
+	if (debugLista)	return PART_CondRetErroLista;
+
+	/* Colocar peões disponíveis para movimentação na lista */
+	debugPartida = PART_ChecarPeoesDisponiveis(jogAtual, numDado, lstPeoesDisponiveis);
+	/* Se não retornou OK, erro */
+	if (debugPartida)	return debugPartida;
+
+	/* Pegar quantos peões estão disponíveis */
+	debugLista = LIS_ObterTamanhoLista(lstPeoesDisponiveis, &qtdPeoesDisponiveis);
+	/* Se não retornou OK, erro */
+	if (debugLista)	return PART_CondRetErroLista;
+
+	if (qtdPeoesDisponiveis == 0) {
+		printf("Nenhum de seus peoes pode andar esse numero de casas!\nFim de turno...\n\n");
+
+		/* Destruir lista temporária */
+		debugLista = LIS_DestruirLista(lstPeoesDisponiveis);
+		/* Se não retornou OK, erro */
+		if (debugLista)	return PART_CondRetErroLista;
+
+		if (!jogarNovamente || iNumJogadasRepetidas >= MAX_REPETICOES_TURNO-1) {
+				/* Se o jogador atual não jogará novamente ou já jogou 3 vezes seguidas (2 repetidas) */
+
+			LSTC_MoverCorrente(lstJogadores, 1);
+			iNumJogadasRepetidas = 0;
+		} else {
+				/* Caso que o jogador atual jogará novamente */
+
+			iNumJogadasRepetidas++;
+		}	/* if */
+
+		/* Marca o último a jogar */
+		pUltimoJogador = jogAtual;
+
+		/* Encerrar jogada */
+		return PART_CondRetOK;
+	}	/* if */
+		/* Caso em que há peões disponíveis para movimentar, movimentação obrigatória */
+
+	/* Pedir para jogador escolher o peão que deseja movimentar */
+	debugPartida = PART_Escolher(lstPeoesDisponiveis, &peaoEscolhido);
+	/* Se não retornou OK, erro */
+	if (debugPartida)	return debugPartida;
+
+	/* Ver se peão está na base */
+	debugPeao = PEAO_EstaPeaoBase(peaoEscolhido, &peaoEstaBase);
+	/* Se não retornou OK, erro */
+	if (debugPeao)	return PART_CondRetErroPeao;
+
+	if (peaoEstaBase) {
+		DEF_tpBool podeAndar;
+		DEF_tpCor corAComer;
+
+		/* Se está na base e estava disponível, então o jogador tem que ter tirado 6 */
+		if (numDado != 6)
+			return PART_CondRetInconsistencia;
+
+		/* Pegar possível cor de um peão que será comido na realização do movimento */
+		debugPeao = PEAO_ChecarMovimentoDisponivelPeao(peaoEscolhido, numDado, &podeAndar, &corAComer);
+		/* Se não retornou OK, erro */
+		if (debugPeao)	return PART_CondRetErroPeao;
+
+		//PEAO_
+
+		/* Deve ser possível andar, se peão já estava disponível */
+		if (!podeAndar)
+			return PART_CondRetInconsistencia;
+
+		if 
+	}
+
+
+
+	/* Marca o último a jogar */
+	pUltimoJogador = jogAtual;
+
+	/* Destruir lista temporária */
+	debugLista = LIS_DestruirLista(lstPeoesDisponiveis);
+	/* Se não retornou OK, erro */
+	if (debugLista)	return PART_CondRetErroLista;
+
+	return PART_CondRetOK;
 }	/* Fim Função PART_Jogar */
 
 /*******************************************************************************************************************************
@@ -111,12 +254,7 @@ PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet
 	LSTC_tpCondRet debugListaC;
 	LIS_tpCondRet debugLista;
 
-	if (lstJogadores == NULL)	PART_CondRetPartidaInexistente;
-
-	///* Pega jogador que jogou anteriormente */
-	//debugListaC = LSTC_ObterElemento(lstJogadores, iQtdJogadores-1, (void**)&jog);
-	///* Se não retornou OK, erro */
-	//if (debugListaC)	return PART_CondRetErroListaC;
+	if (lstJogadores == NULL)	return PART_CondRetPartidaInexistente;
 
 	if (!pUltimoJogador)	return PART_CondRetNinguemJogou;
 
@@ -182,8 +320,13 @@ PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet
 */
 PART_tpCondRet PART_DestruirPartida() {
 	LSTC_tpCondRet debugListaC;
+	TAB_tpCondRet debugTabuleiro;
 
-	if (lstJogadores == NULL)	PART_CondRetPartidaInexistente;
+	if (lstJogadores == NULL)	return PART_CondRetPartidaInexistente;
+
+	debugTabuleiro = TAB_DestruirTabuleiro();
+	/* Se não retornou OK, erro */
+	if (debugTabuleiro)	return PART_CondRetErroTabuleiro;
 
 	/* Libera lista de jogadores */
 	debugListaC = LSTC_DestruirListaC(lstJogadores);
@@ -234,22 +377,6 @@ static void ExcluirJogador(void* pVoid) {
 }	/* Fim Função ExcluirJogador */
 
 /*******************************************************************************************************************************
-*	$FC Função: ExcluirInt
-*
-*	$ED Descrição da função:
-*		Função de exclusão de inteiros de uma lista.
-*
-*	$EP Parâmetros:
-*		$P pVoid			-	parâmetro que receberá ponteiro para o inteiro em formato genérico e o liberará da memória.
-*******************************************************************************************************************************/
-static void ExcluirInt(void* pVoid) {
-	int* pInt = (int*) pVoid;
-
-	/* Libera inteiro */
-	free(pInt);
-}	/* Fim Função ExcluirInt */
-
-/*******************************************************************************************************************************
 *	$FC Função: PART_ChecarPeoesDisponiveis
 *
 *	$ED Descrição da função:
@@ -270,7 +397,7 @@ static void ExcluirInt(void* pVoid) {
 *		PART_CondRetErroLista
 *		PART_CondRetErroPeao
 *******************************************************************************************************************************/
-static PART_tpCondRet PART_ChecarPeoesDesponiveis(PART_tpJogador* jogadorVez, int iNumDado, LIS_tppLista peoesDisponiveis) {
+static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, int iNumDado, LIS_tppLista peoesDisponiveis) {
 	LIS_tpCondRet debugLista;
 	LIS_tppLista lstPeoes;
 	int tamLst, i;
@@ -330,7 +457,7 @@ static PART_tpCondRet PART_ChecarPeoesDesponiveis(PART_tpJogador* jogadorVez, in
 	}	/* while */
 
 	return PART_CondRetOK;
-}
+}	/* Fim Função PART_ChecarPeoesDisponiveis */
 
 /*******************************************************************************************************************************
 *	$FC Função: PART_Escolher
@@ -404,13 +531,14 @@ static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao*
 		i++;
 	}	/* while */
 
-	printf(".\n");
+	printf(".");
 
 	/* Tentar obter um número válido do teclado (se for inválido, repete, pedindo o usuário para digitar outro) */
 	while(1) {
 		int flag = 0;
 
-		scanf("%d", &numEscolhido);
+		/* scanf("%d", &numEscolhido); */
+		numEscolhido = getch() - '0';
 
 		i = 0;
 			/* Posição atual na lista */
@@ -451,9 +579,44 @@ static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao*
 			break;
 		/* Se não, o número escolhido foi inválido e pede-se outro número */
 
-		printf("Número digitado inválido. Escolha um peão para movimentar:\n");
+		printf("\nCaracter digitado inválido. Escolha um peão para movimentar.\n");
 
 	}	/* while */
 
 	return PART_CondRetOK;
-}
+}	/* Fim Função PART_Escolher */
+
+
+/*******************************************************************************************************************************
+*	$FC Função: PART_ImprimirCor
+*
+*	$ED Descrição da função:
+*		Recebe uma cor e imprime seu nome na interface do console. Dá erro caso cor recebida seja SEM_COR.
+*
+*	$EP Parâmetros:
+*		$P cor	-	cor a ser impressa
+*
+*	$FV Valor retornado:
+*		PART_CondRetOK
+*		PART_CondRetInconsistencia
+*******************************************************************************************************************************/
+static PART_tpCondRet PART_ImprimirCor(DEF_tpCor cor) {
+
+	switch(cor) {
+		case AZUL:
+			printf("azul");
+			break;
+		case VERMELHO:
+			printf("vermelho");
+			break;
+		case VERDE:
+			printf("verde");
+			break;
+		case AMARELO:
+			printf("amarelo");
+			break;
+		default:
+			return PART_CondRetInconsistencia;
+	}	/* switch */
+	return PART_CondRetOK;
+}	/* Fim Função PART_ImprimirCor */

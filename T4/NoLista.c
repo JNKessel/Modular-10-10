@@ -8,7 +8,6 @@ typedef struct NOLST_tgNoLista {
 	void* pInfo;
 } NOLST_tpNoLista;
 
-static NOLST_tpCondRet Ligar(NOLST_tppNoLista pEsq, NOLST_tppNoLista pDir);
 
 NOLST_tpCondRet NOLST_CriarNoh(NOLST_tppNoLista* pNohRet, void* pInfo, NOLST_tppNoLista pNohAnterior,NOLST_tppNoLista pNoProximo) {
 	NOLST_tpCondRet debug;
@@ -16,11 +15,11 @@ NOLST_tpCondRet NOLST_CriarNoh(NOLST_tppNoLista* pNohRet, void* pInfo, NOLST_tpp
     if (pNohRet == NULL){
         return NOLST_CondRetSemMemoria;
     }//if
-	debug = Ligar(pNohAnterior, *pNohRet);
+	debug = NOLST_LigarNos(pNohAnterior, *pNohRet);
     if (debug){
-        return debug; // Se Ligar nao retornou OK
+        return NOLST_LigarNos; // Se Ligar nao retornou OK
     }//if
-	debug = Ligar(*pNohRet, pNoProximo);
+	debug = NOLST_LigarNos(*pNohRet, pNoProximo);
     if (debug){
         return debug; // Se Ligar nao retornou OK
     }//if
@@ -33,7 +32,7 @@ NOLST_tpCondRet  NOLST_DestruirNoh(NOLST_tppNoLista pNoLst) {
     if (pNoLst == NULL){
         return NOLST_CondRetNoInexistente;
     }//if
-	debug = Ligar(pNoLst->pAnt, pNoLst->pProx);
+	debug = NOLST_LigarNos(pNoLst->pAnt, pNoLst->pProx);
     if (debug){
         return debug;
     }//if
@@ -52,11 +51,11 @@ NOLST_tpCondRet  NOLST_ColocarNohEmFrente(NOLST_tppNoLista pNoLst, NOLST_tppNoLi
         || pNovoNo->pProx){
         return NOLST_CondRetNoOcupado;
     }//if
-	debug = Ligar(pNoLst, pNovoNo);
+	debug = NOLST_LigarNos(pNoLst, pNovoNo);
     if (debug){
         return debug; // Se Ligar nao retornou OK
     }//if
-	debug = Ligar(pNovoNo, velhoProx);
+	debug = NOLST_LigarNos(pNovoNo, velhoProx);
     if (debug){
         return debug; // Se Ligar nao retornou OK
     }//if
@@ -74,11 +73,11 @@ NOLST_tpCondRet  NOLST_ColocarNohAtras(NOLST_tppNoLista pNoLst, NOLST_tppNoLista
         || pNovoNo->pProx){
         return NOLST_CondRetNoOcupado;
     }//if
-	debug = Ligar(pNovoNo, pNoLst);
+	debug = NOLST_LigarNos(pNovoNo, pNoLst);
     if (debug){
         return debug; // Se Ligar nao retornou OK
     }//if
-	debug = Ligar(velhoAnt, pNovoNo);
+	debug = NOLST_LigarNos(velhoAnt, pNovoNo);
     if (debug){
         return debug; // Se Ligar nao retornou OK
     }//if
@@ -117,7 +116,7 @@ NOLST_tpCondRet  NOLST_ObterInfoNoh(NOLST_tppNoLista pNoLst, void** pInfoRet) {
 	return NOLST_CondRetOK;
 }
 
-NOLST_tpCondRet Ligar(NOLST_tppNoLista pEsq, NOLST_tppNoLista pDir) {
+NOLST_tpCondRet NOLST_LigarNos(NOLST_tppNoLista pEsq, NOLST_tppNoLista pDir) {
     if (pEsq){
 		pEsq->pProx = pDir;
     }//if

@@ -197,7 +197,7 @@ TAB_tpCondRet TAB_CriarTabuleiro(TAB_tppTabuleiro* tab) {
 
 }
 
-int Criterio(void* pElemBuscado, void* pElemLista){
+static int Criterio(void* pElemBuscado, void* pElemLista){
 	TAB_tppCasa casaLista = (TAB_tppCasa) pElemLista;
 	TAB_tppCasa casaBuscada = (TAB_tppCasa) pElemBuscado;
 

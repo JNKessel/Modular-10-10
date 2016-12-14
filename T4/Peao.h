@@ -109,7 +109,9 @@ PEAO_tpCondRet PEAO_ObterNumeroPeao(PEAO_tppPeao pPeao, int* NumRet);
 * se ele puder se movimentar é retornando True em BoolRet, caso contrario
 * é retornado False. Se o peao puder avançar o numero de 
 * casas recebido mas ela ja estiver ocupada por
-* um peao de outra cor, é retornada a cor desse peao em CorRet
+* um peao de outra cor, é retornada a cor desse peao em CorRet. A função
+* leva em conta se o peão está na base (só sai da base se o número do
+* dado for 6f )
 *
 * $FV Valores de Retorno:
 *     PEAO_CondRetPeaoInexistente - Peao nao existe

@@ -19,9 +19,6 @@
 #pragma once
 
 #include "Definicoes.h"
-#include "Peao.h"
-#include "ListaC.h"
-#include "Lista.h"
 
 /*******************************************************************************************************************************
 *	$TC Tipo de dados: PART Condições de retorno
@@ -43,7 +40,10 @@ typedef enum {
 		/* Erro em uso de função de módulo PEAO */
 
 	PART_CondRetErroLista,
-		/* Erro em uso de função de módulo LISTA */
+		/* Erro em uso de função de módulo LIS */
+
+	PART_CondRetErroTabuleiro,
+		/* Erro em uso de função de módulo TAB */
 
 	PART_CondRetNumInvalido,
 		/* Número de jogadores especificado não é válido */
@@ -78,6 +78,24 @@ typedef enum {
 *******************************************************************************************************************************/
 PART_tpCondRet PART_CriarPartida(int iNumJogadores);
 
+/*******************************************************************************************************************************
+*	$FC Função: PART_Jogar
+*
+*	$ED Descrição da função:
+*		Executa um turno do jogador de vez atual. Isso envolve as seguintes etapas:
+*		- Através da interface do console, anuncia a cor do jogador de vez atual
+*		- Através da interface do console, pede o jogador para pressionar qualquer tecla para jogar os dados.
+*		- Através da interface do console, apresenta o número sorteado nos dados.
+*		- Caso nenhum peão do jogador possa ser movimentado, encerra sua jogada (avisando o jogador pela interface).
+*		- Apresenta para o jogador o número dos peões que pode movimentar e o pede para escolher um deles pelo teclado.
+*		- Torna a pedir um número, caso o digitado seja inválido.
+*		- Anda com o peão escolhido, voltando qualquer peão comido para a base.
+*		No fim da jogada, a função passa a vez para o próximo jogador (incluindo ele mesmo, caso tenha tirado 6 no dado ou
+*		comido outro peão. Isso	não ocorre mais do que 3 vezes consecutivas).
+*
+*	$FV Valor retornado:
+*		PART_CondRetOK
+*******************************************************************************************************************************/
 PART_tpCondRet PART_Jogar();
 
 /*******************************************************************************************************************************
@@ -112,6 +130,7 @@ PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet
 *		PART_CondRetOK
 *		PART_CondRetPartidaInexistente
 *		PART_CondRetErroListaC
+*		PART_CondRetErroTabuleiro
 *******************************************************************************************************************************/
 PART_tpCondRet PART_DestruirPartida();
 

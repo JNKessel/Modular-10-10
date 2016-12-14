@@ -219,7 +219,7 @@ TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppTabuleiro tab, TAB_tppCasa c, int n, D
 	LSTC_ProcurarElemento(tab->tabuleiro, c, &indice, Criterio);
 
 	
-	if(indice == -1){
+	if(indice == -1) {
 		if(corPeao == AZUL){
 			LIS_ProcurarValor(tab->azul , c);
 		}
@@ -232,7 +232,7 @@ TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppTabuleiro tab, TAB_tppCasa c, int n, D
 		else if(corPeao == VERMELHO){
 			LIS_ProcurarValor(tab->amarelo, c);
 		}
-			
+	}
 
 	for(i=1; i<=n ; i++){
 		LSTC_ObterElemento(tab->tabuleiro, indice + i, (void**)&casa_temp);
@@ -287,9 +287,10 @@ TAB_tpCondRet TAB_RetornarCasa(DEF_tpCor c, TAB_tppCasa casa, int n, TAB_tppCasa
 	return TAB_CondRetOK;
 }
 
-TAB_tpCondRet TAB_RetornarCasaDeSaida(TAB_tppTabuleiro tab, DEF_tpCor cor, TAB_tppCasa* casaRetorno){
-    int pos;
-	TAB_tpCondRet debugLSTC;
+TAB_tpCondRet TAB_RetornarCasaDeSaida(/*TAB_tppTabuleiro tab,*/ DEF_tpCor cor, TAB_tppCasa* casaRetorno){// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TIRAR COMENTÁRIO PEDRO FRAYHA GRRRRRRRRRRRRRR
+    TAB_tppTabuleiro tab; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TIRAR ISSO DAQUI PEDRO FRAYHA SEU FEIO
+	int pos;
+	LSTC_tpCondRet debugLSTC;
     
     if(tab==NULL){
         return TAB_CondRetTabInexistente;
@@ -304,7 +305,7 @@ TAB_tpCondRet TAB_RetornarCasaDeSaida(TAB_tppTabuleiro tab, DEF_tpCor cor, TAB_t
     else if(cor == VERMELHO){
         pos=26;
     }//if
-    else (cor == VERDE){
+    else if(cor == VERDE){
         pos=39;
     }
     
@@ -353,7 +354,7 @@ TAB_tpCondRet TAB_DestruirTabuleiro(TAB_tppTabuleiro tab){
         return TAB_CondRetErroLista;
     }//if
     
-	debugLSTC = LSTC_DestruirLista(tab->tabuleiro);
+	debugLSTC = LSTC_DestruirListaC(tab->tabuleiro);
     if(debugLSTC){
         return TAB_CondRetErroListaCircular;
     }//if

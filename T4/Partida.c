@@ -52,6 +52,8 @@ static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, in
 
 static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao* peaoEscolhidoRet);
 
+static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoComido);
+
 static PART_tpCondRet PART_ImprimirCor(DEF_tpCor cor);
 
 /*******************************************************************************************************************************
@@ -128,6 +130,8 @@ PART_tpCondRet PART_Jogar() {
 	LIS_tppLista lstPeoesDisponiveis;
 	PEAO_tppPeao peaoEscolhido;
 	DEF_tpBool peaoEstaBase;
+	DEF_tpCor corAComer;
+	DEF_tpBool podeAndar;
 	int numDado, qtdPeoesDisponiveis, jogarNovamente = 0;
 
 	if (lstJogadores == NULL)	return PART_CondRetPartidaInexistente;
@@ -209,8 +213,7 @@ PART_tpCondRet PART_Jogar() {
 	if (debugPeao)	return PART_CondRetErroPeao;
 
 	if (peaoEstaBase) {
-		DEF_tpBool podeAndar;
-		DEF_tpCor corAComer;
+		/* Caso que o peão escolhido para se movimentar está na base */
 
 		/* Se está na base e estava disponível, então o jogador tem que ter tirado 6 */
 		if (numDado != 6)
@@ -221,25 +224,60 @@ PART_tpCondRet PART_Jogar() {
 		/* Se não retornou OK, erro */
 		if (debugPeao)	return PART_CondRetErroPeao;
 
-		//PEAO_
-
 		/* Deve ser possível andar, se peão já estava disponível */
 		if (!podeAndar)
 			return PART_CondRetInconsistencia;
 
-		if 
-	}
+		/* Sair da base com peão */
+		debugPeao = PEAO_SairBasePeao(peaoEscolhido);
+		/* Se não retornou OK, erro */
+		if (debugPeao)	return PART_CondRetErroPeao;
+	} else {
+			/* Caso que o peão escolhido para se movimentar está em uma casa */
 
+			/* Pegar possível cor de um peão que será comido na realização do movimento */
+			debugPeao = PEAO_ChecarMovimentoDisponivelPeao(peaoEscolhido, numDado, &podeAndar, &corAComer);
+			/* Se não retornou OK, erro */
+			if (debugPeao)	return PART_CondRetErroPeao;
 
+			/* Deve ser possível andar, se peão já estava disponível */
+			if (!podeAndar)
+				return PART_CondRetInconsistencia;
 
-	/* Marca o último a jogar */
-	pUltimoJogador = jogAtual;
+			/* Andar com peão */
+			debugPeao = PEAO_AndarPeao(peaoEscolhido, numDado);
+			/* Se não retornou OK, erro */
+			if (debugPeao)	return PART_CondRetErroPeao;
+	}	/* if */
+
+	/* Se for necessário comer outro peão */
+	if (corAComer != SEM_COR) {
+		PART_ComerPeao(peaoEscolhido, corAComer);
+		jogarNovamente = 1;
+	}	/* if */
 
 	/* Destruir lista temporária */
 	debugLista = LIS_DestruirLista(lstPeoesDisponiveis);
 	/* Se não retornou OK, erro */
 	if (debugLista)	return PART_CondRetErroLista;
 
+	if (!jogarNovamente || iNumJogadasRepetidas >= MAX_REPETICOES_TURNO-1) {
+			/* Se o jogador atual não jogará novamente ou já jogou 3 vezes seguidas (2 repetidas) */
+
+		LSTC_MoverCorrente(lstJogadores, 1);
+		iNumJogadasRepetidas = 0;
+	} else {
+			/* Caso que o jogador atual jogará novamente */
+
+		iNumJogadasRepetidas++;
+	}	/* if */
+
+	/* Marca o último a jogar */
+	pUltimoJogador = jogAtual;
+
+	printf("O peao escolhido andou %d casas!\nFim de turno...\n\n", numDado);
+
+	/* Encerrar jogada */
 	return PART_CondRetOK;
 }	/* Fim Função PART_Jogar */
 
@@ -586,6 +624,27 @@ static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao*
 	return PART_CondRetOK;
 }	/* Fim Função PART_Escolher */
 
+/*******************************************************************************************************************************
+*	$FC Função: PART_ComerPeao
+*
+*	$ED Descrição da função:
+*		Recebe o peão que comerá o outro, cuja posição já deve ser a mesma casa do peão comido. Recebe também a cor do peão 
+*		comido. Faz o peão comido voltar para a base.
+*
+*	$EP Parâmetros:
+*		$P peaoPrincipal	-	peão que comerá o outro
+*		$P corPeaoComido	-	cor do peão que será comido
+*
+*	$FV Valor retornado:
+*		PART_CondRetOK
+*******************************************************************************************************************************/
+static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoComido) {
+	TAB_tppCasa casaAComer;
+
+	//PEAO_ObterCasaPeao();
+
+	return PART_CondRetOK;
+}	/* Fim Função PART_ComerPeao */
 
 /*******************************************************************************************************************************
 *	$FC Função: PART_ImprimirCor

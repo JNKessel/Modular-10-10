@@ -10,6 +10,7 @@
 #pragma once
 
 #include "Definicoes.h"
+#include "Tabuleiro.h"
 
 typedef struct PEAO_tgPeao* PEAO_tppPeao;
 

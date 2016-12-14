@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 #include "Peao.h"
-#include "Tabuleiro.h"
 #include "Definicoes.h"
 
 typedef enum PEAO_tgEstado {

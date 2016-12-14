@@ -1,0 +1,14 @@
+Consideramos uma exceção encontrada no modulo "ListaC.c" em que o ponteiro para a cabeça da lista circular pode ser perdido.
+Resolvemos esse problema criando uma redundancia incluindo duas cabeças adicionais na estrutura de dados.
+Nossa assertiva verifica o erro checando se uma das cabeças é diferente das outras duas e então o tratador iguala a que esta 
+diferente as outras, porque a maioria vence.
+
+Nossa outra exceção do modulo "ListaC.c" considera que algum ponteiro para o proximo elemento da lista circular possa ser perdido.
+Resolvemos esse problema criando uma redundancia para a lista ser duplamente encadeada.
+Nossa assertiva verifica se os ponteiro que vão em ambas as direçoes da lista estão corretos e então retorna -1 se algum ponteiro
+que aponta para esquerda esta errado, 1 se algum ponteiro para a direita esta errado e 0 se estao todos corretos. A função verifica
+isso avançando pela lista com dois ponteiros para nó(anterior e proximo) cada vez em uma direção e verificando se eles apontam um
+para o outro na direção contraria que eles estão avançando pela lista.
+O tratador avança pela lista da mesma maneira e ao encontrar o ponteiro com erro(ela ja vai sabe a direção que tem o erro)
+modifica o ponteiro com erro para um nó apontar para o outro.
+  

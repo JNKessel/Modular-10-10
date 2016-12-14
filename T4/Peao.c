@@ -115,6 +115,16 @@ PEAO_tpCondRet PEAO_ObterNumeroPeao(PEAO_tppPeao pPeao, int* NumRet) {
 
     return PEAO_CondRetOK;
 }
+
+PEAO_tpCondRet PEAO_ObterCasaPeao(PEAO_tppPeao pPeao, TAB_tppCasa * casaRetorno){
+	if(pPeao == NULL){
+		return PEAO_CondRetPeaoInexistente;
+	}
+	
+	*casaRetorno = pPeao->pos;
+	
+	return PEAO_CondRetOK;
+}
  
 PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, DEF_tpBool* BoolRet, DEF_tpCor* CorRet) {
 

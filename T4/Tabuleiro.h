@@ -88,7 +88,7 @@ TAB_tpCondRet TAB_RetornarCasa(DEF_tpCor c, TAB_tppCasa casa, int n, TAB_tppCasa
 *     TAB_CondRetErroListaCircular - Erro no uso de função do modulo ListaC
 *     TAB_CondRetOK - Operaçao realizada sem problemas
 ***********************************************************************/
-TAB_tpCondRet TAB_RetornarCasaDeSaida(TAB_tppTabuleiro tab, DEF_tpCor c, TAB_tppCasa* casaRetorno);
+TAB_tpCondRet TAB_RetornarCasaDeSaida(/*TAB_tppTabuleiro tab,*/ DEF_tpCor c, TAB_tppCasa* casaRetorno); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TIRAR COMENTÁRIO PEDRO FRAYHA GRRRRRRRRRRRRRR
 
 
 /***********************************************************************

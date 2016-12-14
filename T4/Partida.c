@@ -17,7 +17,7 @@ typedef struct PART_tgJogador {
 
 } PART_tpJogador;
 
-static LSTC_tppListaC lstJogadores;
+static LSTC_tppListaC lstJogadores = NULL;
 	/* Lista circular de jogadores. O corrente é aquele cujo turno está em andamento. */
 
 static int iQtdJogadores;

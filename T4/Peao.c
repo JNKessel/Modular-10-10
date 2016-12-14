@@ -57,15 +57,13 @@ PEAO_tpCondRet PEAO_AndarPeao(PEAO_tppPeao pPeao, int n) {
 
 PEAO_tpCondRet PEAO_SairBasePeao(PEAO_tppPeao pPeao) {
   
-	if(pPeao == NULL){
-	
+	TAB_tppCasa casa;
+
+	if(pPeao == NULL) {
 		return PEAO_CondRetPeaoInexistente;
-	
 	}
 
-    TAB_tppCasa casa;
-  
-    TAB_RetornaCasaDeSaida(pPeao -> cor, &casa);
+    TAB_RetornarCasaDeSaida(pPeao -> cor, &casa);
   
     pPeao -> pos = casa;
     pPeao -> estado = Tabuleiro;
@@ -120,13 +118,13 @@ PEAO_tpCondRet PEAO_ObterNumeroPeao(PEAO_tppPeao pPeao, int* NumRet) {
  
 PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, DEF_tpBool* BoolRet, DEF_tpCor* CorRet) {
 
+	DEF_tpCor corNaCasa;
+
 	if(pPeao == NULL){
 	
 		return PEAO_CondRetPeaoInexistente;
 	
 	}
-
-    DEF_tpCor corNaCasa;
 
     *CorRet = SEM_COR;
   
@@ -140,7 +138,7 @@ PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, 
         return PEAO_CondRetOK;
     }
   
-    TAB_ChecaDisponivel(pPeao -> pos, dado, &corNaCasa);
+    TAB_ChecarDisponivel(pPeao -> pos, dado, &corNaCasa);
   
     if (corNaCasa == NULL || corNaCasa == pPeao -> cor) {
         *BoolRet = False;

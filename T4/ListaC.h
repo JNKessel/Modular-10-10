@@ -20,7 +20,7 @@ typedef enum {
 	LSTC_CondRetListaInexistente
 } LSTC_tpCondRet;
 
-typedef enum{
+typedef enum {
     Corrente,
     Cabeca,
     NumElem
@@ -180,6 +180,6 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet);
 LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet);
 
 /***********************************************************************
-* $FC FunçãoLST_ObterTamanhoListaCAlt
+* $FC Função: LST_Deturpadora
 ***********************************************************************/
-LSTC_tpCondRet LSTC_Deturpacao(LSTC_tppListaC pLstC, LSTC_Deturpacao cod);
+LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod);

@@ -7,10 +7,12 @@
 *	$HA Histórico de evolução:
 *		Versâo	Autor	Data		Observações
 *		1.00	rrc		17/10/2016	Começo de implementação, maioria das funções ainda não implementadas
-*		2.00	rrc		12/09/2016	Dodumentação e continuação em implementação de funções
+*		1.10	rrc		09/12/2016	Documentação de funções
+*		2.00	rrc		13/12/2016	Implementação de outras funções
 *
 *	$ED Descrição do módulo:
-*		Este módulo permite a criação de uma partida a partir de sua quantidade de jogadores e manipulação de cada turno.
+*		Este módulo permite a criação de uma partida a partir de sua quantidade de jogadores e manipulação de cada turno através
+*		da chamada da função Jogar.
 *		Não pode ser criada mais de uma partida simultaneamente.
 *******************************************************************************************************************************/
 
@@ -21,20 +23,39 @@
 #include "ListaC.h"
 #include "Lista.h"
 
-typedef enum eEstado {
-    Base,
-    Tabuleiro,
-    Final
-} Estado;
-
+/*******************************************************************************************************************************
+*	$TC Tipo de dados: PART Condições de retorno
+*
+*	$ED Descrição do tipo:
+*		Condições de retorno das funções da partida	
+*******************************************************************************************************************************/
 typedef enum {
 	PART_CondRetOK,
+		/* Concluiu corretamente */
+
 	PART_CondRetSemMemoria,
+		/* Faltou memória em alguma operação de alocação */
+
 	PART_CondRetErroListaC,
+		/* Erro em uso de função de módulo LSTC */
+
 	PART_CondRetErroPeao,
+		/* Erro em uso de função de módulo PEAO */
+
 	PART_CondRetErroLista,
+		/* Erro em uso de função de módulo LISTA */
+
 	PART_CondRetNumInvalido,
-	PART_CondRetPartidaInexistente
+		/* Número de jogadores especificado não é válido */
+
+	PART_CondRetPartidaInexistente,
+		/* Tentativa de operação sobre partida que não foi criada ou já foi destruída */
+
+	PART_CondRetNinguemJogou,
+		/* Tentativa de operação sobre jogador que jogou último turno, enquanto ninguém ainda jogou */
+
+	PART_CondRetInconsistencia
+		/* Inconsistência interna estrutural ou assertiva */
 } PART_tpCondRet;
 
 /*******************************************************************************************************************************
@@ -76,11 +97,24 @@ PART_tpCondRet PART_Jogar();
 *		PART_CondRetErroLista
 *		PART_CondRetErroListaC
 *		PART_CondRetErroPeao
+*		PART_CondRetNinguemJogou
+*		PART_CondRetPartidaInexistente
 *******************************************************************************************************************************/
 PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet);
 
-PART_tpCondRet PART_ChecarPeoesDesponiveis(PART_tpJogador* jogadorVez, int dado, LIS_tppLista* PeoesDisponiveisRet);
-
-PART_tpCondRet PART_Escolher(LIS_tppLista* PeoesDisponiveis, PEAO_tppPeao PeaoEscolhidoRet);
-
+/*******************************************************************************************************************************
+*	$FC Função: PART_DestruirPartida
+*
+*	$ED Descrição da função:
+*		Destroi a partida em andamento, liberando o que for necessário da memória.
+*
+*	$FV Valor retornado:
+*		PART_CondRetOK
+*		PART_CondRetPartidaInexistente
+*		PART_CondRetErroListaC
+*******************************************************************************************************************************/
 PART_tpCondRet PART_DestruirPartida();
+
+/*******************************************************************************************************************************
+*	Fim do módulo de definição: Módulo Partida
+*******************************************************************************************************************************/

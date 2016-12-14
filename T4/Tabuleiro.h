@@ -69,12 +69,12 @@ TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa casa, int n, DEF_tpCor corPeao, D
 * 
 * $ED Descriçao da funçao:
 * Retorna em casaRetorno a casa que um peao da cor c deve ir ao andar n casas a
-* partir de casa
+* partir de casa (Pode-se considerar que o peão nao vai estar na bae)
 *
 * $FV Valores de Retorno:
 *
 ***********************************************************************/
-TAB_tpCondRet TAB_RetornarCasa(DEF_tpCor c, TAB_tppCasa casa, int n, TAB_tppCasa *casaRetorno);
+TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_tppCasa *casaRetorno);
 /*Esta funcao esta associada com a implementacao da dinamica da partida*/
 
 

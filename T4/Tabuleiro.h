@@ -29,7 +29,8 @@ typedef enum{
     TAB_CondRetErroLista,
     TAB_CondRetTabJaExiste,
     TAB_CondRetTabInexistente,
-    TAB_CondRetCasaInexistente
+    TAB_CondRetCasaInexistente,
+    TAB_CondRetUltrapassouFinal
 	} TAB_tpCondRet;
 
 typedef struct TAB_tgCasa* TAB_tppCasa;

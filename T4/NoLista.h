@@ -127,6 +127,8 @@ NOLST_tpCondRet NOLST_AtribuirInfoNoh(NOLST_tppNoLista pNoLst, void* pInfo);
 ***********************************************************************/
 NOLST_tpCondRet NOLST_ObterInfoNoh(NOLST_tppNoLista pNoLst, void** pInfoRet);
 
+NOLST_tpCondRet NOLST_LigarNos(NOLST_tppNoLista pEsq, NOLST_tppNoLista pDir);
+
 
 
 

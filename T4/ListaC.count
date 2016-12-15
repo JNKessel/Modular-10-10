@@ -1,0 +1,43 @@
+////////////////////////////////////////////////
+//
+// Arquivo de declaração de contadores
+// Conta módulo Lista Circular marcado
+//
+///////////////////////////////////////////////
+
+LSTC_CriarSucesso
+LSTC_DestruirListaExistente
+LSTC_DestruirTratadorCorrente \= -1
+LSTC_DestruirLoop
+LSTC_EhVaziaTratadorCorrente \= -1
+LSTC_EhVaziaListaVazia
+LSTC_EhVaziaListaNaoVazia
+LSTC_EhVaziaAltTratadorCorrente \= -1
+LSTC_EhVaziaAltListaVazia
+LSTC_EhVaziaAltListaNaoVazia
+LSTC_InserirTratadorCorrente \= -1
+LSTC_InserirPosInvalida
+LSTC_InserirPrimeiroElemento
+LSTC_InserirSubstituiCabeca
+LSTC_InserirPosValida
+LSTC_InserirAltTratadorCorrente \= -1
+LSTC_InserirAltPosInvalida
+LSTC_InserirAltPosValida
+LSTC_RetirarPosInvalida
+LSTC_RetirarPosValida
+LSTC_RetirarTratadorCorrente \= -1
+LSTC_RetirarAltTratadorCorrente \= -1
+LSTC_RetirarAltPosInvalida
+LSTC_RetirarAltPosValida
+LSTC_AtribuirTratadorCorrente \= -1
+LSTC_AtribuirPosInvalida
+LSTC_AtribuirPosValida
+LSTC_ObterTratadorCorrente \= -1
+LSTC_ObterPosInvalida
+LSTC_ObterPosValida
+LSTC_TamanhoTratadorCorrente \= -1
+LSTC_TamanhoAltTratadorCorrente \= -1
+LSTC_JumpTratadorCorrente \= -1
+LSTC_JumpPosInvalida
+LSTC_JumpPosValida
+

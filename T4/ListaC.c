@@ -722,8 +722,8 @@ void TratadorParaCorrentePerdida(LSTC_tppListaC pLstC){
 //checa se algum ponteiro da lista foi perdido em qualquer direçao da lista
 int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
 
-	NOLST_tppNoLista noAnt = pLst->pNoCorr1;
-	NOLST_tppNoLista noProx = pLst->pNoCorr1;
+	NOLST_tppNoLista noAnt = pLstC->pNoCorr1;
+	NOLST_tppNoLista noProx = pLstC->pNoCorr1;
 	NOLST_tppNoLista noTemp;
 	
 	do{
@@ -739,10 +739,10 @@ int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
 		
 		NOLST_ObterProxNoh(noAnt, &noAnt);
 	
-	}while(noProx != pLst->pNoCorr1);
+	}while(noProx != pLstC->pNoCorr1);
 	
-	noAnt = pLst->pNoCorr1;
-	noProx = pLst->pNoCorr1;
+	noAnt = pLstC->pNoCorr1;
+	noProx = pLstC->pNoCorr1;
 	
 	do{
 		NOLST_ObterNohPrevio(noAnt, &noAnt);
@@ -757,7 +757,7 @@ int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
 		
 		NOLST_ObterNohPrevio(noProx, &noProx);
 	
-	}while(noAnt != pLst->pNoCorr1);
+	}while(noAnt != pLstC->pNoCorr1);
 	return 0;
 	
 }
@@ -765,8 +765,8 @@ int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
 //resolve o erro se algum ponteiro for perdido
 void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao){
 
-	NOLST_tppNoLista noAnt = pLst->pNoCorr1;
-	NOLST_tppNoLista noProx = pLst->pNoCorr1;
+	NOLST_tppNoLista noAnt = pLstC->pNoCorr1;
+	NOLST_tppNoLista noProx = pLstC->pNoCorr1;
 	NOLST_tppNoLista noTemp;
 	
 	if(direcao == 1){
@@ -782,7 +782,7 @@ void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao){
 		
 			NOLST_ObterNohPrevio(noProx, &noProx);
 	
-		}while(noAnt != pLst->pNoCorr1);
+		}while(noAnt != pLstC->pNoCorr1);
 	
 	}else if(direcao == -1){
 	
@@ -795,7 +795,7 @@ void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao){
 		
 			NOLST_ObterProxNoh(noAnt, &noAnt);
 	
-		}while(noProx != pLst->pNoCorr1);
+		}while(noProx != pLstC->pNoCorr1);
 		
 	}
 }

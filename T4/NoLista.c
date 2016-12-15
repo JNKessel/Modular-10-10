@@ -17,7 +17,7 @@ NOLST_tpCondRet NOLST_CriarNoh(NOLST_tppNoLista* pNohRet, void* pInfo, NOLST_tpp
     }//if
 	debug = NOLST_LigarNos(pNohAnterior, *pNohRet);
     if (debug){
-        return NOLST_LigarNos; // Se Ligar nao retornou OK
+        return debug; // Se Ligar nao retornou OK
     }//if
 	debug = NOLST_LigarNos(*pNohRet, pNoProximo);
     if (debug){

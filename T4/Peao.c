@@ -47,7 +47,7 @@ PEAO_tpCondRet PEAO_AndarPeao(PEAO_tppPeao pPeao, int n) {
 
 	TAB_tppCasa casa;
 
-	TAB_RetornarCasa(pPeao->cor, pPeao->pos, n, casa);
+	TAB_RetornarCasa(pPeao->pos, pPeao->cor, n, &casa);
 
 	pPeao->pos = casa;
 	
@@ -147,7 +147,7 @@ PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, 
         return PEAO_CondRetOK;
     }
   
-    TAB_ChecarDisponivel(pPeao -> pos, dado, &corNaCasa);
+	TAB_ChecarDisponivel(pPeao -> pos, dado, pPeao ->cor, &corNaCasa);
   
     if (corNaCasa == NULL || corNaCasa == pPeao -> cor) {
         *BoolRet = False;

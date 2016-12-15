@@ -54,7 +54,7 @@ typedef enum {
 	PART_CondRetNinguemJogou,
 		/* Tentativa de operação sobre jogador que jogou último turno, enquanto ninguém ainda jogou */
 
-	PART_CondRetInconsistencia
+	PART_CondRetInconsistencia,
 		/* Inconsistência interna estrutural ou assertiva */
 } PART_tpCondRet;
 
@@ -95,6 +95,12 @@ PART_tpCondRet PART_CriarPartida(int iNumJogadores);
 *
 *	$FV Valor retornado:
 *		PART_CondRetOK
+*		PART_CondRetPartidaInexistente
+*		PART_CondRetInconsistencia
+*		PART_CondRetSemMemoria
+*		PART_CondRetErroListaC
+*		PART_CondRetErroLista
+*		PART_CondRetErroPeao
 *******************************************************************************************************************************/
 PART_tpCondRet PART_Jogar();
 

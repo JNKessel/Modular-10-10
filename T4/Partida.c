@@ -1,3 +1,4 @@
+
 #include "Partida.h"
 
 #include "Peao.h"
@@ -51,6 +52,8 @@ static void ExcluirJogador(void* pVoid);
 static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, int dado, LIS_tppLista peoesDisponiveis);
 
 static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao* peaoEscolhidoRet);
+
+static int CriterioProcurarCorJogador(void* pElemBuscado, void* pElemLista);
 
 static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoComido);
 
@@ -625,6 +628,29 @@ static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao*
 }	/* Fim Função PART_Escolher */
 
 /*******************************************************************************************************************************
+*	$FC Função: CriterioProcurarCorJogador
+*
+*	$ED Descrição da função:
+*		Função de critério de busca em lista circular. Serve para procurar uma cor de um jogador em uma lista de jogadores.
+*
+*	$EP Parâmetros:
+*		$P pElemBuscado	-	será procurada uma cor
+*		$P pElemLista	-	elementos da lista são jogadores
+*
+*	$FV Valor retornado:
+*		1	-	caso jogador da cor passada seja encontrado
+*		0	-	caso jogador não tenha sido encontrado
+*******************************************************************************************************************************/
+static int CriterioProcurarCorJogador(void* pElemBuscado, void* pElemLista) {
+	DEF_tpCor* pCorBuscada = (DEF_tpCor*) pElemBuscado;
+	PART_tpJogador* pJogadorLista = (PART_tpJogador*) pElemLista;
+	if (pJogadorLista->Cor == *pCorBuscada)
+		return 1;
+	else
+		return 0;
+}
+
+/*******************************************************************************************************************************
 *	$FC Função: PART_ComerPeao
 *
 *	$ED Descrição da função:
@@ -640,8 +666,80 @@ static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao*
 *******************************************************************************************************************************/
 static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoComido) {
 	TAB_tppCasa casaAComer;
+	LSTC_tpCondRet debugListaC;
+	PEAO_tpCondRet debugPeao;
+	LIS_tpCondRet debugLista;
+	int indiceJogadorCor, iTamLstPeoes, i;
+	PART_tpJogador* jogComido;
+	LIS_tppLista pLstPeoes;
 
-	//PEAO_ObterCasaPeao();
+	/* Pegar casa dos peões */
+	debugPeao = PEAO_ObterCasaPeao(peaoPrincipal, &casaAComer);
+	/* Se não retornou OK, erro */
+	if (debugPeao)	return PART_CondRetErroPeao;
+
+	/* Pegar índice do jogador dono do peão comido */
+	debugListaC = LSTC_ProcurarElemento(lstJogadores, &corPeaoComido, &indiceJogadorCor, CriterioProcurarCorJogador);
+	/* Se não retornou OK, erro */
+	if (debugListaC)	return PART_CondRetErroListaC;
+
+	/* Pegar jogador dono do peão comido pelo seu índice */
+	debugListaC = LSTC_ObterElemento(lstJogadores, indiceJogadorCor, (void**)&jogComido);
+	/* Se não retornou OK, erro */
+	if (debugListaC)	return PART_CondRetErroListaC;
+
+	pLstPeoes = jogComido->pLstPeoes;
+		/* Lista de peões que contém peão comido */
+
+	/* Ir para início da lista para procurar peão comido */
+	debugLista = LIS_IrInicioLista(pLstPeoes);
+	/* Se não retornou OK, erro */
+	if (debugLista)	return PART_CondRetErroLista;
+
+	/* Pegar tamanho da lista de peões */
+	debugLista = LIS_ObterTamanhoLista(pLstPeoes, &iTamLstPeoes);
+	/* Se não retornou OK, erro */
+	if (debugLista)	return PART_CondRetErroLista;
+
+	i = 0;
+		/* Posição atual na lista de peões */
+
+	/* Percorrer lista para encontrar peão comido por sua casa atual */
+	while(1) {
+		PEAO_tppPeao tempPeao;
+		TAB_tppCasa tempCasa;
+
+		/* Pegar peão da lista */
+		debugLista = LIS_ObterValor(pLstPeoes, (void**)&tempPeao);
+		/* Se não retornou OK, erro */
+		if (debugLista)	return PART_CondRetErroLista;
+
+		/* Obter casa do peão */
+		debugPeao = PEAO_ObterCasaPeao(tempPeao, &tempCasa);
+		/* Se não retornou OK, erro */
+		if (debugPeao)	return PART_CondRetErroPeao;
+
+		/* Testar se peão está na casa procurada (a que foi comida) */
+		if (tempCasa == casaAComer) {
+				/* Em caso positivo, retornar peão para base e encerrar função */
+
+			/* Voltar para base */
+			debugPeao = PEAO_VoltarBasePeao(tempPeao);
+			/* Se não retornou OK, erro */
+			if (debugPeao)	return PART_CondRetErroPeao;
+
+			break;
+		}	/* if */
+
+		/* Se chegou no final da lista e não encontrou peão, erro */
+		if (i >= iTamLstPeoes - 1)
+			return PART_CondRetInconsistencia;
+
+		/* Avançar na lista */
+		debugLista = LIS_AvancarElementoCorrente(pLstPeoes, 1);
+		/* Se não retornou OK, erro */
+		if (debugLista)	return PART_CondRetErroLista;
+	}	/* while */
 
 	return PART_CondRetOK;
 }	/* Fim Função PART_ComerPeao */

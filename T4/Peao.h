@@ -113,7 +113,7 @@ PEAO_tpCondRet PEAO_ObterNumeroPeao(PEAO_tppPeao pPeao, int* NumRet);
 *     PEAO_CondRetOK - Operaçao realizada sem problemas
 ***********************************************************************/
 
-PEAO_tpCondRet PEAO_ObterCasaPeao(Peao_tppPeao pPeao, TAB_tppCasa* casaRetorno);
+PEAO_tpCondRet PEAO_ObterCasaPeao(PEAO_tppPeao pPeao, TAB_tppCasa* casaRetorno);
 
 /***********************************************************************
 * $FC Funçao: PEAO_ChecarMovimentoDisponivelPeao

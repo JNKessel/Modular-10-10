@@ -89,7 +89,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
     }//if
         
     //Insere todas as casas
-    debugTAB = TAB_CriarCasa(casa);
+    debugTAB = TAB_CriarCasa(&casa);
     if(debugTAB){
         return debugTAB;
     }//if
@@ -100,7 +100,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
     }//if
     
     while(pos<51){
-        debugTAB = TAB_CriarCasa(casa);
+        debugTAB = TAB_CriarCasa(&casa);
         if(debugTAB){
             return debugTAB;
         }//if
@@ -116,7 +116,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
     for(i=0;i<4;i++){
         pos=i*13;                   // Determina posicao de entrada no tabuleiro
         
-        debugTAB = TAB_CriarCasa(casa);
+        debugTAB = TAB_CriarCasa(&casa);
         if(debugTAB){
             return debugTAB;
         } //if
@@ -130,7 +130,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
     }//for
     
     //Posiciona as entradas dos oscars
-    debugTAB = TAB_CriarCasa(casa);
+    debugTAB = TAB_CriarCasa(&casa);
     if(debugTAB){
         return debugTAB;
     }//if
@@ -141,7 +141,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
         return TAB_CondRetErroListaCircular;
     }//if
     
-    debugTAB = TAB_CriarCasa(casa);
+    debugTAB = TAB_CriarCasa(&casa);
     if(debugTAB){
         return debugTAB;
     }//if
@@ -152,7 +152,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
         return TAB_CondRetErroListaCircular;
     }//if
     
-    debugTAB = TAB_CriarCasa(casa);
+    debugTAB = TAB_CriarCasa(&casa);
     if(debugTAB){
         return debugTAB;
     }//if
@@ -163,7 +163,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
         return TAB_CondRetErroListaCircular;
     }//if
     
-    debugTAB = TAB_CriarCasa(casa);
+    debugTAB = TAB_CriarCasa(&casa);
     if(debugTAB){
         return debugTAB;
     }//if
@@ -414,17 +414,17 @@ TAB_tpCondRet TAB_DestruirTabuleiro(){
 TAB_tpCondRet PreencheListaRetaFinal(LIS_tppLista lst) {
     int i;
     LIS_tpCondRet debugLIS;
-    TAB_tppCasa c;
+    TAB_tppCasa casa;
     for(i=0;i<4;i++){
-        TAB_CriarCasa(c);
-        debugLIS = LIS_InserirElementoApos(lst, c);
+        TAB_CriarCasa(&casa);
+        debugLIS = LIS_InserirElementoApos(lst, casa);
         if(debugLIS){
             return TAB_CondRetErroLista;
         }//if
     }//for
-    TAB_CriarCasa(c);
-    c->fim=True;
-    debugLIS = LIS_InserirElementoApos(lst, c);
+    TAB_CriarCasa(&casa);
+    casa->fim=True;
+    debugLIS = LIS_InserirElementoApos(lst, casa);
     if(debugLIS){
         return TAB_CondRetErroLista;
     }//if
@@ -438,16 +438,16 @@ void ExcluirCasa(void* casa){
     free(aux);
 }
 
-TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa casa){
-    casa = (TAB_tppCasa) malloc(sizeof(TAB_tpCasa));
-    if(casa==NULL){
+TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa* casa){
+    *casa = (TAB_tppCasa) malloc(sizeof(TAB_tpCasa));
+    if(*casa==NULL){
         return TAB_CondRetSemMemoria;
     }
     else{
-        casa->scorPeao = SEM_COR;
-        casa->corDeSaida = SEM_COR;
-        casa->fim = False;
-        casa->oscar = NULL;
+        (*casa)->scorPeao = SEM_COR;
+        (*casa)->corDeSaida = SEM_COR;
+        (*casa)->fim = False;
+        (*casa)->oscar = NULL;
         return TAB_CondRetOK;
     }
 }

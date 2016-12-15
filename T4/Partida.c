@@ -71,7 +71,7 @@ PART_tpCondRet PART_CriarPartida(int n) {
 	LSTC_tpCondRet debugLstC;
 	LIS_tpCondRet debugLista;
 	TAB_tpCondRet debugTabuleiro;
-	int i;
+	int i, j;
 
 	/* Número mínimo e máximo de jogadores de um jogo de ludo */
 	if (n < 2 || n > 4)
@@ -98,25 +98,44 @@ PART_tpCondRet PART_CriarPartida(int n) {
 	for (i = 0; i < n; i++) {
 		DEF_tpCor cor;
 		PART_tpJogador* jog;
+
+		/* Cores dos jogadores estão na ordem */
 		switch(i) {
 			case 0:	cor = AZUL;		break;
 			case 1: cor = VERMELHO;	break;
 			case 2:	cor = VERDE;	break;
 			case 3:	cor = AMARELO;	break;
 		}
+		/* Criar jogador */
 		jog = (PART_tpJogador*)malloc(sizeof(PART_tpJogador));
 		if (!jog)	return PART_CondRetSemMemoria;
+
 		jog->Cor = cor;
+
+		/* Criar lista de peões */
 		debugLista = LIS_CriarLista(&jog->pLstPeoes, ExcluirPeao);
+		/* Se não retornou OK, erro */
 		if (debugLista)	return PART_CondRetErroLista;
+
 		/* Criar cada peão do jogador: */
-		for (i = 0; i < NUM_PEOES; i++) {
+		for (j = 0; j < NUM_PEOES; j++) {
 			PEAO_tppPeao tempPeao;
-			debugPeao = PEAO_CriarPeao(&tempPeao, cor, i+1);
+
+			/* Criar peão */
+			debugPeao = PEAO_CriarPeao(&tempPeao, cor, j+1);
+			/* Se não retornou OK, erro */
 			if (debugPeao)	return PART_CondRetErroPeao;
+
+			/* Inserir peão na lista de peões do jogador */
 			debugLista = LIS_InserirElementoApos(jog->pLstPeoes, tempPeao);
-			if (debugLista)	return PART_CondRetErroListaC;
+			/* Se não retornou OK, erro */
+			if (debugLista)	return PART_CondRetErroLista;
 		}	/* for */
+
+		/* Inserir jogador na lista de jogadores da partida, na ordem das cores */
+		debugLstC = LSTC_InserirElemento(lstJogadores, i, jog);
+		/* Se não retornou OK, erro */
+		if (debugLstC)	return PART_CondRetErroListaC;
 	}	/* for */
 	return PART_CondRetOK;
 } /* Fim Função PART_CriarPartida */

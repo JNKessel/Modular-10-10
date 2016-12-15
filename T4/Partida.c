@@ -159,7 +159,7 @@ PART_tpCondRet PART_Jogar() {
 	DEF_tpBool peaoEstaBase;
 	DEF_tpCor corAComer;
 	DEF_tpBool podeAndar;
-	int numDado, qtdPeoesDisponiveis, jogarNovamente = 0;
+	int numDado, qtdPeoesDisponiveis, jogarNovamente = 0, numPeaoEscolhido;
 
 	if (lstJogadores == NULL)	return PART_CondRetPartidaInexistente;
 
@@ -239,7 +239,12 @@ PART_tpCondRet PART_Jogar() {
 	/* Se não retornou OK, erro */
 	if (debugPeao)	return PART_CondRetErroPeao;
 
-	if (peaoEstaBase) {
+	/* Pegar número do peão escolhido */
+	debugPeao = PEAO_ObterNumeroPeao(peaoEscolhido, &numPeaoEscolhido);
+	/* Se não retornou OK, erro */
+	if (debugPeao)	return PART_CondRetErroPeao;
+
+	if (peaoEstaBase == True) {
 		/* Caso que o peão escolhido para se movimentar está na base */
 
 		/* Se está na base e estava disponível, então o jogador tem que ter tirado 6 */
@@ -259,6 +264,8 @@ PART_tpCondRet PART_Jogar() {
 		debugPeao = PEAO_SairBasePeao(peaoEscolhido);
 		/* Se não retornou OK, erro */
 		if (debugPeao)	return PART_CondRetErroPeao;
+
+		printf("\n\nO peao %d saiu da base!", numPeaoEscolhido);
 	} else {
 			/* Caso que o peão escolhido para se movimentar está em uma casa */
 
@@ -275,6 +282,8 @@ PART_tpCondRet PART_Jogar() {
 			debugPeao = PEAO_AndarPeao(peaoEscolhido, numDado);
 			/* Se não retornou OK, erro */
 			if (debugPeao)	return PART_CondRetErroPeao;
+
+			printf("\n\nO peao %d andou %d casas!", numPeaoEscolhido, numDado);
 	}	/* if */
 
 	/* Se for necessário comer outro peão */
@@ -302,7 +311,7 @@ PART_tpCondRet PART_Jogar() {
 	/* Marca o último a jogar */
 	pUltimoJogador = jogAtual;
 
-	printf("O peao escolhido andou %d casas!\nFim de turno...\n\n", numDado);
+	printf("\nFim de turno...\n\n", numDado);
 
 	/* Encerrar jogada */
 	return PART_CondRetOK;
@@ -512,7 +521,7 @@ static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, in
 	/* Percorrer lista de peões: */
 	while(1) {
 		PEAO_tppPeao tempPeao;
-		DEF_tpBool movimentoDisp;
+		DEF_tpBool movimentoDisp, estaBase;
 		DEF_tpCor corAFrente;
 		PEAO_tpCondRet debugPeao;
 
@@ -521,10 +530,29 @@ static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, in
 		/* Se não retornou OK, erro */
 		if (debugLista)	return PART_CondRetErroLista;
 
-		/* Ver se ele pode andar */
-		debugPeao = PEAO_ChecarMovimentoDisponivelPeao(tempPeao, iNumDado, &movimentoDisp, &corAFrente);
+		/* Ver se o peao esta na base */
+		debugPeao = PEAO_EstaPeaoBase(tempPeao, &estaBase);
 		/* Se não retornou OK, erro */
 		if (debugPeao)	return PART_CondRetErroPeao;
+
+		/* Testar se peão tem movimento disponível em caso que está e que não está na base */
+		if (estaBase == True) {
+				/* Peão está na base */
+
+			/* Ver se pode sair da base */
+			if (iNumDado == 6)
+				movimentoDisp = True;
+			else
+				movimentoDisp = False;
+
+		} else {
+				/* Peão não está na base */
+
+			/* Ver se ele pode andar */
+			debugPeao = PEAO_ChecarMovimentoDisponivelPeao(tempPeao, iNumDado, &movimentoDisp, &corAFrente);
+			/* Se não retornou OK, erro */
+			if (debugPeao)	return PART_CondRetErroPeao;
+		}
 
 		/* Se puder andar */
 		if (movimentoDisp == True) {
@@ -630,6 +658,11 @@ static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao*
 
 		/* scanf("%d", &numEscolhido); */
 		numEscolhido = getch() - '0';
+
+		/* Ir para início da lista */
+		debugLista = LIS_IrInicioLista(peoesDisponiveis);
+		/* Se não retornou OK, erro */
+		if (debugLista)	return PART_CondRetErroLista;
 
 		i = 0;
 			/* Posição atual na lista */

@@ -1,7 +1,36 @@
 #include "Partida.h"
+#include "Definicoes.h"
 #include <stdio.h>
 #include <Windows.h>
 #include <conio.h>
+
+/*******************************************************************************************************************************
+*	$FC Função: pegarSN
+*
+*	$ED Descrição da função:
+*		Pausa o jogo até o usuário digitar S ou N.
+*
+*	$FV Valor retornado:
+*		1	-	caso o usuário tenha digitado S
+*		0	-	caso o usuário tenha digitado N
+*******************************************************************************************************************************/
+int pegarSN() {
+	int resultado;
+	do {
+		char resposta = getch();
+		switch(resposta) {
+			case 's': case 'S':
+				resultado = 1;
+				break;
+			case 'n': case 'N':
+				resultado = 0;
+				break;
+			default:
+				resultado = -1;
+		}	/* switch */
+	} while(resultado == -1);
+	return resultado;
+}
 
 /*******************************************************************************************************************************
 *	$FC Função: apresentarFalha
@@ -45,6 +74,15 @@ int main() {
 			system("cls");
 			printf("Escolha quantos jogadores participarao da partida (2~4):\t");
 			numJogadores = getch() - '0';
+
+			if (numJogadores >= 2 && numJogadores <= 4) {
+				printf("\n\nA partida tera %d jogadores. Tem certeza? (s/n)\t", numJogadores);
+
+				/* Se o usuário digitou N, pede de novo para digitar a quantidade de jogadores */
+				if (!pegarSN())
+					numJogadores = 0;
+			}
+
 		} while(numJogadores < 2 || numJogadores > 4);
 
 		/* Criar partida */
@@ -60,6 +98,9 @@ int main() {
 			debugPartida = PART_Jogar();
 			/* Se não retornou OK, erro */
 			if (debugPartida)	apresentarFalha();
+
+			printf("Pressione qualquer coisa para continuar...");
+			getch();
 
 			/* Testar se em último turno, jogador venceu */
 			debugPartida = PART_ChecarVitoria(&venceu, &corVencedor);
@@ -82,19 +123,7 @@ int main() {
 		printf("\n\nDeseja jogar novamente? (s/n)\t");
 
 		/* Pegar desejo do usuário de jogar novamente */
-		do {
-			char resposta = getch();
-			switch(resposta) {
-				case 's': case 'S':
-					jogarNovamente = 1;
-					break;
-				case 'n': case 'N':
-					jogarNovamente = 0;
-					break;
-				default:
-					jogarNovamente = -1;
-			}	/* switch */
-		} while(jogarNovamente == -1);
+		jogarNovamente = pegarSN();
 	} while(jogarNovamente);
 
 	system("cls");

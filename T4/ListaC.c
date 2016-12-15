@@ -47,14 +47,14 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		return LSTC_CondRetListaInexistente;
 	}
 	
-	CNT_CONTAR("LSTC_ListaExistente");
+	CNT_CONTAR("LSTC_DestruirListaExistente");
 
 	if((pLstC->pNoCorr1 != pLstC->pNoCorr2) 
 	   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
 	   || (pLstC->pNoCorr2 != pLstC->pNoCorr3)){ //Assertiva
 		//Tratador
 		
-		CNT_CONTAR("LSTC_TratadorCorrente");
+		CNT_CONTAR("LSTC_DestruirTratadorCorrente");
 		
 		TratadorParaCorrentePerdida(pLstC);
 	}
@@ -64,7 +64,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 	  nenhum erro o tratador nao faz nada*/
 	/*tratador*/TratadorParaPonteiroPerdido(pLstC, /*assertiva*/AssertivaParaPonteiroPerdido(pLstC));
 
-	CNT_CONTAR("LSTC_LoopDestruicao");
+	CNT_CONTAR("LSTC_DestruirLoop");
 	
 	while (pLstC->pNoCorr1) {
 		

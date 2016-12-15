@@ -132,8 +132,13 @@ PART_tpCondRet PART_CriarPartida(int n) {
 			if (debugLista)	return PART_CondRetErroLista;
 		}	/* for */
 
+		if (i == 0)
+			j = 0;
+		else
+			j = i-1;
+
 		/* Inserir jogador na lista de jogadores da partida, na ordem das cores */
-		debugLstC = LSTC_InserirElemento(lstJogadores, i, jog);
+		debugLstC = LSTC_InserirElemento(lstJogadores, j, jog);
 		/* Se não retornou OK, erro */
 		if (debugLstC)	return PART_CondRetErroListaC;
 	}	/* for */
@@ -659,7 +664,7 @@ static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao*
 			break;
 		/* Se não, o número escolhido foi inválido e pede-se outro número */
 
-		printf("\nCaracter digitado inválido. Escolha um peão para movimentar.\n");
+		printf("\nCaracter digitado invalido. Escolha um peão para movimentar.\n");
 
 	}	/* while */
 

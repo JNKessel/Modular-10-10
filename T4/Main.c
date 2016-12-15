@@ -54,6 +54,8 @@ int main() {
 
 		/* Executar partida */
 		do {
+			system("cls");
+
 			/* Jogar turno */
 			debugPartida = PART_Jogar();
 			/* Se não retornou OK, erro */

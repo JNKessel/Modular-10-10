@@ -176,7 +176,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 		return LSTC_CondRetListaInexistente;
 	}
 	if (iPos < 0 
-	    || iPos > pLstC->NumElem){
+	    || (pLstC->NumElem != 0 && iPos >= pLstC->NumElem) || (pLstC->NumElem == 0 && iPos > 0)){
 		
 		//CNT_CONTAR("LSTC_InserirPosInvalida");
 		

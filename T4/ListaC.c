@@ -184,9 +184,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 	}
 
 	if (iPos == 0) {
-		
-		CNT_CONTAR("LSTC_InserirNovaCabeca");
-		
+				
 		if (pLstC->NumElem == 0) {
 			
 			CNT_CONTAR("LSTC_InserirPrimeiroElemento");

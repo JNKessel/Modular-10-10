@@ -77,7 +77,7 @@ int main() {
 		/* Se não retornou OK, erro */
 		if (debugPartida)	apresentarFalha();
 
-		printf("\n\nDeseja jogar novamente? (s/n)");
+		printf("\n\nDeseja jogar novamente? (s/n)\t");
 
 		/* Pegar desejo do usuário de jogar novamente */
 		do {
@@ -94,6 +94,9 @@ int main() {
 			}	/* switch */
 		} while(jogarNovamente == -1);
 	} while(jogarNovamente);
+
+	system("cls");
+	printf("Obrigado por jogar!\n\n");
 
 	return 0;
 }

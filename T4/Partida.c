@@ -354,7 +354,27 @@ PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet
 		*BoolRet = False;
 	*CorVencedorRet = jog->Cor;
 	return PART_CondRetOK;
-} /* Fim Função PART_ChecarVitoria */
+}	/* Fim Função PART_ChecarVitoria */
+
+/*******************************************************************************************************************************
+*	Função: PART_AnunciarVencedor
+*/
+PART_tpCondRet PART_AnunciarVencedor(DEF_tpCor CorVencedorRet) {
+	PART_tpCondRet debugPartida;
+
+	if (lstJogadores == NULL)	return PART_CondRetPartidaInexistente;
+
+	printf("Parabens jogador ");
+
+	/* Imprimir cor do jogador */
+	debugPartida = PART_ImprimirCor(CorVencedorRet);
+	/* Se não retornou OK, erro */
+	if (debugPartida)	return debugPartida;
+
+	printf(", voce venceu!!!");
+
+	return PART_CondRetOK;
+}	/* Fim Função PART_AnunciarVencedor */
 
 /*******************************************************************************************************************************
 *	Função: PART_DestruirPartida

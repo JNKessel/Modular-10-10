@@ -127,6 +127,22 @@ PART_tpCondRet PART_Jogar();
 PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet);
 
 /*******************************************************************************************************************************
+*	$FC Função: PART_AnunciarVencedor
+*
+*	$ED Descrição da função:
+*		Imprime na interface do console uma mensagem de parabenização para o jogador vencedor cuja cor é recebida por parâmetro.
+*
+*	$EP Parâmetros:
+*		$P CorVencedor	-	cor do jogador vencedor
+*
+*	$FV Valor retornado:
+*		PART_CondRetOK
+*		PART_CondRetInconsistencia
+*		PART_CondRetPartidaInexistente
+*******************************************************************************************************************************/
+PART_tpCondRet PART_AnunciarVencedor(DEF_tpCor CorVencedor);
+
+/*******************************************************************************************************************************
 *	$FC Função: PART_DestruirPartida
 *
 *	$ED Descrição da função:

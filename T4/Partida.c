@@ -203,7 +203,7 @@ PART_tpCondRet PART_Jogar() {
 	if (debugLista)	return PART_CondRetErroLista;
 
 	if (qtdPeoesDisponiveis == 0) {
-		printf("Nenhum de seus peoes pode andar esse numero de casas!\nFim de turno...\n\n");
+		printf("Nenhum de seus peoes pode ser movimentado!\nFim de turno...\n\n");
 
 		/* Destruir lista temporária */
 		debugLista = LIS_DestruirLista(lstPeoesDisponiveis);
@@ -356,7 +356,7 @@ PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet
 		if (debugPeao)	return PART_CondRetErroPeao;
 
 		/* Se o peão estiver no final, conta-o */
-		if (final)
+		if (final == True)
 			peoesFinal++;
 
 		/* Se está no último peão da lista, não avança a lista e para de percorrê-la */

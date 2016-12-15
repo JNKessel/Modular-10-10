@@ -398,9 +398,10 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
 	    CNT_CONTAR("LSTC_RetirarAltPosInvalida");
 	    return LSTC_CondRetPosInvalida;
     }
-     
+	
+    CNT_CONTAR("LSTC_RetirarAltPosValida");
+
     if(iPos == 0){
-	    CNT_CONTAR("LSTC_RetirarAltPos0");
 	    NOLST_ObterProxNoh(No, &prox);
     }
      

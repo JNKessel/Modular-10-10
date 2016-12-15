@@ -485,7 +485,7 @@ static void ExcluirJogador(void* pVoid) {
 static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, int iNumDado, LIS_tppLista peoesDisponiveis) {
 	LIS_tpCondRet debugLista;
 	LIS_tppLista lstPeoes;
-	int tamLst, i;
+	int tamLst, i, qtdPeoes;
 
 	/* Pegar tamanho da lista passada: */
 	debugLista = LIS_ObterTamanhoLista(peoesDisponiveis, &tamLst);
@@ -496,6 +496,11 @@ static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, in
 
 	lstPeoes = jogadorVez->pLstPeoes;
 		/* Lista de peões do jogador */
+
+	/* Pegar tamanho da lista de peões: */
+	debugLista = LIS_ObterTamanhoLista(lstPeoes, &qtdPeoes);
+	/* Se não retornou OK, erro */
+	if (debugLista)	return PART_CondRetErroLista;
 
 	/* Vai para o primeiro peão */
 	debugLista = LIS_IrInicioLista(lstPeoes);
@@ -522,7 +527,7 @@ static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, in
 		if (debugPeao)	return PART_CondRetErroPeao;
 
 		/* Se puder andar */
-		if (movimentoDisp) {
+		if (movimentoDisp == True) {
 			/* Adicionar peão à lista de peões disponíveis */
 			debugLista = LIS_InserirElementoApos(peoesDisponiveis, tempPeao);
 			/* Se não retornou OK, erro */
@@ -530,7 +535,7 @@ static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, in
 		}	/* if */
 
 		/* Se chegou em último elemento da lista, para de percorrer */
-		if (i >= tamLst - 1)
+		if (i >= qtdPeoes - 1)
 			break;
 
 		/* Avança em lista */
@@ -573,6 +578,7 @@ static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao*
 	/* Se a lista está vazia, erro */
 	if (tamLst == 0)	return PART_CondRetInconsistencia;
 
+	/* Ir para início da lista */
 	debugLista = LIS_IrInicioLista(peoesDisponiveis);
 	/* Se não retornou OK, erro */
 	if (debugLista)	return PART_CondRetErroLista;
@@ -664,7 +670,7 @@ static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao*
 			break;
 		/* Se não, o número escolhido foi inválido e pede-se outro número */
 
-		printf("\nCaracter digitado invalido. Escolha um peão para movimentar.\n");
+		printf("\nCaracter digitado invalido. Escolha um peao para movimentar.");
 
 	}	/* while */
 

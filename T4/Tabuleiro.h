@@ -50,6 +50,20 @@ typedef struct TAB_tgCasa* TAB_tppCasa;
 ***********************************************************************/
 TAB_tpCondRet TAB_CriarTabuleiro();
 
+/***********************************************************************
+* $FC Funçao: TAB_RetornarCasa
+* 
+* $ED Descriçao da funçao:
+* Retorna em casaRetorno a casa que um peao da cor c deve ir ao andar n casas a
+* partir de casa (Pode-se considerar que o peão nao vai estar na bae)
+*
+* $FV Valores de Retorno:
+*	TAB_CondRetOK
+*	TAB_CondRetUltrapassouFinal
+*	TAB_CondRetErroLista
+*	TAB_CondRetErroListaCircular
+***********************************************************************/
+TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_tppCasa *casaRetorno);
 
 /***********************************************************************
 * $FC Funçao: TAB_ChecarDisponivel
@@ -59,25 +73,12 @@ TAB_tpCondRet TAB_CriarTabuleiro();
 * e qual a cor desse peao
 *
 * $FV Valores de Retorno:
-*
+*	TAB_CondRetOK
+*	TAB_CondRetUltrapassouFinal
+*	TAB_CondRetErroLista
+*	TAB_CondRetErroListaCircular
 ***********************************************************************/
 TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno);
-/*Esta funcao esta associada com a implementacao da dinamica da partida*/
-
-
-/***********************************************************************
-* $FC Funçao: TAB_RetornarCasa
-* 
-* $ED Descriçao da funçao:
-* Retorna em casaRetorno a casa que um peao da cor c deve ir ao andar n casas a
-* partir de casa (Pode-se considerar que o peão nao vai estar na bae)
-*
-* $FV Valores de Retorno:
-*
-***********************************************************************/
-TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_tppCasa *casaRetorno);
-/*Esta funcao esta associada com a implementacao da dinamica da partida*/
-
 
 /***********************************************************************
 * $FC Funçao: TAB_RetornarCasaDeSaida

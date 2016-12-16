@@ -47,6 +47,8 @@ PEAO_tpCondRet PEAO_AndarPeao(PEAO_tppPeao pPeao, int n) {
 
 	TAB_tppCasa casa;
 
+	if (pPeao->pos == NULL)	return PEAO_CondRetPeaoEstaBase;
+
 	TAB_RetornarCasa(pPeao->pos, pPeao->cor, n, &casa);
 
 	pPeao->pos = casa;
@@ -61,6 +63,8 @@ PEAO_tpCondRet PEAO_SairBasePeao(PEAO_tppPeao pPeao) {
 	if(pPeao == NULL) {
 		return PEAO_CondRetPeaoInexistente;
 	}
+
+	if (pPeao->pos != NULL)	return PEAO_CondRetPeaoNaoEstaBase;
 
     TAB_RetornarCasaDeSaida(pPeao -> cor, &casa);
   
@@ -128,6 +132,7 @@ PEAO_tpCondRet PEAO_ObterCasaPeao(PEAO_tppPeao pPeao, TAB_tppCasa * casaRetorno)
 PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, DEF_tpBool* BoolRet, DEF_tpCor* CorRet) {
 
 	DEF_tpCor corNaCasa;
+	TAB_tpCondRet debugTabuleiro;
 
 	if(pPeao == NULL){
 	
@@ -146,21 +151,49 @@ PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, 
         *BoolRet = False;
         return PEAO_CondRetOK;
     }
-  
-	TAB_ChecarDisponivel(pPeao -> pos, dado, pPeao ->cor, &corNaCasa);
-  
-    if (corNaCasa == NULL || corNaCasa == pPeao -> cor) {
-        *BoolRet = False;
-        return PEAO_CondRetOK;
-    }
 
-    if(corNaCasa == SEM_COR) {
-        *BoolRet = True;
-        return PEAO_CondRetOK;
-    }
+	if (pPeao->pos == NULL) {
+			/* Peão está na base */
+
+		TAB_tppCasa casaSaida;
+
+		/* Pegar casa de saída */
+		debugTabuleiro = TAB_RetornarCasaDeSaida(pPeao->cor, &casaSaida);
+		/* Se não retornou OK, erro */
+		if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
+
+		/* Checar qual cor está na casa de saída do peão */
+		debugTabuleiro = TAB_ChecarDisponivel(casaSaida, 0, pPeao->cor, &corNaCasa);
+		/* Se não retornou OK, erro */
+		if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
+
+		if (corNaCasa == pPeao->cor) {
+			*BoolRet = False;
+		} else {
+			*BoolRet = True;
+			*CorRet = corNaCasa;
+		}
+	} else {
+		/* Se o peão não está na base: */
+	
+		/* Checar se pode andar */
+		debugTabuleiro = TAB_ChecarDisponivel(pPeao->pos, dado, pPeao ->cor, &corNaCasa);
+		/* Se não retornou OK, erro */
+		if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
   
-    *CorRet = corNaCasa;
-    *BoolRet = True;
+		if (corNaCasa == NULL || corNaCasa == pPeao -> cor) {
+			*BoolRet = False;
+			return PEAO_CondRetOK;
+		}
+
+		if(corNaCasa == SEM_COR) {
+			*BoolRet = True;
+			return PEAO_CondRetOK;
+		}
+  
+		*CorRet = corNaCasa;
+		*BoolRet = True;
+	}
 
     return PEAO_CondRetOK;
 }

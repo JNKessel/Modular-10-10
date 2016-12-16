@@ -257,7 +257,7 @@ PART_tpCondRet PART_Jogar() {
 		if (debugPeao)	return PART_CondRetErroPeao;
 
 		/* Deve ser possível andar, se peão já estava disponível */
-		if (!podeAndar)
+		if (podeAndar == False)
 			return PART_CondRetInconsistencia;
 
 		/* Sair da base com peão */
@@ -275,7 +275,7 @@ PART_tpCondRet PART_Jogar() {
 			if (debugPeao)	return PART_CondRetErroPeao;
 
 			/* Deve ser possível andar, se peão já estava disponível */
-			if (!podeAndar)
+			if (podeAndar == True)
 				return PART_CondRetInconsistencia;
 
 			/* Andar com peão */
@@ -535,24 +535,10 @@ static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, in
 		/* Se não retornou OK, erro */
 		if (debugPeao)	return PART_CondRetErroPeao;
 
-		/* Testar se peão tem movimento disponível em caso que está e que não está na base */
-		if (estaBase == True) {
-				/* Peão está na base */
-
-			/* Ver se pode sair da base */
-			if (iNumDado == 6)
-				movimentoDisp = True;
-			else
-				movimentoDisp = False;
-
-		} else {
-				/* Peão não está na base */
-
-			/* Ver se ele pode andar */
-			debugPeao = PEAO_ChecarMovimentoDisponivelPeao(tempPeao, iNumDado, &movimentoDisp, &corAFrente);
-			/* Se não retornou OK, erro */
-			if (debugPeao)	return PART_CondRetErroPeao;
-		}
+		/* Ver se ele pode andar */
+		debugPeao = PEAO_ChecarMovimentoDisponivelPeao(tempPeao, iNumDado, &movimentoDisp, &corAFrente);
+		/* Se não retornou OK, erro */
+		if (debugPeao)	return PART_CondRetErroPeao;
 
 		/* Se puder andar */
 		if (movimentoDisp == True) {

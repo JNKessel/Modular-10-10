@@ -16,10 +16,13 @@ typedef struct PEAO_tgPeao* PEAO_tppPeao;
 
 typedef enum {
     
-	PEAO_CondRetOK = 0,
-	PEAO_CondRetSemMemoria = 1,
-	PEAO_CondRetNumeroInvalido = 2,
-	PEAO_CondRetPeaoInexistente = 3
+	PEAO_CondRetOK				= 0,
+	PEAO_CondRetSemMemoria		= 1,
+	PEAO_CondRetNumeroInvalido	= 2,
+	PEAO_CondRetPeaoInexistente = 3,
+	PEAO_CondRetPeaoEstaBase	= 4,
+	PEAO_CondRetPeaoNaoEstaBase = 5,
+	PEAO_CondRetErroTabuleiro	= 6
 
 } PEAO_tpCondRet;
 
@@ -42,10 +45,12 @@ PEAO_tpCondRet PEAO_CriarPeao(PEAO_tppPeao* pPeao, DEF_tpCor Cor, int iNum);
 * $FC Funçao: PEAO_AndarPeao
 * 
 * $ED Descriçao da funçao:
-* Avança um numero n de casa ao longo do tabuleiro com o peao pPeao
+* Avança um numero n de casa ao longo do tabuleiro com o peao pPeao.
+* Dá erro se peão estiver na base.
 *
 * $FV Valores de Retorno:
-*
+*	PEAO_CondRetOK
+*	PEAO_CondRetPeaoEstaBase
 ***********************************************************************/
 PEAO_tpCondRet PEAO_AndarPeao(PEAO_tppPeao pPeao, int n);
 /*Esta funcao esta associada com a implementacao da dinamica da partida
@@ -56,11 +61,12 @@ PEAO_tpCondRet PEAO_AndarPeao(PEAO_tppPeao pPeao, int n);
 * 
 * $ED Descriçao da funçao:
 * Recebe um peao e muda a posiçao dele para a casa de saida da base dos
-* peoes da cor dele
+* peoes da cor dele. Dá erro se peão não estiver na base.
 *
 * $FV Valores de Retorno:
 *     PEAO_CondRetPeaoInexistente - Peao nao existe
 *     PEAO_CondRetOK - Operaçao realizada sem problemas
+*     PEAO_CondRetPeaoNaoEstaBase
 ***********************************************************************/
 PEAO_tpCondRet PEAO_SairBasePeao(PEAO_tppPeao pPeao);
 
@@ -124,8 +130,8 @@ PEAO_tpCondRet PEAO_ObterCasaPeao(PEAO_tppPeao pPeao, TAB_tppCasa* casaRetorno);
 * é retornado False. Se o peao puder avançar o numero de 
 * casas recebido mas ela ja estiver ocupada por
 * um peao de outra cor, é retornada a cor desse peao em CorRet. A função
-* leva em conta se o peão está na base (só sai da base se o número do
-* dado for 6f )
+* leva em conta se o peão está na base (movimento disponível se o número do
+* dado for 6 e não houver um peão da mesma cor na saída).
 *
 * $FV Valores de Retorno:
 *     PEAO_CondRetPeaoInexistente - Peao nao existe

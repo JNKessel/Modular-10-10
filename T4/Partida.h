@@ -9,6 +9,8 @@
 *		1.00	rrc		17/10/2016	Começo de implementação, maioria das funções ainda não implementadas
 *		1.10	rrc		09/12/2016	Documentação de funções
 *		2.00	rrc		13/12/2016	Implementação de outras funções
+*		3.00	rrc		14/12/2016	Fim das implementações
+*		4.00	rrc		15/12/2016	Adições ao módulo, correção de bugs
 *
 *	$ED Descrição do módulo:
 *		Este módulo permite a criação de uma partida a partir de sua quantidade de jogadores e manipulação de cada turno através

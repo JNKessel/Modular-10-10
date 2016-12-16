@@ -21,8 +21,8 @@ typedef struct TAB_tgTabuleiro {
     LSTC_tppListaC tabuleiro;
     LIS_tppLista azul;
     LIS_tppLista amarelo;
-    LIS_tppLista vermelho;
     LIS_tppLista verde;
+    LIS_tppLista vermelho;
 } TAB_tpTabuleiro;
 
 typedef struct TAB_tgCasa {
@@ -157,7 +157,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
         return debugTAB;
     }//if
     
-    casa->oscar = tab->vermelho;
+    casa->oscar = tab->verde;
     debugLSTC = LSTC_AtribuirElemento(tab->tabuleiro, 24, casa);        //Posiciona entrada do oscar vermelho
     if(debugLSTC){
         return TAB_CondRetErroListaCircular;
@@ -168,7 +168,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
         return debugTAB;
     }//if
     
-    casa->oscar = tab->verde;
+    casa->oscar = tab->vermelho;
     debugLSTC = LSTC_AtribuirElemento(tab->tabuleiro, 37, casa);        //Posiciona entrada do oscar verde
     if(debugLSTC){
         return TAB_CondRetErroListaCircular;
@@ -185,12 +185,12 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
         return debugTAB;
     }//if
     
-    debugTAB = PreencheListaRetaFinal(tab->vermelho);
+    debugTAB = PreencheListaRetaFinal(tab->verde);
     if(debugTAB){                                                      //Verifica se nao houve erro na funcao
         return debugTAB;
     }//if
     
-    debugTAB = PreencheListaRetaFinal(tab->verde);
+    debugTAB = PreencheListaRetaFinal(tab->vermelho);
     if(debugTAB){                                                      //Verifica se nao houve erro na funcao
         return debugTAB;
     }//if
@@ -378,10 +378,10 @@ TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor cor, TAB_tppCasa* casaRetorno) {
     else if(cor == AMARELO){
         pos=13;
     }//if
-    else if(cor == VERMELHO){
+    else if(cor == VERDE){
         pos=26;
     }//if
-    else if(cor == VERDE){
+    else if(cor == VERMELHO){
         pos=39;
     }
     

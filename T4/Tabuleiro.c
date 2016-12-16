@@ -236,7 +236,7 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 		int entreiNoOscar = 0;
 			
 		/* Testar, a cada passo, se está na entrada do oscar */
-		for(i= 0; i < n ; i++) {
+		for(i = 0; i < n ; i++) {
 
 			/* Pegar casa i casa à frente da inicial */
 			debugListaC = LSTC_ObterElemento(tab->tabuleiro, indice + i, (void**)&casa_temp);
@@ -290,21 +290,26 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 
 		/* Pegar oscar que casa passada pode estar */
 		if(corPeao == AZUL) {
-			debugLis = LIS_ProcurarValor(tab->azul , casa);
 			oscar = tab->azul;
 		}
-		else if(corPeao == AMARELO){
-			debugLis = LIS_ProcurarValor(tab->amarelo, casa);
+		else if(corPeao == AMARELO) {
 			oscar = tab->amarelo;
 		}
-		else if(corPeao == VERDE){
-			debugLis = LIS_ProcurarValor(tab->verde, casa);
+		else if(corPeao == VERDE) {
 			oscar = tab->verde;
 		}
-		else if(corPeao == VERMELHO){
-			debugLis = LIS_ProcurarValor(tab->vermelho, casa);
+		else if(corPeao == VERMELHO) {
 			oscar = tab->vermelho;
 		}
+
+		/* Ir pro início do oscar */
+		debugLis = LIS_IrInicioLista(oscar);
+		/* Se não retornou OK, erro */
+		if (debugLis)
+			return TAB_CondRetErroLista;
+
+		/* Procurar casa no oscar */
+		debugLis = LIS_ProcurarValor(oscar , casa);
 		
 		/* Testar se casa estava ou não no oscar */
 		if(debugLis == LIS_CondRetOK) {

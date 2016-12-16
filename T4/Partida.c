@@ -183,8 +183,6 @@ PART_tpCondRet PART_Jogar() {
 	srand(time(NULL));
 	numDado = (rand() % 6) + 1;
 
-	numDado = 6;
-
 	printf("\nO dado rola... Voce sorteou um %d!\n", numDado);
 
 	if (numDado == 6)

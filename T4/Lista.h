@@ -318,6 +318,8 @@ typedef struct LIS_tgLista * LIS_tppLista ;
 *  $ED Descrição da função
 *     Procura o elemento que referencia o valor dado.
 *     A função compara ponteiro e não conteúdo apontado.
+*	  Se o elemento for encontrado, o corrente será movido para o
+*	  elemento encontrado.
 *
 *  $EP Parâmetros
 *     pLista  - ponteiro para a lista onde procura
@@ -325,10 +327,11 @@ typedef struct LIS_tgLista * LIS_tppLista ;
 *               Pode ser NULL
 *
 *  $FV Valor retornado
-*     LIS_CondRetOK  - se encontrou.
-*                      O elemento corrente é o primeiro elemento do
-*                      elemento corrente inclusive para o fim da lista
-*                      e que contém o ponteiro procurado
+*     LIS_CondRetOK  - se encontrou o ponteiro passado.
+*                      O elemento corrente passará a ser o primeiro elemento
+*					   encontrado. A busca começa no elemento corrente 
+*					   (incluindo-o) e vai até o fim da lista procurando
+*					   o ponteiro passado.
 *
 *     LIS_CondRetNaoEncontrou - se o ponteiro não foi encontrado
 *                      O elemento corrente continua o mesmo

@@ -142,7 +142,7 @@ LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet) {
 	return LSTC_CondRetOK;
 }
 
-LSTC_tpCondRet LSTC_EhListaCVaziaAlternativa(LSTC_tppListaC pLstC, int* pEhVazia){
+LSTC_tpCondRet LSTC_EhListaCVaziaAlternativa(LSTC_tppListaC pLstC, int* pEhVazia) {
 	if(pLstC->NumElem){
 		#ifdef _DEBUG
 	    		//CNT_CONTAR("LSTC_EhVaziaAltListaVazia");
@@ -183,12 +183,28 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 	if (!pLstC){
 		return LSTC_CondRetListaInexistente;
 	}
-	if (iPos < 0 
-	    || (pLstC->NumElem != 0 && iPos >= pLstC->NumElem) || (pLstC->NumElem == 0 && iPos > 0)){
+	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
+	if (iPos < 0 || (pLstC->NumElem != 0 && iPos >= pLstC->NumElem) || (pLstC->NumElem == 0 && iPos > 0)){
 		#ifdef _DEBUG
 			//CNT_CONTAR("LSTC_InserirPosInvalida");
 		#endif
 		return LSTC_CondRetPosInvalida;
+	}*/
+
+	if (pLstC->NumElem != 0) {
+			/* Se a lista não está vazia */
+
+		/* Se a lista tem 5 elementos, inserir no índice 5 equivale a inserir no índice 0 (já que a lista é circular). */
+		iPos = iPos % pLstC->NumElem;
+
+		/* Se a lista tem 5 elementos, inserir no índice -1 equivale a inserir no índice 4 (já que a lista é circular). */
+		if (iPos < 0)
+			iPos += pLstC->NumElem;
+	} else {
+			/* Se a lista está vazia */
+
+		/* Independente do índice passado, a inserção ocorrerá na posição 0. Esse elemento será o novo corrente. */
+		iPos = 0;
 	}
 
 	if (iPos == 0) {
@@ -211,7 +227,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 			pLstC->pNoCorr3 = novo;
 		} else {
 			#ifdef _DEBUG
-				//CNT_CONTAR("LSTC_InserirSubstituiCabeca");
+				//CNT_CONTAR("LSTC_InserirPosZero");
 			#endif
 			debugNo = NOLST_CriarNoh(&novo, pInfo, NULL, NULL);
 			if (debugNo){
@@ -284,14 +300,35 @@ LSTC_tpCondRet LSTC_InserirElementoAlt(LSTC_tppListaC pLstC, int iPos, void* pIn
     if(pLstC == NULL){
         return LSTC_CondRetListaInexistente;
     }
-     
+    
+	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
     if(iPos < 0 
        || iPos > pLstC->NumElem){
 	    #ifdef _DEBUG
 	    	//CNT_CONTAR("LSTC_InserirAltPosInvalida");
 	    #endif
 	    return LSTC_CondRetPosInvalida;
-    }
+    }*/
+
+	if (pLstC->NumElem != 0) {
+			/* Se a lista não está vazia */
+
+		/* Se a lista tem 5 elementos, inserir no índice 5 equivale a inserir no índice 0 (já que a lista é circular). */
+		iPos = iPos % pLstC->NumElem;
+
+		/* Se a lista tem 5 elementos, inserir no índice -1 equivale a inserir no índice 4 (já que a lista é circular). */
+		if (iPos < 0)
+			iPos += pLstC->NumElem;
+	} else {
+			/* Se a lista está vazia */
+
+		/* Independente do índice passado, a inserção ocorrerá na posição 0. Esse elemento será o novo corrente. */
+		iPos = 0;
+	}
+
+
+
+
 	#ifdef _DEBUG
     		//CNT_CONTAR("LSTC_InserirAltPosValida");
 	#endif
@@ -330,13 +367,31 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 	/*tratador*/TratadorParaPonteiroPerdido(pLstC, /*assertiva*/AssertivaParaPonteiroPerdido(pLstC));
 
 	if (!pLstC)	return LSTC_CondRetListaInexistente;
+
+	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
 	if (iPos < 0 
 	    || iPos >= pLstC->NumElem){
 		#ifdef _DEBUG
 			//CNT_CONTAR("LSTC_RetirarPosInvalida");
 		#endif
 		return LSTC_CondRetPosInvalida;
+	}*/
+
+	if (pLstC->NumElem != 0) {
+			/* Se a lista não está vazia */
+
+		/* Se a lista tem 5 elementos, passar o índice 5 equivale a passar o índice 0 (já que a lista é circular). */
+		iPos = iPos % pLstC->NumElem;
+
+		/* Se a lista tem 5 elementos, passar o índice -1 equivale a passar o índice 4 (já que a lista é circular). */
+		if (iPos < 0)
+			iPos += pLstC->NumElem;
+	} else {
+			/* Se a lista está vazia, erro de remoção */
+
+		return LSTC_CondRetListaVazia;
 	}
+
 	#ifdef _DEBUG
 		//CNT_CONTAR("LSTC_RetirarPosValida");
 	#endif
@@ -409,14 +464,30 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
     if(pLstC == NULL){
         return LSTC_CondRetListaInexistente;
     }
-     
+    
+	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
     if(iPos < 0 
        || iPos >= pLstC->NumElem){
 	    #ifdef _DEBUG
 	    	//CNT_CONTAR("LSTC_RetirarAltPosInvalida");
 	    #endif
 	    return LSTC_CondRetPosInvalida;
-    }
+    }*/
+
+	if (pLstC->NumElem != 0) {
+			/* Se a lista não está vazia */
+
+		/* Se a lista tem 5 elementos, passar o índice 5 equivale a passar o índice 0 (já que a lista é circular). */
+		iPos = iPos % pLstC->NumElem;
+
+		/* Se a lista tem 5 elementos, passar o índice -1 equivale a passar o índice 4 (já que a lista é circular). */
+		if (iPos < 0)
+			iPos += pLstC->NumElem;
+	} else {
+			/* Se a lista está vazia, erro de remoção */
+
+		return LSTC_CondRetListaVazia;
+	}
      
 	#ifdef _DEBUG
 	    	//CNT_CONTAR("LSTC_RetirarAltPosValida"); 
@@ -480,13 +551,31 @@ LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo
 		return LSTC_CondRetListaInexistente;
 	}
 	
+	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
 	if (iPos < 0 
 	    || iPos >= pLstC->NumElem){
 		#ifdef _DEBUG
 			//CNT_CONTAR("LSTC_AtribuirPosInvalida");
 		#endif
 		return LSTC_CondRetPosInvalida;
+	}*/
+
+	if (pLstC->NumElem != 0) {
+			/* Se a lista não está vazia */
+
+		/* Se a lista tem 5 elementos, passar o índice 5 equivale a passar o índice 0 (já que a lista é circular). */
+		iPos = iPos % pLstC->NumElem;
+
+		/* Se a lista tem 5 elementos, passar o índice -1 equivale a passar o índice 4 (já que a lista é circular). */
+		if (iPos < 0)
+			iPos += pLstC->NumElem;
+	} else {
+			/* Se a lista está vazia, erro de atribuição */
+
+		return LSTC_CondRetListaVazia;
 	}
+
+
 	#ifdef _DEBUG
 		//CNT_CONTAR("LSTC_AtribuirPosValida");
 	#endif
@@ -528,12 +617,28 @@ LSTC_tpCondRet LSTC_ObterElemento(LSTC_tppListaC pLstC, int iPos, void** pInfoRe
 		return LSTC_CondRetListaInexistente;
 	}
 	
+	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
 	if (iPos < 0 
 	    || iPos >= pLstC->NumElem){
 		#ifdef _DEBUG
 			//CNT_CONTAR("LSTC_ObterPosInvalida");
 		#endif
 		return LSTC_CondRetPosInvalida;
+	}*/
+
+	if (pLstC->NumElem != 0) {
+			/* Se a lista não está vazia */
+
+		/* Se a lista tem 5 elementos, passar o índice 5 equivale a passar o índice 0 (já que a lista é circular). */
+		iPos = iPos % pLstC->NumElem;
+
+		/* Se a lista tem 5 elementos, passar o índice -1 equivale a passar o índice 4 (já que a lista é circular). */
+		if (iPos < 0)
+			iPos += pLstC->NumElem;
+	} else {
+			/* Se a lista está vazia, erro de obtenção */
+
+		return LSTC_CondRetListaVazia;
 	}
 
 	#ifdef _DEBUG
@@ -588,11 +693,11 @@ LSTC_tpCondRet LSTC_ProcurarElemento(LSTC_tppListaC pLstC, void* pElemBuscado, i
 	  nenhum erro o tratador nao faz nada*/
 	/*tratador*/TratadorParaPonteiroPerdido(pLstC, /*assertiva*/AssertivaParaPonteiroPerdido(pLstC));
 
-	if (!pLstC){
+	if (!pLstC) {
 		return LSTC_CondRetListaInexistente;
 	}
 
-	if (!Criterio){
+	if (!Criterio) {
 		Criterio = CriterioPadrao;
 	}
 
@@ -707,13 +812,31 @@ static LSTC_tpCondRet JumpToPos(LSTC_tppListaC pLstC, int iPos, NOLST_tppNoLista
 		return LSTC_CondRetListaInexistente;
 	}
 	
+	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
 	if (iPos < 0 
 	    || iPos >= pLstC->NumElem){
 		#ifdef _DEBUG
 			//CNT_CONTAR("LSTC_JumpPosInvalida");
 		#endif
 		return LSTC_CondRetPosInvalida;
+	}*/
+
+
+	if (pLstC->NumElem != 0) {
+			/* Se a lista não está vazia */
+
+		/* Se a lista tem 5 elementos, passar o índice 5 equivale a passar o índice 0 (já que a lista é circular). */
+		iPos = iPos % pLstC->NumElem;
+
+		/* Se a lista tem 5 elementos, passar o índice -1 equivale a passar o índice 4 (já que a lista é circular). */
+		if (iPos < 0)
+			iPos += pLstC->NumElem;
+	} else {
+			/* Se a lista está vazia, erro de pulo */
+
+		return LSTC_CondRetListaVazia;
 	}
+
 	#ifdef _DEBUG
 		//CNT_CONTAR("LSTC_JumpPosValida");
 	#endif

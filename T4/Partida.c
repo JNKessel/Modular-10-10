@@ -724,7 +724,7 @@ static int CriterioProcurarCorJogador(void* pElemBuscado, void* pElemLista) {
 *
 *	$ED Descrição da função:
 *		Recebe o peão que comerá o outro, cuja posição já deve ser a mesma casa do peão comido. Recebe também a cor do peão 
-*		comido. Faz o peão comido voltar para a base.
+*		comido. Faz o peão comido voltar para a base e imprime uma mensagem avisando que ele foi comido na interface do console.
 *
 *	$EP Parâmetros:
 *		$P peaoPrincipal	-	peão que comerá o outro
@@ -732,13 +732,17 @@ static int CriterioProcurarCorJogador(void* pElemBuscado, void* pElemLista) {
 *
 *	$FV Valor retornado:
 *		PART_CondRetOK
+*		PART_CondRetInconsistencia
+*		PART_CondRetErroPeao
+*		PART_CondRetErroListaC
+*		PART_CondRetErroLista
 *******************************************************************************************************************************/
 static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoComido) {
 	TAB_tppCasa casaAComer;
 	LSTC_tpCondRet debugListaC;
 	PEAO_tpCondRet debugPeao;
 	LIS_tpCondRet debugLista;
-	int indiceJogadorCor, iTamLstPeoes, i;
+	int indiceJogadorCor, iTamLstPeoes, i, numPeaoComido;
 	PART_tpJogador* jogComido;
 	LIS_tppLista pLstPeoes;
 
@@ -790,12 +794,28 @@ static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPe
 
 		/* Testar se peão está na casa procurada (a que foi comida) */
 		if (tempCasa == casaAComer) {
-				/* Em caso positivo, retornar peão para base e encerrar função */
+				/* Em caso positivo, retornar peão para base, imprimir mensagem e encerrar função */
+
+			PART_tpCondRet debugPartida;
 
 			/* Voltar para base */
 			debugPeao = PEAO_VoltarBasePeao(tempPeao);
 			/* Se não retornou OK, erro */
 			if (debugPeao)	return PART_CondRetErroPeao;
+
+			/* Pegar número do peão comido */
+			debugPeao = PEAO_ObterNumeroPeao(tempPeao, &numPeaoComido);
+			/* Se não retornou OK, erro */
+			if (debugPeao)	return PART_CondRetErroPeao;
+
+			printf("\n\nO peao ");
+
+			/* Imprimir cor do peão comido */
+			debugPartida = PART_ImprimirCor(corPeaoComido);
+			/* Se não retornou OK, erro */
+			if (debugPartida)	return debugPartida;
+
+			printf(" %d foi comido e voltou para sua base!\n", numPeaoComido);
 
 			break;
 		}	/* if */

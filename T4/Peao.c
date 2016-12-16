@@ -59,6 +59,7 @@ PEAO_tpCondRet PEAO_AndarPeao(PEAO_tppPeao pPeao, int n) {
 PEAO_tpCondRet PEAO_SairBasePeao(PEAO_tppPeao pPeao) {
   
 	TAB_tppCasa casa;
+	TAB_tpCondRet debugTabuleiro;
 
 	if(pPeao == NULL) {
 		return PEAO_CondRetPeaoInexistente;
@@ -66,7 +67,10 @@ PEAO_tpCondRet PEAO_SairBasePeao(PEAO_tppPeao pPeao) {
 
 	if (pPeao->pos != NULL)	return PEAO_CondRetPeaoNaoEstaBase;
 
-    TAB_RetornarCasaDeSaida(pPeao -> cor, &casa);
+	/* Pegar casa de saída */
+    debugTabuleiro = TAB_RetornarCasaDeSaida(pPeao -> cor, &casa);
+	/* Se não retornou OK, erro */
+	if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
   
     pPeao -> pos = casa;
     pPeao -> estado = Tabuleiro;

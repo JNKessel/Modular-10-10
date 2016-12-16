@@ -178,10 +178,15 @@ PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, 
 	
 		/* Checar se pode andar */
 		debugTabuleiro = TAB_ChecarDisponivel(pPeao->pos, dado, pPeao ->cor, &corNaCasa);
+		/* Se a casa n casa a frente do peão não existe, então o movimento não está disponível */
+		if (debugTabuleiro == TAB_CondRetUltrapassouFinal) {
+			*BoolRet = False;
+			return PEAO_CondRetOK;
+		}
 		/* Se não retornou OK, erro */
 		if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
   
-		if (corNaCasa == NULL || corNaCasa == pPeao -> cor) {
+		if (corNaCasa == pPeao->cor) {
 			*BoolRet = False;
 			return PEAO_CondRetOK;
 		}

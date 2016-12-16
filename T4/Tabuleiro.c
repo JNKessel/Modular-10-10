@@ -215,7 +215,7 @@ static int Criterio(void* pElemBuscado, void* pElemLista){
 
 TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_tppCasa* casaRetorno) {
 	int i;
-	TAB_tppCasa casa_temp;
+	TAB_tppCasa casa_temp = NULL;
 	DEF_tpBool booleano;
 	int indice;
 	LIS_tppLista lis_aux;
@@ -223,13 +223,13 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 	LSTC_tpCondRet debugListaC;
 
 	debugListaC = LSTC_ProcurarElemento(tab->tabuleiro, casa, &indice, Criterio);
-	
-	if(debugListaC == LSTC_CondRetListaInexistente 
-	    || debugListaC == LSTC_CondRetErroNo){
+	/* Se não retornou OK, erro */
+	if(debugListaC && debugListaC != LSTC_CondRetElemInexistente){
 		return TAB_CondRetErroListaCircular;
 	}
-
+	/* Se retornou ElemInexistente, a casa não está na lista circular, mas em um dos oscars */
 	if(debugListaC == LSTC_CondRetElemInexistente) {
+
 		if(corPeao == AZUL){
 			debugLis = LIS_ProcurarValor(tab->azul , casa);
 			lis_aux = tab->azul;
@@ -272,7 +272,7 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 		else return TAB_CondRetErroLista;
 	}
 
-	for(i=1; i<=n ; i++){
+	for(i=1; i<=n ; i++) {
 		debugListaC = LSTC_ObterElemento(tab->tabuleiro, indice + i, (void**)&casa_temp);
 		
 		if(debugListaC) return TAB_CondRetErroListaCircular;
@@ -325,12 +325,13 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno) { 
 	TAB_tppCasa casaRetorno;
 	TAB_tpCondRet debugTab;
-	
+
 	debugTab = TAB_RetornarCasa(casa, corPeao, n, &casaRetorno);
 	
-	if(!debugTab) *cRetorno = casaRetorno->scorPeao;
-	
-	else *cRetorno = SEM_COR;
+	if(!debugTab)
+		*cRetorno = casaRetorno->scorPeao;
+	else
+		*cRetorno = SEM_COR;
 
 	return debugTab;
 }

@@ -97,7 +97,8 @@ int main() {
 			/* Jogar turno */
 			debugPartida = PART_Jogar();
 			/* Se não retornou OK, erro */
-			if (debugPartida)	apresentarFalha();
+			if (debugPartida)
+				apresentarFalha();
 
 			printf("Pressione qualquer coisa para continuar...");
 			getch();
@@ -105,7 +106,8 @@ int main() {
 			/* Testar se em último turno, jogador venceu */
 			debugPartida = PART_ChecarVitoria(&venceu, &corVencedor);
 			/* Se não retornou OK, erro */
-			if (debugPartida)	apresentarFalha();
+			if (debugPartida)
+				apresentarFalha();
 
 		} while(venceu == False);
 

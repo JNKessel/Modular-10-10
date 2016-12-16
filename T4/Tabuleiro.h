@@ -59,9 +59,10 @@ TAB_tpCondRet TAB_CriarTabuleiro();
 *
 * $FV Valores de Retorno:
 *	TAB_CondRetOK
-*	TAB_CondRetUltrapassouFinal
+*	TAB_CondRetUltrapassouFinal	-	casa à frente não existe no tabuleiro (passou o final de um dos oscars)
 *	TAB_CondRetErroLista
 *	TAB_CondRetErroListaCircular
+*	TAB_CondRetCasaInexistente	-	casa passada não está no tabuleiro
 ***********************************************************************/
 TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_tppCasa *casaRetorno);
 

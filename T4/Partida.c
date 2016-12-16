@@ -275,7 +275,7 @@ PART_tpCondRet PART_Jogar() {
 			if (debugPeao)	return PART_CondRetErroPeao;
 
 			/* Deve ser possível andar, se peão já estava disponível */
-			if (podeAndar == True)
+			if (podeAndar == False)
 				return PART_CondRetInconsistencia;
 
 			/* Andar com peão */

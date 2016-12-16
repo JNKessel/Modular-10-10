@@ -218,105 +218,131 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 	TAB_tppCasa casa_temp = NULL;
 	DEF_tpBool booleano;
 	int indice;
-	LIS_tppLista lis_aux;
+	LIS_tppLista oscar;
 	LIS_tpCondRet debugLis;
 	LSTC_tpCondRet debugListaC;
 
 	debugListaC = LSTC_ProcurarElemento(tab->tabuleiro, casa, &indice, Criterio);
 	/* Se não retornou OK, erro */
-	if(debugListaC && debugListaC != LSTC_CondRetElemInexistente){
+	if(debugListaC && debugListaC != LSTC_CondRetElemInexistente) {
 		return TAB_CondRetErroListaCircular;
 	}
-	/* Se retornou ElemInexistente, a casa não está na lista circular, mas em um dos oscars */
-	if(debugListaC == LSTC_CondRetElemInexistente) {
 
-		if(corPeao == AZUL){
+	/* Testar se a casa passada estava na lista circular ou em um dos oscars */
+	if (debugListaC == LSTC_CondRetOK) {
+			/* Casa passada está em lista circular */
+
+		int entreiNoOscar = 0;
+			
+		/* Testar, a cada passo, se está na entrada do oscar */
+		for(i= 0; i < n ; i++) {
+
+			/* Pegar casa i casa à frente da inicial */
+			debugListaC = LSTC_ObterElemento(tab->tabuleiro, indice + i, (void**)&casa_temp);
+			/* Se não retornou OK, erro */
+			if(debugListaC) return TAB_CondRetErroListaCircular;
+			
+			/* Testar se esta casa é uma entrada para oscar */
+			if(casa_temp->oscar != NULL) {
+
+				if	((casa_temp->oscar == tab->azul && corPeao == AZUL) ||
+					(casa_temp->oscar == tab->verde && corPeao == VERDE) ||
+					(casa_temp->oscar == tab->amarelo && corPeao == AMARELO) ||
+					(casa_temp->oscar == tab->vermelho && corPeao == VERMELHO)) {
+						/* Se esta casa for uma entrada para o oscar da cor do peão */
+
+					oscar = casa_temp->oscar;
+
+					/* Começar no início do oscar */
+					debugLis = LIS_IrInicioLista(oscar);
+					/* Se não retornou OK, erro */
+					if (debugLis)	return TAB_CondRetErroLista;
+
+					/* Andar casas restantes */
+					debugLis = LIS_AvancarElementoCorrente(casa_temp->oscar, n-i-1);
+					/* Se não retornou OK, erro */
+					if (debugLis)	return TAB_CondRetErroLista;
+
+					/* Pegar casa final */
+					debugLis = LIS_ObterValor(oscar,  (void**)&casa_temp);
+					/* Se não retornou OK, erro */
+					if (debugLis)	return TAB_CondRetErroLista;
+
+					entreiNoOscar = 1;
+
+					break;
+				}	/* if */
+			}	/* if */
+		}	/* for */
+
+		if (!entreiNoOscar) {
+			/* Pegar casa n casas à frente da inicial */
+			debugListaC = LSTC_ObterElemento(tab->tabuleiro, n, (void**)&casa_temp);
+			/* Se não retornou OK, erro */
+			if(debugListaC) return TAB_CondRetErroListaCircular;
+		}
+	}
+	else if(debugListaC == LSTC_CondRetElemInexistente) {
+			/* Casa passada não está em lista circular (pode estar em um dos oscars) */
+
+		/* Pegar oscar que casa passada pode estar */
+		if(corPeao == AZUL) {
 			debugLis = LIS_ProcurarValor(tab->azul , casa);
-			lis_aux = tab->azul;
+			oscar = tab->azul;
 		}
 		else if(corPeao == AMARELO){
 			debugLis = LIS_ProcurarValor(tab->amarelo, casa);
-			lis_aux = tab->amarelo;
+			oscar = tab->amarelo;
 		}
 		else if(corPeao == VERDE){
 			debugLis = LIS_ProcurarValor(tab->verde, casa);
-			lis_aux = tab->verde;
+			oscar = tab->verde;
 		}
 		else if(corPeao == VERMELHO){
 			debugLis = LIS_ProcurarValor(tab->vermelho, casa);
-			lis_aux = tab->vermelho;
+			oscar = tab->vermelho;
 		}
 		
-		
-		if(!debugLis){
-			debugLis = LIS_AvancarElementoCorrente(lis_aux,n);
-			switch(debugLis){
+		/* Testar se casa estava ou não no oscar */
+		if(debugLis == LIS_CondRetOK) {
+				/* Se casa foi encontrada no oscar */
+
+			/* Tentar andar n casas à frente */
+			debugLis = LIS_AvancarElementoCorrente(oscar, n);
+			
+			/* Testar se haviam n casa à frente da casa passada */
+			switch(debugLis) {
 				case LIS_CondRetOK:
-					debugLis = LIS_ObterValor(lis_aux, (void**) &casa_temp);
+						/* Conseguiu andar n casas à frente */
+
+					/* Pega a casa final */
+					debugLis = LIS_ObterValor(oscar, (void**)&casa_temp);
+					/* Se não retornou OK, erro */
 					if(debugLis) return TAB_CondRetErroLista;
-					else{
-						*casaRetorno = casa_temp;
-						return TAB_CondRetOK;
-					}
 					
 				case LIS_CondRetFimLista:
+					/* Não conseguiu andar n casas à frente */
+
+					/* Retorna fim da lista (casa final inexistente) */
 					return TAB_CondRetUltrapassouFinal;
 					
-				case LIS_CondRetListaVazia:
-					return TAB_CondRetErroLista;
 				default:
-					;
-			}
-		}
-		else if (debugLis == LIS_CondRetNaoAchou) TAB_CondRetErro;
-		else return TAB_CondRetErroLista;
+					/* Se houve qualquer outro retorno, erro */
+
+					return TAB_CondRetErroLista;
+			}	/* switch */
+		} else if (debugLis == LIS_CondRetNaoAchou) {
+				/* Se a casa passada não foi encontrada nem no oscar, retornar erro de inconsistência */
+
+			return TAB_CondRetCasaInexistente;
+		} else {
+				/* Se houve qualquer outro retorno, erro */
+
+			return TAB_CondRetErroLista;
+		}	/* if */
 	}
 
-	for(i=1; i<=n ; i++) {
-		debugListaC = LSTC_ObterElemento(tab->tabuleiro, indice + i, (void**)&casa_temp);
-		
-		if(debugListaC) return TAB_CondRetErroListaCircular;
-		
-		if(casa_temp->oscar != NULL){
-			if(casa_temp->oscar == tab->azul 
-				&& corPeao == AZUL){
-					LIS_AvancarElementoCorrente(casa_temp->oscar, n-i);
-					lis_aux = casa_temp->oscar;
-					LIS_ObterValor(casa_temp->oscar ,  (void**)&casa_temp);
-					LIS_IrInicioLista(lis_aux);
-					break;
-			}
-
-			else if(casa_temp->oscar == tab->verde 
-				&& corPeao == VERDE){
-					LIS_AvancarElementoCorrente(casa_temp->oscar, n-i);
-					lis_aux = casa_temp->oscar;
-					LIS_ObterValor(casa_temp->oscar ,  (void**)&casa_temp);
-					LIS_IrInicioLista(lis_aux);
-					break;
-			}
-
-			else if(casa_temp->oscar == tab->amarelo 
-				&& corPeao == AMARELO){
-					LIS_AvancarElementoCorrente(casa_temp->oscar, n-i);
-					lis_aux = casa_temp->oscar;
-					LIS_ObterValor(casa_temp->oscar ,  (void**)&casa_temp);
-					LIS_IrInicioLista(lis_aux);
-					break;
-			}
-
-			else if(casa_temp->oscar == tab->vermelho 
-				&& corPeao == VERMELHO){
-					LIS_AvancarElementoCorrente(casa_temp->oscar, n-i);
-					lis_aux = casa_temp->oscar;
-					LIS_ObterValor(casa_temp->oscar ,  (void**)&casa_temp);
-					LIS_IrInicioLista(lis_aux);
-					break;
-			}
-		}
-	}
-
-
+	/* Independente da casa final estar na lista circular ou num oscar, a variável casa_temp contém a casa final */
 	*casaRetorno = casa_temp;
 
     return TAB_CondRetOK;
@@ -326,12 +352,13 @@ TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa casa, int n, DEF_tpCor corPeao, D
 	TAB_tppCasa casaRetorno;
 	TAB_tpCondRet debugTab;
 
+	/* Pegar casa n casa à frente da inicial */
 	debugTab = TAB_RetornarCasa(casa, corPeao, n, &casaRetorno);
-	
-	if(!debugTab)
-		*cRetorno = casaRetorno->scorPeao;
-	else
-		*cRetorno = SEM_COR;
+	/* Se não retornou OK, erro */
+	if(debugTab)	return debugTab;
+
+	/* Cor na casa desejada é a cor da casa pega */
+	*cRetorno = casaRetorno->scorPeao;
 
 	return debugTab;
 }

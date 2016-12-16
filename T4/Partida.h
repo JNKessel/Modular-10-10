@@ -1,6 +1,7 @@
 /*******************************************************************************************************************************
 *	$MCD Módulo de definição: Módulo Partida
 *	Arquivo:	PARTIDA.H
+*	Letras identificadoras:		PART
 *
 *	Autores:	rrc - Rafael Rubim Cabral
 *

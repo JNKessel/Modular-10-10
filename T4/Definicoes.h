@@ -9,6 +9,6 @@ typedef enum {
 } DEF_tpCor;
  
 typedef enum {
-    True,
-    False
+    False,
+	True
 } DEF_tpBool;

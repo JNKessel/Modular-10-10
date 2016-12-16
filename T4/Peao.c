@@ -193,12 +193,14 @@ PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, 
 			/* Pegar casa de saída */
 			debugTabuleiro = TAB_RetornarCasaDeSaida(pPeao->cor, &casaSaida);
 			/* Se não retornou OK, erro */
-			if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
+			if (debugTabuleiro)
+				return PEAO_CondRetErroTabuleiro;
 
 			/* Checar qual cor está na casa de saída do peão */
 			debugTabuleiro = TAB_ChecarCor(casaSaida, 0, pPeao->cor, &corNaCasa);
 			/* Se não retornou OK, erro */
-			if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
+			if (debugTabuleiro)
+				return PEAO_CondRetErroTabuleiro;
 
 			if (corNaCasa == pPeao->cor) {
 				*BoolRet = False;
@@ -218,7 +220,8 @@ PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, 
 			return PEAO_CondRetOK;
 		}
 		/* Se não retornou OK, erro */
-		if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
+		if (debugTabuleiro)
+			return PEAO_CondRetErroTabuleiro;
   
 		if (corNaCasa == pPeao->cor) {
 				/* Se a cor for igual à do peão, movimento indisponível */
@@ -231,7 +234,6 @@ PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, 
 			*BoolRet = True;
 		}
 	}
-
     return PEAO_CondRetOK;
 }
 

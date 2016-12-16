@@ -222,6 +222,7 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 	LIS_tpCondRet debugLis;
 	LSTC_tpCondRet debugListaC;
 
+	/* Procurar casa passada na lista circular */
 	debugListaC = LSTC_ProcurarElemento(tab->tabuleiro, casa, &indice, Criterio);
 	/* Se não retornou OK, erro */
 	if(debugListaC && debugListaC != LSTC_CondRetElemInexistente) {
@@ -240,7 +241,8 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 			/* Pegar casa i casa à frente da inicial */
 			debugListaC = LSTC_ObterElemento(tab->tabuleiro, indice + i, (void**)&casa_temp);
 			/* Se não retornou OK, erro */
-			if(debugListaC) return TAB_CondRetErroListaCircular;
+			if(debugListaC)
+				return TAB_CondRetErroListaCircular;
 			
 			/* Testar se esta casa é uma entrada para oscar */
 			if(casa_temp->oscar != NULL) {
@@ -277,9 +279,10 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 
 		if (!entreiNoOscar) {
 			/* Pegar casa n casas à frente da inicial */
-			debugListaC = LSTC_ObterElemento(tab->tabuleiro, n, (void**)&casa_temp);
+			debugListaC = LSTC_ObterElemento(tab->tabuleiro, indice + n, (void**)&casa_temp);
 			/* Se não retornou OK, erro */
-			if(debugListaC) return TAB_CondRetErroListaCircular;
+			if(debugListaC)
+				return TAB_CondRetErroListaCircular;
 		}
 	}
 	else if(debugListaC == LSTC_CondRetElemInexistente) {
@@ -355,7 +358,8 @@ TAB_tpCondRet TAB_ChecarCor(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCo
 	/* Pegar casa n casa à frente da inicial */
 	debugTab = TAB_RetornarCasa(casa, corPeao, n, &casaRetorno);
 	/* Se não retornou OK, erro */
-	if(debugTab)	return debugTab;
+	if(debugTab)
+		return debugTab;
 
 	/* Cor na casa desejada é a cor da casa pega */
 	*cRetorno = casaRetorno->scorPeao;

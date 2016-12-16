@@ -1,0 +1,16 @@
+== Iniciar contagem
+=inicializarcontadores ""
+=lercontadores "ListaC.count"
+=iniciarcontagem
+
+
+// Massa de testes aqui
+
+
+== Terminar contagem
+=pararcontagem
+=verificarcontagens 0
+
+
+== Finalizar
+=terminarcontadores

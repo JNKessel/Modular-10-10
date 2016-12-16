@@ -29,12 +29,16 @@ LSTC_RetirarTratadorCorrente \= -1
 LSTC_RetirarAltTratadorCorrente \= -1
 LSTC_RetirarAltPosInvalida
 LSTC_RetirarAltPosValida
+LSTC_RetirarAltPosCabeca
+LSTC_RetirarAltPosNaoCabeca
 LSTC_AtribuirTratadorCorrente \= -1
 LSTC_AtribuirPosInvalida
 LSTC_AtribuirPosValida
 LSTC_ObterTratadorCorrente \= -1
 LSTC_ObterPosInvalida
 LSTC_ObterPosValida
+LSTC_ProcurarAchouElem
+LSTC_ProcurarNaoAchouElem
 LSTC_TamanhoTratadorCorrente \= -1
 LSTC_TamanhoAltTratadorCorrente \= -1
 LSTC_JumpTratadorCorrente \= -1

@@ -67,11 +67,11 @@ TAB_tpCondRet TAB_CriarTabuleiro();
 TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_tppCasa *casaRetorno);
 
 /***********************************************************************
-* $FC Funçao: TAB_ChecarDisponivel
+* $FC Funçao: TAB_ChecarCor
 * 
 * $ED Descriçao da funçao:
-* Retorna se existe um peao, n casas a frente da casa passada para funçao
-* e qual a cor desse peao
+* Retorna a cor de um peao que está n casas a frente da casa passada para 
+* função. Retorna SEM_COR caso não haja peão nessa casa.
 *
 * $FV Valores de Retorno:
 *	TAB_CondRetOK
@@ -79,7 +79,7 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 *	TAB_CondRetErroLista
 *	TAB_CondRetErroListaCircular
 ***********************************************************************/
-TAB_tpCondRet TAB_ChecarDisponivel(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno);
+TAB_tpCondRet TAB_ChecarCor(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno);
 
 /***********************************************************************
 * $FC Funçao: TAB_RetornarCasaDeSaida

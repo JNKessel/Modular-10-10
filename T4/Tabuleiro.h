@@ -106,6 +106,17 @@ TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor c, TAB_tppCasa* casaRetorno);
 ***********************************************************************/
 TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa c, DEF_tpBool* finalRetorno);
 
+/***********************************************************************
+* $FC Funçao: TAB_MudarCorCasa
+* 
+* $ED Descriçao da funçao:
+* Muda a cor que está em uma casa do tabuleiro.
+*
+* $FV Valores de Retorno:
+*     TAB_CondRetOK - Operaçao realizada sem problemas
+***********************************************************************/
+TAB_tpCondRet TAB_MudarCorPeaoNaCasa(TAB_tppCasa casa, DEF_tpCor cor);
+
 
 /***********************************************************************
 * $FC Funçao: TAB_DestruirTabuleiro

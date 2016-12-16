@@ -402,6 +402,12 @@ TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa c, DEF_tpBool* finalRetorno){
     return TAB_CondRetOK;
 }
 
+TAB_tpCondRet TAB_MudarCorPeaoNaCasa(TAB_tppCasa casa, DEF_tpCor cor) {
+
+	casa->scorPeao = cor;
+	return TAB_CondRetOK;
+}
+
 TAB_tpCondRet TAB_DestruirTabuleiro(){
 	LIS_tpCondRet debugLIS;
 	LSTC_tpCondRet debugLSTC;

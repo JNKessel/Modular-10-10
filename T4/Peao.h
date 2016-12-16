@@ -22,7 +22,8 @@ typedef enum {
 	PEAO_CondRetPeaoInexistente = 3,
 	PEAO_CondRetPeaoEstaBase	= 4,
 	PEAO_CondRetPeaoNaoEstaBase = 5,
-	PEAO_CondRetErroTabuleiro	= 6
+	PEAO_CondRetErroTabuleiro	= 6,
+	PEAO_CondRetInconsistencia	= 7
 
 } PEAO_tpCondRet;
 
@@ -49,6 +50,7 @@ PEAO_tpCondRet PEAO_CriarPeao(PEAO_tppPeao* pPeao, DEF_tpCor Cor, int iNum);
 * Dá erro se peão estiver na base.
 *
 * $FV Valores de Retorno:
+*     PEAO_CondRetPeaoInexistente - Peao nao existe
 *	PEAO_CondRetOK
 *	PEAO_CondRetPeaoEstaBase
 ***********************************************************************/
@@ -134,8 +136,10 @@ PEAO_tpCondRet PEAO_ObterCasaPeao(PEAO_tppPeao pPeao, TAB_tppCasa* casaRetorno);
 * dado for 6 e não houver um peão da mesma cor na saída).
 *
 * $FV Valores de Retorno:
-*     PEAO_CondRetPeaoInexistente - Peao nao existe
-*     PEAO_CondRetOK - Operaçao realizada sem problemas
+*	PEAO_CondRetPeaoInexistente - Peao nao existe
+*	PEAO_CondRetOK - Operaçao realizada sem problemas
+*	PEAO_CondRetInconsistencia
+*	PEAO_CondRetErroTabuleiro
 ***********************************************************************/
 PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, DEF_tpBool* BoolRet, DEF_tpCor* CorRet);
 
@@ -146,8 +150,10 @@ PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, 
 * Recebe um peao e faz com que ele volte para a base de sua cor
 *
 * $FV Valores de Retorno:
-*     PEAO_CondRetPeaoInexistente - Peao nao existe
-*     PEAO_CondRetOK - Operaçao realizada sem problemas
+*	PEAO_CondRetPeaoInexistente - Peao nao existe
+*	PEAO_CondRetOK - Operaçao realizada sem problemas
+*	PEAO_CondRetPeaoNaoEstaBase
+*	PEAO_CondRetErroTabuleiro
 ***********************************************************************/
 PEAO_tpCondRet PEAO_VoltarBasePeao(PEAO_tppPeao pPeao);
 

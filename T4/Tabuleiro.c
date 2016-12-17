@@ -327,13 +327,13 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 					debugLis = LIS_ObterValor(oscar, (void**)&casa_temp);
 					/* Se não retornou OK, erro */
 					if(debugLis) return TAB_CondRetErroLista;
-					
+					break;
 				case LIS_CondRetFimLista:
 					/* Não conseguiu andar n casas à frente */
 
 					/* Retorna fim da lista (casa final inexistente) */
 					return TAB_CondRetUltrapassouFinal;
-					
+					break;
 				default:
 					/* Se houve qualquer outro retorno, erro */
 

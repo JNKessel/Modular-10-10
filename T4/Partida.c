@@ -178,10 +178,10 @@ PART_tpCondRet PART_Jogar() {
 
 	printf("Pressione qualquer tecla para jogar o dado...");
 
-	getch();
+	numDado = getch() - '0';
 
-	srand(time(NULL));
-	numDado = (rand() % 6) + 1;
+	/*srand(time(NULL));
+	numDado = (rand() % 6) + 1;*/
 
 	printf("\nO dado rola... Voce sorteou um %d!\n", numDado);
 

@@ -80,6 +80,10 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		NOLST_tppNoLista temp = pLstC->pNoCorr1;
 		debugNo = NOLST_ObterProxNoh(pLstC->pNoCorr1, &pLstC->pNoCorr1);
 
+		/* Se o próximo nó é ele mesmo, então só restou um nó na lista circular. */
+		if (pLstC->pNoCorr1 == temp)
+			pLstC->pNoCorr1 = NULL;
+
 		if (debugNo){
 			
 			////CNT_CONTAR("LSTC_DestuicaoErroNo1");
@@ -99,7 +103,13 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 			pLstC->ExcluirElem(tempInfo);
 		}
 		
-		free(temp); // Implementação não assume erro em free
+		debugNo = NOLST_DestruirNoh(temp);
+		if (debugNo){
+			
+			////CNT_CONTAR("LSTC_DestruicaoErroNo3");
+			
+			return LSTC_CondRetErroNo;
+		}
 	}
 	free(pLstC);
 	return LSTC_CondRetOK;

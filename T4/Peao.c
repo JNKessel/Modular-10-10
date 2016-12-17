@@ -80,6 +80,11 @@ PEAO_tpCondRet PEAO_AndarPeao(PEAO_tppPeao pPeao, int n) {
 
 	if (ehFinal == True) {
 		pPeao->estado = Final;
+
+		/* Casa final não pode manter cor no tebuleiro */
+		debugTabuleiro = TAB_MudarCorPeaoNaCasa(pPeao -> pos, SEM_COR);
+		/* Se não retornou OK, erro */
+		if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
 	}
 	
 	return PEAO_CondRetOK;

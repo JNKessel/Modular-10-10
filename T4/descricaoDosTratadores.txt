@@ -11,4 +11,6 @@ isso avançando pela lista com dois ponteiros para nó(anterior e proximo) cada 
 para o outro na direção contraria que eles estão avançando pela lista.
 O tratador avança pela lista da mesma maneira e ao encontrar o ponteiro com erro(ela ja vai sabe a direção que tem o erro)
 modifica o ponteiro com erro para um nó apontar para o outro.
-  
+
+Outra exceção que nós consideramos é que alguma função não realize o seu papel corretamente. Então para isso resolvemos o problema criando funções alternativas que tem o objetivo de realizar as mesmas funções que as outras, mas com uma implementação diferente das originais.
+Assim podemos comparar o resultado das funções alternativas com as originais para verificar se são diferentes.

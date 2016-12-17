@@ -451,6 +451,7 @@ TAB_tpCondRet TAB_DestruirTabuleiro(){
     }//if
     
 	free(tab);
+	tab = NULL;
 	return TAB_CondRetOK;
 }
 

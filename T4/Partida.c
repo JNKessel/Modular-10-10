@@ -92,7 +92,8 @@ PART_tpCondRet PART_CriarPartida(int n) {
 	/* Criar tabuleiro */
 	debugTabuleiro = TAB_CriarTabuleiro();
 	/* Se não retornou OK, erro */
-	if (debugTabuleiro)	return PART_CondRetErroTabuleiro;
+	if (debugTabuleiro)
+		return PART_CondRetErroTabuleiro;
 
 	/* Criar cada jogador e inseri-lo em lista: */
 	for (i = 0; i < n; i++) {
@@ -178,10 +179,10 @@ PART_tpCondRet PART_Jogar() {
 
 	printf("Pressione qualquer tecla para jogar o dado...");
 
-	numDado = getch() - '0';
+	getch();
 
-	/*srand(time(NULL));
-	numDado = (rand() % 6) + 1;*/
+	srand(time(NULL));
+	numDado = (rand() % 6) + 1;
 
 	printf("\nO dado rola... Voce sorteou um %d!\n", numDado);
 

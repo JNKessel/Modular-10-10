@@ -88,7 +88,8 @@ int main() {
 		/* Criar partida */
 		debugPartida = PART_CriarPartida(numJogadores);
 		/* Se não retornou OK, erro */
-		if (debugPartida)	apresentarFalha();
+		if (debugPartida)
+			apresentarFalha();
 
 		/* Executar partida */
 		do {

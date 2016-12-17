@@ -1,7 +1,14 @@
 #include "interface.h"
 #include "definicoes.h"
+#include <stdlib.h>
 
 #include "glut.h"
+
+typedef enum {
+	INICIO,
+	INTERFACE,
+	FIM
+} ITFC_tpFluxoExecucao;
 
 /*******************************************************************************************************************************
 *	Dados encapsulados no módulo:
@@ -19,20 +26,26 @@ static int larguraTela;
 static int alturaTela;
 	/* Altura da tela do computador do usuário */
 
-static void (*FuncaoLoopPrincipal)() = 0;
-	/* Loop principal do usuário */
+static void (*FuncaoInicioLoopJanela)() = NULL;
+	/* Início do loop de janela do usuário */
 
-static void (*FuncaoLoopJanela)() = 0;
+static void (*FuncaoFimLoopJanela)() = NULL;
+	/* Fim do loop de janela do usuário */
+
+static int (*FuncaoCondicaoFimLoopJanela)() = NULL;
+	/* Condição do fim do loop de janela do usuário */
+
+static void (*FuncaoLoopInterface)() = NULL;
 	/* Loop da interface do usuário */
 
+static int (*FuncaoCondicaoFimLoopInterface)() = NULL;
+	/* Condição do fim do loop de interface do usuário */
+
 static DEF_tpBool janelaIniciada = False;
-	/* Para saber se a interface iniciou ou não  */
+	/* Para saber se o loop principal iniciou ou não  */
 
-static DEF_tpBool interfaceIniciada = False;
-	/* Para saber se a interface iniciou ou não  */
-
-static DEF_tpBool interfaceMeioExecução = False;
-	/* Trigger que indica se interface está ou não no meio do loop */
+static ITFC_tpFluxoExecucao fluxoExecucao = INICIO;
+	/* Estado do fluxo de execução da janela */
 
 /*******************************************************************************************************************************
 *	Protótipos de funções encapsuladas no módulo:
@@ -78,7 +91,7 @@ ITFC_tpCondRet ITFC_ConfigurarInterface(int* pArgc, char** argv) {
 */
 ITFC_tpCondRet ITFC_ConfigurarJanela(int larguraJanela, int alturaJanela) {
 
-	int janelaXInicial = (larguraTela - larguraJanela) / 2;
+	int janelaXInicial = (larguraTela * 3 / 4) - (larguraJanela / 2);
 	int janelaYInicial = (alturaTela - alturaJanela) / 2;
 
 	if (interfaceConfigurada == False) {
@@ -94,7 +107,6 @@ ITFC_tpCondRet ITFC_ConfigurarJanela(int larguraJanela, int alturaJanela) {
 	glutCreateWindow("LUDO 10/10");
 
 	glutDisplayFunc(ITFC_LoopDisplay);
-	glutIdleFunc(ITFC_Display);
 
 	janelaConfigurada = True;
 
@@ -104,13 +116,15 @@ ITFC_tpCondRet ITFC_ConfigurarJanela(int larguraJanela, int alturaJanela) {
 /*******************************************************************************************************************************
 *	Função: ITFC_ConfigurarLoopJanela
 */
-ITFC_tpCondRet ITFC_ConfigurarLoopJanela(void (*funcaoLoopJanela)()) {
+ITFC_tpCondRet ITFC_ConfigurarLoopJanela(void (*inicioLoopJanela)(), void (*fimLoopJanela)(), int (*condicaoFimLoop)()) {
 
 	if (!interfaceConfigurada) {
 		return ITFC_CondRetInterfaceNaoConfigurada;
 	}
 
-	FuncaoLoopJanela = funcaoLoopJanela;
+	FuncaoInicioLoopJanela = inicioLoopJanela;
+	FuncaoFimLoopJanela = fimLoopJanela;
+	FuncaoCondicaoFimLoopJanela = condicaoFimLoop;
 
 	return ITFC_CondRetOK;
 }	/* Fim Função ITFC_ConfigurarLoopJanela */
@@ -118,13 +132,14 @@ ITFC_tpCondRet ITFC_ConfigurarLoopJanela(void (*funcaoLoopJanela)()) {
 /*******************************************************************************************************************************
 *	Função: ITFC_ConfigurarLoopInterface
 */
-ITFC_tpCondRet ITFC_ConfigurarLoopInterface(void (*funcaoLoopPrincipal)()) {
+ITFC_tpCondRet ITFC_ConfigurarLoopInterface(void (*loopInterface)(), int (*condicaoFimLoop)()) {
 
 	if (!interfaceConfigurada) {
 		return ITFC_CondRetInterfaceNaoConfigurada;
 	}
 
-	FuncaoLoopPrincipal = funcaoLoopPrincipal;
+	FuncaoLoopInterface = loopInterface;
+	FuncaoCondicaoFimLoopInterface = condicaoFimLoop;
 
 	return ITFC_CondRetOK;
 }	/* Fim Função ITFC_ConfigurarLoopInterface */
@@ -149,39 +164,8 @@ ITFC_tpCondRet ITFC_IniciarJanela() {
 }	/* Fim Função ITFC_IniciarJanela */
 
 /*******************************************************************************************************************************
-*	Função: ITFC_IniciarInterface
-*/
-ITFC_tpCondRet ITFC_IniciarInterface() {
-
-	if (interfaceConfigurada == False) {
-		return ITFC_CondRetInterfaceNaoConfigurada;
-	}
-	if (janelaIniciada == False) {
-		return ITFC_CondRetJanelaNaoIniciada;
-	}
-	if (interfaceIniciada == True) {
-		return ITFC_CondRetInterfaceJaIniciada;
-	}
-
-	interfaceIniciada = True;
-
-	glutPostRedisplay();
-}	/* Fim Função ITFC_IniciarInterface */
-
-/*******************************************************************************************************************************
 *	Código de funções encapsuladas no módulo:
 *******************************************************************************************************************************/
-
-/*******************************************************************************************************************************
-*	$FC Função: ITFC_LoopPrincipal
-*
-*	$ED Descrição da função:
-*		Loop do glutIdleFunc
-*******************************************************************************************************************************/
-static void ITFC_LoopPrincipal() {
-
-	FuncaoLoopPrincipal();
-}	/* Fim Função ITFC_LoopPrincipal */
 
 /*******************************************************************************************************************************
 *	$FC Função: ITFC_LoopDisplay
@@ -191,19 +175,41 @@ static void ITFC_LoopPrincipal() {
 *******************************************************************************************************************************/
 static void ITFC_LoopDisplay() {
 
-	if (interfaceIniciada == True) {
-			/* Se interface está em loop */
+	int retorno;
 
-		/* Desenhar tebuleiro */
-		ITFC_Display();
+	switch(fluxoExecucao) {
+		case INICIO:
 
-		/* Chama a si mesma (porque está em loop) */
-		/*glutPostRedisplay();*/
-	} else {
-			/* Se interface não está em loop, desenhar imagem btanca */
+			FuncaoInicioLoopJanela();
+			fluxoExecucao = INTERFACE;
+			ITFC_Display();
 
-		ITFC_DisplayBranco();
-	}	/* if */
+			break;
+		case INTERFACE:
+
+			FuncaoLoopInterface();
+			retorno = FuncaoCondicaoFimLoopInterface();
+			if (retorno) {
+				fluxoExecucao = FIM;
+			}
+			ITFC_Display();
+
+			break;
+		case FIM:
+
+			FuncaoFimLoopJanela();
+			retorno = FuncaoCondicaoFimLoopJanela();
+			if (retorno) {
+				exit(0);
+			} else {
+				fluxoExecucao = INICIO;
+			}
+			ITFC_DisplayBranco();
+
+			break;
+		}	/* switch */
+
+	glutPostRedisplay();
 }	/* Fim Função ITFC_LoopDisplay */
 
 /*******************************************************************************************************************************
@@ -214,7 +220,7 @@ static void ITFC_LoopDisplay() {
 *******************************************************************************************************************************/
 static void ITFC_Display() {
 
-	glClearColor(1, 1, 1, 0);
+	glClearColor(0, 0, 0, 0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	/* glutGet(GLUT_WINDOW_WIDTH); */

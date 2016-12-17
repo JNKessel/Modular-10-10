@@ -3,6 +3,49 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <conio.h>
+#include "interface.h"
+#include "glut.h"
+
+static DEF_tpCor corVencedor;
+
+static int pegarSN();
+
+static void apresentarFalha();
+
+static void antesPartida();
+
+static void loopPartida();
+
+static int testeJogadorVenceu();
+
+static void depoisPartida();
+
+static int testeRecomecarPartida();
+
+/*******************************************************************************************************************************
+*	$FC Função: main
+*
+*	$ED Descrição da função:
+*		Executa o jogo. Podem ser jogadas quantas partidas forem desejadas.
+*
+*	$FV Valor retornado:
+*		0	-	jogo encerrou corretamente
+*		1	-	houve um erro de execução que abortou o programa
+*******************************************************************************************************************************/
+int main(int argc, char**argv) {
+
+	printf("\tBem vindo ao LUDO 10/10!\n\nPressione qualquer tecla para iniciar uma partida...");
+
+	getch();
+
+	ITFC_ConfigurarInterface(&argc, argv);
+	ITFC_ConfigurarJanela(500, 500);
+	ITFC_ConfigurarLoopJanela(antesPartida, depoisPartida, testeRecomecarPartida);
+	ITFC_ConfigurarLoopInterface(loopPartida, testeJogadorVenceu);
+	ITFC_IniciarJanela();
+
+	return 0;
+}
 
 /*******************************************************************************************************************************
 *	$FC Função: pegarSN
@@ -14,7 +57,7 @@
 *		1	-	caso o usuário tenha digitado S
 *		0	-	caso o usuário tenha digitado N
 *******************************************************************************************************************************/
-int pegarSN() {
+static int pegarSN() {
 	int resultado;
 	do {
 		char resposta = getch();
@@ -38,99 +81,103 @@ int pegarSN() {
 *	$ED Descrição da função:
 *		Apresenta mensagem de erro e aborta programa
 *******************************************************************************************************************************/
-void apresentarFalha() {
+static void apresentarFalha() {
 	system("cls");
 	printf("Erro grave durante execucao do jogo!\n\nABORTAR...\n");
 	exit(1);
 }
 
-/*******************************************************************************************************************************
-*	$FC Função: main
-*
-*	$ED Descrição da função:
-*		Executa o jogo. Podem ser jogadas quantas partidas forem desejadas.
-*
-*	$FV Valor retornado:
-*		0	-	jogo encerrou corretamente
-*		1	-	houve um erro de execução que abortou o programa
-*******************************************************************************************************************************/
-int main() {
+static void antesPartida() {
 
-	int jogarNovamente;
+	PART_tpCondRet debugPartida;
+	int numJogadores;
 
-	printf("\tBem vindo ao LUDO 10/10!\n\nPressione qualquer tecla para iniciar uma partida...");
-
-	getch();
-
-	/* Executa um loop para cada partida, enquanto se desejar jogar novamente */
+	/* Pede quantidade de jogadores que participarão da partida */
 	do {
-		PART_tpCondRet debugPartida;
-		int numJogadores, trigger;
-		DEF_tpBool venceu;
-		DEF_tpCor corVencedor;
-
-		/* Pede quantidade de jogadores que participarão da partida */
-		do {
-			system("cls");
-			printf("Escolha quantos jogadores participarao da partida (2~4):\t");
-			numJogadores = getch() - '0';
-
-			if (numJogadores >= 2 && numJogadores <= 4) {
-				printf("\n\nA partida tera %d jogadores. Tem certeza? (s/n)\t", numJogadores);
-
-				/* Se o usuário digitou N, pede de novo para digitar a quantidade de jogadores */
-				if (!pegarSN())
-					numJogadores = 0;
-			}
-
-		} while(numJogadores < 2 || numJogadores > 4);
-
-		/* Criar partida */
-		debugPartida = PART_CriarPartida(numJogadores);
-		/* Se não retornou OK, erro */
-		if (debugPartida)
-			apresentarFalha();
-
-		/* Executar partida */
-		do {
-			system("cls");
-
-			/* Jogar turno */
-			debugPartida = PART_Jogar();
-			/* Se não retornou OK, erro */
-			if (debugPartida)
-				apresentarFalha();
-
-			printf("Pressione qualquer coisa para continuar...");
-			getch();
-
-			/* Testar se em último turno, jogador venceu */
-			debugPartida = PART_ChecarVitoria(&venceu, &corVencedor);
-			/* Se não retornou OK, erro */
-			if (debugPartida)
-				apresentarFalha();
-
-		} while(venceu == False);
-
-		/* Anunciar vencedor */
 		system("cls");
-		debugPartida = PART_AnunciarVencedor(corVencedor);
-		/* Se não retornou OK, erro */
-		if (debugPartida)	apresentarFalha();
+		printf("Escolha quantos jogadores participarao da partida (2~4):\t");
+		numJogadores = getch() - '0';
 
-		/* Destruir partida encerrada */
-		debugPartida = PART_DestruirPartida();
-		/* Se não retornou OK, erro */
-		if (debugPartida)	apresentarFalha();
+		if (numJogadores >= 2 && numJogadores <= 4) {
+			printf("\n\nA partida tera %d jogadores. Tem certeza? (s/n)\t", numJogadores);
 
-		printf("\n\nDeseja jogar novamente? (s/n)\t");
+			/* Se o usuário digitou N, pede de novo para digitar a quantidade de jogadores */
+			if (!pegarSN())
+				numJogadores = 0;
+		}
 
-		/* Pegar desejo do usuário de jogar novamente */
-		jogarNovamente = pegarSN();
-	} while(jogarNovamente);
+	} while(numJogadores < 2 || numJogadores > 4);
+
+	/* Criar partida */
+	debugPartida = PART_CriarPartida(numJogadores);
+	/* Se não retornou OK, erro */
+	if (debugPartida)
+		apresentarFalha();
+}
+
+static void loopPartida() {
+	PART_tpCondRet debugPartida;
 
 	system("cls");
-	printf("Obrigado por jogar!\n\n");
 
-	return 0;
+	/* Jogar turno */
+	debugPartida = PART_Jogar();
+	/* Se não retornou OK, erro */
+	if (debugPartida)
+		apresentarFalha();
+
+	printf("Pressione qualquer coisa para continuar...");
+	getch();
+}
+
+static int testeJogadorVenceu() {
+	DEF_tpBool venceu;
+	PART_tpCondRet debugPartida;
+
+	/* Testar se em último turno, jogador venceu */
+	debugPartida = PART_ChecarVitoria(&venceu, &corVencedor);
+	/* Se não retornou OK, erro */
+	if (debugPartida)
+		apresentarFalha();
+
+	if (venceu == True)
+		return 1;
+	else
+		return 0;
+}
+
+static void depoisPartida() {
+	PART_tpCondRet debugPartida;
+
+	/* Anunciar vencedor */
+	system("cls");
+	debugPartida = PART_AnunciarVencedor(corVencedor);
+	/* Se não retornou OK, erro */
+	if (debugPartida)
+		apresentarFalha();
+
+	/* Destruir partida encerrada */
+	debugPartida = PART_DestruirPartida();
+	/* Se não retornou OK, erro */
+	if (debugPartida)
+		apresentarFalha();
+}
+
+static int testeRecomecarPartida() {
+	int jogarNovamente;
+
+	printf("\n\nDeseja jogar novamente? (s/n)\t");
+
+	/* Pegar desejo do usuário de jogar novamente */
+	jogarNovamente = pegarSN();
+
+	if (!jogarNovamente) {
+			/* O jogador não deseja jogar novamente, encerrar o programa */
+
+		system("cls");
+		printf("Obrigado por jogar!\n\n");
+		return 1;
+	} else {
+		return 0;
+	}
 }

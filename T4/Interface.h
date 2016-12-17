@@ -36,12 +36,6 @@ typedef enum {
 
 	ITFC_CondRetJanelaNaoConfigurada,
 		/* Janela ainda não foi configurada */
-
-	ITFC_CondRetJanelaNaoIniciada,
-		/* Janela ainda não foi iniciada */
-
-	ITFC_CondRetInterfaceJaIniciada
-		/* Interface já foi iniciada */
 } ITFC_tpCondRet;
 
 /*******************************************************************************************************************************
@@ -82,45 +76,48 @@ ITFC_tpCondRet ITFC_ConfigurarJanela(int largura, int altura);
 *	$FC Função: ITFC_ConfigurarLoopJanela
 *
 *	$ED Descrição da função:
-*		Recebe uma função que recebe e retorna void. Essa função será executada em loop durante a existência da janela da
-*		interface gráfica. Chamar esta função (ITFC_ConfigurarLoopjanela) uma segunda vez com outro parâmetro substituirá a
-*		função de loop da janela. Só funciona se a interface já tiver sido configurada.
+*		Recebe três funções. Essas funções serão executadas em loop durante a existência da janela da interface gráfica. Chamar
+*		esta função (ITFC_ConfigurarLoopjanela) uma segunda vez com outros parâmetros substituirá essas funções de loop da janela.
+*		Só funciona se a interface já tiver sido configurada.
 *
 *	$EP Parâmetros:
-*		$P funcaoLoopPrincipal	-	função que será executada em loop. Esta função é chamada de "loop da janela" e representa o
-*									loop do jogo. No final dela, o usuário deve ser questionado se deseja jogar novamente. Em
-*									caso negativo, esta função deve encerrar o programa através da função "exit", da biblioteca
-*									"stdlib".
+*		$P inicioLoopJanela	-	função que será executada primeiro no loop. Contém o código que inicia uma partida do
+*								jogo. Recebe e retorna void.
+*		$P fimLoopJanela	-	função que será executada por último no loop. Contém o código que finaliza a partida do
+*								jogo. Recebe e retorna void.
+*		$P condicaoFimLoop	-	função que questiona usuário se deseja jogar novamente. Em caso negativo, esta função
+*								deve retornar 1. Caso contrário ela retorna 0. Recebe void.
 *
 *	$FV Valor retornado:
 *		ITFC_CondRetOK
 *		ITFC_CondRetInterfaceNaoConfigurada
 *******************************************************************************************************************************/
-ITFC_tpCondRet ITFC_ConfigurarLoopJanela(void (*funcaoLoopJanela)());
+ITFC_tpCondRet ITFC_ConfigurarLoopJanela(void (*inicioLoopJanela)(), void (*fimLoopJanela)(), int (*condicaoFimLoop)());
 
 /*******************************************************************************************************************************
 *	$FC Função: ITFC_ConfigurarLoopInterface
 *
 *	$ED Descrição da função:
 *		Recebe uma função que recebe e retorna void. Essa função começará a ser executada em loop sempre que a função
-*		ITFC_IniciarPartida for chamada. No fim de cada execução desse loop, a interface gráfica é atualizada, mostrando as novas
-*		condições do tabuleiro e disposição de peões. Recebe também a condição de fim de loop, função que cuidará de quando a 
+*		de inicio de loop da janela for chamada. No fim de cada execução desse loop, a interface gráfica é atualizada, mostrando as
+*		novas condições do tabuleiro e disposição de peões. Recebe também a condição de fim de loop, função que cuidará de quando a 
 *		interface gráfica da janela deve parar de ser atualizada e o loop parar de ser executado. Quando a interface não está em
 *		execução (antes de chamar esta função ou depois da condição de fim de loop ser satisfeita), a janela exibe uma imagem em
-*		branco. Chamar esta função (ITFC_ConfigurarLoopPrincipal) uma segunda vez com outro parâmetro substituirá a função de loop.
-*		Só funciona se a interface já tiver sido configurada. 
+*		branco e a função de fim de loop da janela é executada. Chamar esta função (ITFC_ConfigurarLoopPrincipal) uma segunda vez
+*		com outro parâmetro substituirá a função de loop. Só funciona se a interface já tiver sido configurada. 
 *
 *	$EP Parâmetros:
-*		$P funcaoLoopInterface	-	função que será executada em loop quando se desejar exibir a interface (não uma imagem em 
-*									branco).
-*		$P condicaoFimLoop		-	função que deve retornar 1 quando se deseja encerrar o loop da interface e 0 caso contrário.
-*									Essa função será chamada ao fim de cada loop.
+*		$P loopInterface	-	função que será executada em loop quando se desejar exibir a interface (não uma imagem em 
+*								branco). Essa função estará em loop na duração da partida. Quando ela acaba, a partida acaba.
+*								Recebe e retorna void.
+*		$P condicaoFimLoop	-	função que deve retornar 1 quando se deseja encerrar o loop da interface e 0 caso contrário.
+*								Essa função será chamada ao fim de cada loop. Recebe void.
 *
 *	$FV Valor retornado:
 *		ITFC_CondRetOK
 *		ITFC_CondRetInterfaceNaoConfigurada
 *******************************************************************************************************************************/
-ITFC_tpCondRet ITFC_ConfigurarLoopInterface(void (*funcaoLoopInterface)(), int (*condicaoFimLoop)());
+ITFC_tpCondRet ITFC_ConfigurarLoopInterface(void (*loopInterface)(), int (*condicaoFimLoop)());
 
 /*******************************************************************************************************************************
 *	$FC Função: ITFC_IniciarJanela
@@ -128,12 +125,15 @@ ITFC_tpCondRet ITFC_ConfigurarLoopInterface(void (*funcaoLoopInterface)(), int (
 *	$ED Descrição da função:
 *		Abre uma janela que mostrará a interface gráfica, segundo configurações prévias especificadas em ITFC_ConfigurarJanela. 
 *		A partir de então, a janela desviará o controle do programa e terá um loop próprio que não pode ser cancelado sem o
-*		encerramento do programa, descrito em ITFC_ConfigurarLoopJanela. É por essa função que o usuário tem controle
-*		sobre o fluxo de execução e sobre o encerramento do programa. O programa poderá ser encerrado através de chamadas à função
-*		exit (da biblioteca "stdlib.h") ou com o fechamento manual da janela. ATENÇÃO: caso não tenha ficado claro: após esta
-*		função (ITFC_IniciarJanela) ser chamada, nenhum comando após ela será executado. Iniciar a janela criará uma janela toda
-*		em branco. A interface do jogo em si só será desenhada após cada chamamento da função ITFC_IniciarInterface. Só funciona
-*		caso a interface e a janela já tenham sido configuradas.
+*		encerramento do programa. O loop é descrito em ITFC_ConfigurarLoopJanela e ITFC_ConfigurarLoopInterface e ocorre na seguinte
+*		ordem: função de início de loop da janela, função de loop de interface, função de fim de loop de janela. A função de loop
+*		de interface roda algumas vezes antes de ser encerrada (enquanto durar uma partida) e desenha o jogo durante sua execução.
+*		Ao fim da função de loop da janela, caso o jogador deseje jogar novamente, a função início de loop da janela volta a
+*		recomeçar e repete-se todo o ciclo. É por essas funções que o usuário tem controle do fluxo de execução e do encerramento
+*		do programa. O programa poderá ser encerrado através de chamadas à função exit (da biblioteca "stdlib.h") ou com o 
+*		fechamento manual da janela. ATENÇÃO: caso não tenha ficado claro: após esta função (ITFC_IniciarJanela) ser chamada,
+*		nenhum comando após ela será executado. Iniciar a janela criará uma janela toda em branco. A interface do jogo em si só
+*		será desenhada durante o loop de interface. Só funciona caso a interface e a janela já tenham sido configuradas.
 *
 *	$FV Valor retornado:
 *		ITFC_CondRetOK	-	Na prática OK nunca é retornado, pois se a janela é executada com sucesso, o fluxo de execução se altera
@@ -141,26 +141,6 @@ ITFC_tpCondRet ITFC_ConfigurarLoopInterface(void (*funcaoLoopInterface)(), int (
 *		ITFC_CondRetJanelaNaoConfigurada
 *******************************************************************************************************************************/
 ITFC_tpCondRet ITFC_IniciarJanela();
-
-/*******************************************************************************************************************************
-*	$FC Função: ITFC_IniciarInterface
-*
-*	$ED Descrição da função:
-*		Esta função deve ser chamada após o início da janela da interface. Isso significa que só funcionará se for chamada dentro
-*		do loop da janela (função especificada através do chamamento de ITFC_ConfigurarLoopJanela). Esta função
-*		(ITFC_IniciarPartida) inicia um subloop que ocorre no loop da janela. Esse subloop é o loop da função especificada no
-*		chamamento de ITFC_ConfigurarLoopInterface, que se encerra sozinho quando atende à condição também especificada no
-*		chamamento de ITFC_ConfigurarLoopInterface. Após casa execução do loop da interface, a janela redesenha o tabuleiro do
-*		jogo. Esta função (ITFC_IniciarInterface) não deve ser chamada sea interface ainda está em loop, mas pode ser chamado
-*		mais de uma vez durante a execução do programa (uma vez para cada partida), após cada encerramento.
-*
-*	$FV Valor retornado:
-*		ITFC_CondRetOK
-*		ITFC_CondRetInterfaceNaoConfigurada
-*		ITFC_CondRetJanelaNaoIniciada
-*		ITFC_CondRetInterfaceJaIniciada
-*******************************************************************************************************************************/
-ITFC_tpCondRet ITFC_IniciarInterface();
 
 /*******************************************************************************************************************************
 *	Fim do módulo de definição: Módulo Interface

@@ -78,6 +78,11 @@ PART_tpCondRet PART_CriarPartida(int n) {
 		return PART_CondRetNumInvalido;
 	iQtdJogadores = n;
 
+	/* Se já existe lista de jogadores, partida já existe */
+	if (lstJogadores != NULL) {
+		return PART_CondRetPartidaJaExiste;
+	}
+
 	/* Lista de jogadores é circular */
 	debugLstC = LSTC_CriarListaC(&lstJogadores, ExcluirJogador);
 	/* Se não retornou OK, erro */
@@ -179,10 +184,10 @@ PART_tpCondRet PART_Jogar() {
 
 	printf("Pressione qualquer tecla para jogar o dado...");
 
-	getch();
+	numDado = getch() - '0';
 
-	srand(time(NULL));
-	numDado = (rand() % 6) + 1;
+	/*srand(time(NULL));
+	numDado = (rand() % 6) + 1;*/
 
 	printf("\nO dado rola... Voce sorteou um %d!\n", numDado);
 

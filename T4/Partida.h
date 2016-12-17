@@ -59,6 +59,9 @@ typedef enum {
 
 	PART_CondRetInconsistencia,
 		/* Inconsistência interna estrutural ou assertiva */
+
+	PART_CondRetPartidaJaExiste
+		/* Tentativa de criação de partida que já existe */
 } PART_tpCondRet;
 
 /*******************************************************************************************************************************
@@ -73,6 +76,7 @@ typedef enum {
 *
 *	$FV Valor retornado:
 *		PART_CondRetOK
+*		PART_CondRetPartidaJaExiste
 *		PART_CondRetSemMemoria
 *		PART_CondRetNumInvalido
 *		PART_CondRetErroListaC

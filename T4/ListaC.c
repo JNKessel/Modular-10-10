@@ -882,7 +882,7 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	NOLST_tppNoLista noTemp;
 
-	*pTamanhoRet = 2;
+	*pTamanhoRet = 1;
 	if (!pLstC){
 		return LSTC_CondRetListaInexistente;
 	}
@@ -920,7 +920,7 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet
 LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	NOLST_tppNoLista noTemp;
 
-	*pTamanhoRet = 2;
+	*pTamanhoRet = 1;
 	if (!pLstC){
 		return LSTC_CondRetListaInexistente;
 	}

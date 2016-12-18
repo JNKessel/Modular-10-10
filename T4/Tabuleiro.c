@@ -35,6 +35,12 @@ typedef struct TAB_tgCasa {
              o final do oscar(linha de chegada) ou nao*/
     
     LIS_tppLista oscar;
+
+	int x; /* Posição x da casa no tabuleiro. Esta posição é relativa ao canto esquerdo da casa. 
+		   O canto esquerdo do tabuleiro tem posição 0 e cresce 1 para a direita, para cada casa. */
+	int y; /* Posição y da casa no tabuleiro. Esta posição é relativa ao lado inferior da casa. 
+		   O lado inferior do tabuleiro tem posição 0 e cresce 1 para cima, para cada casa. */
+
 } TAB_tpCasa;
 
 static void ExcluirCasa (void* casa);
@@ -402,17 +408,28 @@ TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor cor, TAB_tppCasa* casaRetorno) {
 	return TAB_CondRetOK;
 }
 
-TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa c, DEF_tpBool* finalRetorno){
-    if(c==NULL){
+TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa casa, DEF_tpBool* finalRetorno){
+    if(casa==NULL){
         return TAB_CondRetCasaInexistente;
     }//if
     
-    *finalRetorno = c->fim;
+    *finalRetorno = casa->fim;
     return TAB_CondRetOK;
 }
 
-TAB_tpCondRet TAB_MudarCorPeaoNaCasa(TAB_tppCasa casa, DEF_tpCor cor) {
+TAB_tpCondRet TAB_ObterPosicaoCasa(TAB_tppCasa casa, int* x, int* y) {
+	if (casa == NULL) {
+		return TAB_CondRetCasaInexistente;
+	}
+	*x = casa->x;
+	*y = casa->y;
+	return TAB_CondRetOK;
+}
 
+TAB_tpCondRet TAB_MudarCorPeaoNaCasa(TAB_tppCasa casa, DEF_tpCor cor) {
+	if (casa == NULL) {
+		return TAB_CondRetCasaInexistente;
+	}
 	casa->scorPeao = cor;
 	return TAB_CondRetOK;
 }

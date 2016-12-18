@@ -103,6 +103,7 @@ TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor c, TAB_tppCasa* casaRetorno);
 *
 * $FV Valores de Retorno:
 *     TAB_CondRetOK - Operaçao realizada sem problemas
+*	  TAB_CondRetCasaInexistente
 ***********************************************************************/
 TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa c, DEF_tpBool* finalRetorno);
 
@@ -114,9 +115,26 @@ TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa c, DEF_tpBool* finalRetorno);
 *
 * $FV Valores de Retorno:
 *     TAB_CondRetOK - Operaçao realizada sem problemas
+*	  TAB_CondRetCasaInexistente
 ***********************************************************************/
 TAB_tpCondRet TAB_MudarCorPeaoNaCasa(TAB_tppCasa casa, DEF_tpCor cor);
 
+/***********************************************************************
+* $FC Funçao: TAB_ObterPosicaoCasa
+* 
+* $ED Descriçao da funçao:
+* Retorna a posição de uma casa passada, em coordenadas x e y em relação
+* ao tabuleiro. Essa coordenada é relativa ao vértice inferior esquerdo
+* da casa. Cada casa tem largura e altura iguais a 1. O vértice inferior
+* esquerdo do tabuleiro é a posição (0,0) e os números crescem para cima
+* e para a direita, como no plano cartesiano. As coordenadas x e y são
+* retornadas por refência através dos parâmetros x e y.
+*
+* $FV Valores de Retorno:
+*     TAB_CondRetOK - Operaçao realizada sem problemas
+*	  TAB_CondRetCasaInexistente
+***********************************************************************/
+TAB_tpCondRet TAB_ObterPosicaoCasa(TAB_tppCasa casa, int* x, int* y);
 
 /***********************************************************************
 * $FC Funçao: TAB_DestruirTabuleiro

@@ -798,6 +798,39 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet
 	return LSTC_CondRetOK;
 }
 
+LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRet) {
+	NOLST_tppNoLista noTemp;
+
+	*pTamanhoRet = 2;
+	if (!pLstC){
+		return LSTC_CondRetListaInexistente;
+	}
+
+	if((pLstC->pNoCorr1 != pLstC->pNoCorr2) 
+	   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
+	   || (pLstC->pNoCorr2 != pLstC->pNoCorr3)){ //Assertiva
+		//Tratador
+		#ifdef _DEBUG
+			//CNT_CONTAR("LSTC_TamanhoAltTratadorCorrente");
+		#endif
+		TratadorParaCorrentePerdida(pLstC);
+	}
+	
+	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
+	  nenhum erro o tratador nao faz nada*/
+	/*tratador*/TratadorParaPonteiroPerdido(pLstC, /*assertiva*/AssertivaParaPonteiroPerdido(pLstC));
+
+	NOLST_ObterNohPrevio(pLstC->pNoCorr1, &noTemp);
+	while(noTemp != pLstC->pNoCorr1){
+	
+		NOLST_ObterNohPrevio(noTemp, &noTemp);
+		*pTamanhoRet ++;
+	}
+
+	return LSTC_CondRetOK;
+}
+
 static LSTC_tpCondRet JumpToPos(LSTC_tppListaC pLstC, int iPos, NOLST_tppNoLista* pNoRet) {
 	
 	NOLST_tppNoLista aux = pLstC->pNoCorr1;

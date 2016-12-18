@@ -1,7 +1,29 @@
+/***************************************************************************
+*  $MCI Módulo de implementação: LSTC  Lista Circular duplamente encadeada
+*
+*  Arquivo gerado:              ListaC.c
+*  Letras identificadoras:      LSTC
+*
+*
+*  Projeto: INF 1301 / Jogo de Ludo
+*  Autores: phf
+*	    rrc
+*	    jnk
+*
+*
+***************************************************************************/
+
 #include "ListaC.h"
 #include "CONTA.h"		//Modulo do arcabouco de teste
 #include <stdlib.h>
 #include "NoLista.h"
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: LSTC descritor da cabeca da lista circular
+*
+*
+***********************************************************************/
 
 typedef struct LSTC_tgListaC {
 	NOLST_tppNoLista pNoCorr1;
@@ -10,6 +32,8 @@ typedef struct LSTC_tgListaC {
 	int NumElem;
 	void (* ExcluirElem)(void* pInfo);
 } LSTC_tpListaC;
+
+/***** Protótipos das funções encapuladas no módulo *****/
 
 static LSTC_tpCondRet JumpToPos(LSTC_tppListaC pLstC, int iPos, NOLST_tppNoLista* pNoRet);
 
@@ -23,12 +47,19 @@ static int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC);
 
 static int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3);
 
+/*****  Código das funções exportadas pelo módulo  *****/
+
+/***************************************************************************
+*
+*  Função: LSTC  &Criar listaC
+*  ****/
+
 LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(void* pInfo)) {
 	*pLstCRet = (LSTC_tppListaC)malloc(sizeof(LSTC_tpListaC));
 	if (!pLstCRet){
 		// ////CNT_CONTAR("LSTC_CriarFaltouMemoria");
 		return LSTC_CondRetSemMemoria;
-	}
+	} /* if */
 	
 	#ifdef _DEBUG
 		//CNT_CONTAR("LSTC_CriarSucesso");
@@ -39,8 +70,14 @@ LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(v
 	(*pLstCRet)->pNoCorr3 = NULL;
 	(*pLstCRet)->NumElem = 0;
 	(*pLstCRet)->ExcluirElem = ExcluirElem;
+	
 	return LSTC_CondRetOK;
-}
+} /* Fim função: LIS  &Criar lista */
+
+/***************************************************************************
+*
+*  Função: LIS  &Destruir lista
+*  ****/
 
 LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 	NOLST_tpCondRet debugNo;
@@ -49,7 +86,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		////CNT_CONTAR("LSTC_ListaInexistente");
 		
 		return LSTC_CondRetListaInexistente;
-	}
+	} /* if */
 	
 	#ifdef _DEBUG
 		//CNT_CONTAR("LSTC_DestruirListaExistente");
@@ -115,7 +152,12 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 	}
 	free(pLstC);
 	return LSTC_CondRetOK;
-}
+} /* Fim função: LIS  &Destruir lista */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Eh ListaC Vazia
+*  ****/
 
 LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet) {
 	if (!pLstC){
@@ -139,7 +181,7 @@ LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet) {
 	/*tratador*/TratadorParaPonteiroPerdido(pLstC, /*assertiva*/AssertivaParaPonteiroPerdido(pLstC));
 
 
-	if (!pLstC->pNoCorr1){
+	if (!pLstC->pNoCorr1){		// if(pLstC->pNoCorr == NULL)
 		#ifdef _DEBUG
 			//CNT_CONTAR("LSTC_EhVaziaListaVazia");
 		#endif
@@ -152,9 +194,15 @@ LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet) {
 		*pEhVaziaRet = 0;
 	}
 	return LSTC_CondRetOK;
-}
+} /* Fim função: LSTC  &Eh ListaC Vazia */
 
-LSTC_tpCondRet LSTC_EhListaCVaziaAlternativa(LSTC_tppListaC pLstC, int* pEhVazia) {
+
+/***************************************************************************
+*
+*  Função: LSTC  &Eh ListaC Vazia Alternativa
+*  ****/
+
+LSTC_tpCondRet LSTC_EhListaCVaziaAlt(LSTC_tppListaC pLstC, int* pEhVazia) {
 	if(pLstC->NumElem){
 		#ifdef _DEBUG
 	    		//CNT_CONTAR("LSTC_EhVaziaAltListaVazia");
@@ -169,7 +217,12 @@ LSTC_tpCondRet LSTC_EhListaCVaziaAlternativa(LSTC_tppListaC pLstC, int* pEhVazia
 	}
      
     return LSTC_CondRetOK;
-}
+} /* Fim Funcao: LSTC &Eh ListaC Vazia Alternativa */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Inserir Elemento
+*  ****/
 
 LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo) {
 
@@ -287,7 +340,12 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 	pLstC->NumElem++;
 	
 	return LSTC_CondRetOK;
-}
+} /* Fim Funcao: LSTC &Inserir Elemento */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Inserir Elemento Alternativa
+*  ****/
 
 LSTC_tpCondRet LSTC_InserirElementoAlt(LSTC_tppListaC pLstC, int iPos, void* pInfo){
    	int i;
@@ -365,7 +423,12 @@ LSTC_tpCondRet LSTC_InserirElementoAlt(LSTC_tppListaC pLstC, int iPos, void* pIn
     pLstC->NumElem;
      
     return LSTC_CondRetOK;
-}
+} /* Fim Funcao: LSTC &Inserir Elemento Alternativa */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Retirar Elemento
+*  ****/
 
 LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 	NOLST_tppNoLista temp;
@@ -451,7 +514,12 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 	pLstC->NumElem--;
 	
 	return LSTC_CondRetOK;
-}
+} /* Fim funcao: LSTC &Retirar Elemento */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Retirar Elemento Alternativa
+*  ****/
 
 LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
 	int i;
@@ -536,7 +604,12 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
 	pLstC->NumElem--;
      
 	return LSTC_CondRetOK;
-}
+} /* Fim funcao: LSTC &Retirar Elemento Alternativa */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Atribuir Elemento
+*  ****/
 
 LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo) {
 
@@ -602,7 +675,12 @@ LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo
 	}
 
 	return LSTC_CondRetOK;
-}
+} /* Fim funcao: LSTC &Atribuir Elemento */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Obter Elemento
+*  ****/
 
 LSTC_tpCondRet LSTC_ObterElemento(LSTC_tppListaC pLstC, int iPos, void** pInfoRet) {
 
@@ -668,7 +746,12 @@ LSTC_tpCondRet LSTC_ObterElemento(LSTC_tppListaC pLstC, int iPos, void** pInfoRe
 	}
 
 	return LSTC_CondRetOK;
-}
+} /* Fim funcao: LSTC &Obter Elemento */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Mover Corrente
+*  ****/
 
 LSTC_tpCondRet LSTC_MoverCorrente(LSTC_tppListaC pLstC, int iN) {
 	LSTC_tpCondRet debug;
@@ -692,7 +775,12 @@ LSTC_tpCondRet LSTC_MoverCorrente(LSTC_tppListaC pLstC, int iN) {
 	pLstC->pNoCorr2 = no;
 	pLstC->pNoCorr3 = no;
 	return LSTC_CondRetOK;
-}
+} /* Fim funcao: LSTC &Mover Corrente */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Procurar Elemento
+*  ****/
 
 LSTC_tpCondRet LSTC_ProcurarElemento(LSTC_tppListaC pLstC, void* pElemBuscado, int* pIndiceRet, int (*Criterio)(void* pElemBuscado, void* pElemLst)) {
 
@@ -745,7 +833,12 @@ LSTC_tpCondRet LSTC_ProcurarElemento(LSTC_tppListaC pLstC, void* pElemBuscado, i
 	}
 
 	return LSTC_CondRetOK; 
-}
+} /* Fim funcao: LSTC &Procurar Elemento */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Obter Tamanho ListaC
+*  ****/
 
 LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 
@@ -777,7 +870,12 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	}
 	
 	return LSTC_CondRetOK;
-}
+} /* Fim funcao: LSTC &Obter Tamanho ListaC */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Obter Tamanho ListaC Alternativa
+*  ****/
 
 LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	NOLST_tppNoLista noTemp;
@@ -810,7 +908,12 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet
 	}
 
 	return LSTC_CondRetOK;
-}
+} /* Fim funcao: LSTC &Obter Tamanho ListaC Alternativa */
+
+/***************************************************************************
+*
+*  Função: LSTC  &Obter Tamanho ListaC Alternativa 2
+*  ****/
 
 LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	NOLST_tppNoLista noTemp;
@@ -843,7 +946,27 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRe
 	}
 
 	return LSTC_CondRetOK;
-}
+} /* Fim funcao: LSTC &Obter Tamanho ListaC Alternativa 2 */
+
+/*******************************************************************************************************************************
+*	$FC Função: JumpToPos
+*
+*	$ED Descrição da função:
+*		Recebe um ponteiro para lista circular não vazia e a posicao para a qual desejamos executar o salto. Retorna um 
+* 		ponteiro para o no da posicao desejada.
+*
+*	$EP Parâmetros:
+*		$P pLstC		-	ponteiro para lista circular nao vazia
+*		$P iPos			-	posição para a qual desejamos fazer o pulo
+*		$P pNoRet		-	parâmetro que retornara um ponteiro para o no na posicao escolhida.
+*								Este parâmetro é passado como referência.
+*
+*	$FV Valor retornado:
+*		LSTC_CondRetOK
+*		LSTC_CondRetListaInexistente
+*		LSTC_CondRetListaVazia
+*		LSTC_CondRetErroNo
+*******************************************************************************************************************************/
 
 static LSTC_tpCondRet JumpToPos(LSTC_tppListaC pLstC, int iPos, NOLST_tppNoLista* pNoRet) {
 	
@@ -911,14 +1034,43 @@ static LSTC_tpCondRet JumpToPos(LSTC_tppListaC pLstC, int iPos, NOLST_tppNoLista
 
 	*pNoRet = aux;
 	return LSTC_CondRetOK;
-}
+} /* Fim funcao: LSTC &Jump To Pos */
+
+/*******************************************************************************************************************************
+*	$FC Função: CriterioPadrao
+*
+*	$ED Descrição da função:
+*		Recebe um ponteiro para um elemento buscado e um ponteiro para elemento sob analise. Compara ambos, retornando 1
+*		se iguais ou 0 se diferentes.
+*
+*	$EP Parâmetros:
+*		$P pElemBuscado		-	ponteiro para o elemento buscado
+*		$P pElemLista		-	ponteiro para o elemento sob analise
+*
+*	$FV Valor retornado:
+*		1 se igual
+*		0 se diferente
+*******************************************************************************************************************************/
 
 int CriterioPadrao(void* pElemBuscado, void* pElemLista) {
 	if (pElemBuscado == pElemLista)
 		return 1;
 	else
 		return 0;
-}
+} /* Fim funcao: &Criterio Padrao */
+
+/*******************************************************************************************************************************
+*	$FC Função: TratadorParaCorrentePerdida
+*
+*	$ED Descrição da função:
+*		Recebe um ponteiro para lista circular. Trata o caso em que perdemos o ponteiro para o no corrente da lista
+*
+*	$EP Parâmetros:
+*		$P pLstC	-	ponteiro para a lista circular a ser tratada
+*
+*	$FV Valor retornado:
+*		
+*******************************************************************************************************************************/
 
 void TratadorParaCorrentePerdida(LSTC_tppListaC pLstC){
 
@@ -940,7 +1092,22 @@ void TratadorParaCorrentePerdida(LSTC_tppListaC pLstC){
 				pLstC->pNoCorr3 = pLstC->pNoCorr1;
 			}
 		}
-}
+} /* Fim funcao: &TratadorParaCorrentePerdida */
+
+/*******************************************************************************************************************************
+*	$FC Função: TratadorParaObterTamanhoInconsistente
+*
+*	$ED Descrição da função:
+*		Recebe tres inteiros referentes ao tamanho da lista circular. Retorna a moda do conjunto
+*
+*	$EP Parâmetros:
+*		$P Tam1		-	inteiro que indica o tamanho da lista obtido por um metodo
+*		$P Tam2  	-	inteiro que indica o tamanho da lista obtido por um segundo metodo
+*		$P Tam3		-	inteiro que indica o tamanho da lista obtido por um terceiro metodo
+*
+*	$FV Valor retornado:
+*		
+*******************************************************************************************************************************/
 
 int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3){
 
@@ -962,7 +1129,24 @@ int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3){
 			return Tam1;
 		}
 	}
-}
+} /* Fim funcao: &TratadorParaObterTamanhoInconsistente */
+
+/*******************************************************************************************************************************
+*	$FC Função: AssertivaParaPonteiroPerdido
+*
+*	$ED Descrição da função:
+*		Recebe um ponteiro para lista circular. Verifica se alguma ligacao entre os nos foi perdida. Retorna 1 se um 
+*		ponteiro prox foi perdido, -1 se um ponteiro ant foi perdido ou 0 se todos os ponteiros estao corretos
+*
+*	$EP Parâmetros:
+*		$P pLstC	-	ponteiro para a lista circular a ser verificada
+*
+*	$FV Valor retornado:
+*		1, caso ponteiro prox tenha sido perdido
+*		-1, caso ponteiro ant tenha sido perdido
+*		0, caso tudo esteja em ordem
+*		
+*******************************************************************************************************************************/
 
 //checa se algum ponteiro da lista foi perdido em qualquer direçao da lista
 int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
@@ -1010,7 +1194,22 @@ int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
 	}while(noAnt != pLstC->pNoCorr1);
 	return 0;
 	
-}
+} /* Fim funcao: AssertivaParaPonteiroPerdido */
+
+/*******************************************************************************************************************************
+*	$FC Função: TratadorParaPonteiroPerdido
+*
+*	$ED Descrição da função:
+*		Recebe um ponteiro para lista circular e a direcao do ponteiro perdido obtida pela Assertiva acima. A funcao
+*		conserta os ponteiros perdidos.
+*
+*	$EP Parâmetros:
+*		$P pLstC	-	ponteiro para a lista circular a ser tratada
+*		$P direcao	-	inteiro que indica a direcao do ponteiro perdido
+*
+*	$FV Valor retornado:
+*		
+*******************************************************************************************************************************/
 
 //resolve o erro se algum ponteiro for perdido
 void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao){
@@ -1048,7 +1247,22 @@ void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao){
 		}while(noProx != pLstC->pNoCorr1);
 		
 	}
-}
+}/* Fim funcao: &TratadorParaPonteiroPerdido */
+
+/*******************************************************************************************************************************
+*	$FC Função: LSTC_Deturpadora
+*
+*	$ED Descrição da função:
+*		Recebe um ponteiro para lista circular e um codigo referente a uma classe enumerada de deturpacao. A funcao abre
+*		um switch relativo ao codigo de deturpacao e estraga aquele aspecto da lista circular.
+*
+*	$EP Parâmetros:
+*		$P pLstC	-	ponteiro para a lista circular a ser tratada
+*		$P cod		- 	inteiro referente ao aspecto que desejamos deturpar
+*
+*	$FV Valor retornado:
+*		LSTC_CondRetOK
+*******************************************************************************************************************************/
 
 LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod){
     switch(cod){
@@ -1069,4 +1283,6 @@ LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod){
     }
 
     return LSTC_CondRetOK;
-}
+} /* Fim Funcao: LSTC &Deturpadora */
+
+/********** Fim do módulo de implementação: LSTC  Lista circular duplamente encadeada **********/

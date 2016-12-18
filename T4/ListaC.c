@@ -21,6 +21,8 @@ static void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao);
 
 static int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC);
 
+static int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3);
+
 LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(void* pInfo)) {
 	*pLstCRet = (LSTC_tppListaC)malloc(sizeof(LSTC_tpListaC));
 	if (!pLstCRet){
@@ -762,6 +764,18 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	}
 	
 	*pTamanhoRet = pLstC->NumElem;
+	
+	//Assertiva
+	tamanho1 = *pTamanhoRet;
+	tamanho2 = LSTC_ObterTamanhoListaCAlt(pLstC, pTamanhoRet);
+	tamanho3 = LSTC_ObterTamanhoListaCAlt2(pLstC, pTamanhoRet);
+	if((tamanho1 != tamanho2) ||(tamanho1 != tamanho3)){
+	
+		//tratador
+		*pTamanhoRet = TratadorParaObterTamanhoInconsistente(tamanho1, tamanho2, tamanho2);
+	
+	}
+	
 	return LSTC_CondRetOK;
 }
 
@@ -926,6 +940,28 @@ void TratadorParaCorrentePerdida(LSTC_tppListaC pLstC){
 				pLstC->pNoCorr3 = pLstC->pNoCorr1;
 			}
 		}
+}
+
+int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3){
+
+	if(Tam1 != Tam2){
+	
+		if(Tam2 == Tam3){
+
+			return Tam2;
+		
+		}else if(Tam1 == Tam3){
+
+			return Tam1;
+		
+		}
+	}else if(Tam1 != Tam3){
+
+		if(Tam1 == Tam2){
+
+			return Tam1;
+		}
+	}
 }
 
 //checa se algum ponteiro da lista foi perdido em qualquer direçao da lista

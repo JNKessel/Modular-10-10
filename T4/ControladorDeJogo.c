@@ -113,6 +113,8 @@ static void antesPartida() {
 
 	} while(numJogadores < 2 || numJogadores > 4);
 
+	puts("\n\n");
+
 	/* Criar partida */
 	debugPartida = PART_CriarPartida(numJogadores);
 	/* Se não retornou OK, erro */
@@ -123,6 +125,9 @@ static void antesPartida() {
 static void loopPartida() {
 	PART_tpCondRet debugPartida;
 
+	printf("Pressione qualquer coisa para continuar...");
+	getch();
+
 	system("cls");
 
 	/* Jogar turno */
@@ -130,9 +135,6 @@ static void loopPartida() {
 	/* Se não retornou OK, erro */
 	if (debugPartida)
 		apresentarFalha();
-
-	printf("Pressione qualquer coisa para continuar...");
-	getch();
 }
 
 static int testeJogadorVenceu() {
@@ -144,6 +146,9 @@ static int testeJogadorVenceu() {
 	/* Se não retornou OK, erro */
 	if (debugPartida)
 		apresentarFalha();
+
+	/*printf("\n\nPressione qualquer coisa para continuar...");*/
+	/*getch();*/
 
 	if (venceu == True)
 		return 1;

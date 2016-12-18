@@ -1,0 +1,108 @@
+		Especificação de Requisitos- Jogo de Ludo
+
+rrc - Rafael Rubim Cabral
+jk - Julio Kessel
+phf - Pedro Henrique Frayha
+
+	-> Requisitos Funcionais:
+
+-Jogo:
+  Corresponde ao programa executado.
+
+-Partida:
+  Trata de um momento do jogo. Ao final da partida, um jogador será declarado vencedor da partida.
+  A partida começa com os 4 peões de cada jogador na base da cor correspondente. O primeiro turno é do jogador Azul.
+  É desejável que, durante a execução do jogo possam-se disputar várias partidas, resetando os elementos de jogabilidade para cada nova partida.
+
+-Turno/Jogada:
+  É um sub momento da partida em que um único jogador executará a ação de usar o dado e obrigatoriamente escolher um de seus peões para movimentar, se possível escolher pelo menos 1 peão.
+  Após o turno de um jogador, o próximo jogador de uma lista pré-determinada terá direito a seu turno, salvo exceções determinadas abaixo. Essa lista é circular.
+
+-Cor:
+  Jogadores e peões, assim como certas casas do tabuleiro, possuem o atributo cor por propósitos de identificação. As possíveis cores que existem no jogo são: Azul, Amarelo, Verde e Vermelho.
+
+-Dado:
+  É um objeto (único no jogo) que quando usado, retorna (ou "tira") um número inteiro aleatório de 1 a 6.
+
+-Jogador:
+  Representa um usuário do programa. No início de cada partida, pode-se escolher quantos participarão, de 2 a 4 jogadores.
+  É identificado por uma cor, que não pode escolher. A distribuição de cores é pré-determinada para diferentes números de jogadores.
+  Ordem da escolha de cores e turnos de jogadores: Azul>Amarelo>Verde>Vermelho
+  Possui 4 peões de cor igual à sua.
+  Em seu turno, se o número que tirou no dado foi 6 ou se o peão que escolheu movimentar comer outro peão, ganhará direito a outra jogada (extra). Ou seja, após seu turno o próximo turno também será seu, após o qual a rotação de turnos retorna ao normal. Se isso acontecer 3 vezes seguidas, o jogador não ganhará uma jogada extra até que esteja em seu turno novamente.
+  No fim de seu turno, um jogador vence a partida se a posição de todos os seus 4 peões for uma casa de chegada do tabuleiro.
+ 
+-Peão:
+  É identificado por uma cor e um número sequencial de 1 a 4.
+
+  Pode estar, em determinado momento do jogo, nas possíveis posições:
+--Na base do tabuleiro correspondente à sua cor
+--Numa casa circular do tabuleiro
+--Numa casa do oscar do tabuleiro correspondente à sua cor, onde pode estar em uma casa de chegada ou não
+
+->Movimento de um peão (ato de "andar"):
+  O peão pode ser escolhido para se movimentar/andar por seu jogador. Nesse caso, mudará sua posição no tabuleiro para uma casa "destino", possivelmente "pulando" casas entre o destino e a casa atual.
+  O peão só pode ser escolhido para movimentação em um turno se nesse turno atender aos critérios:
+--Caso esteja em uma base, apenas se o número tirado no dado for 6 e a casa de saída de sua cor não possuir um peão de sua cor.
+--Caso esteja em uma casa circular ou casa do oscar, apenas se a casa destino não conter um peão de sua cor.
+--Caso esteja em uma casa do oscar, apenas se a casa destino for válida (o peão não pode andar para além de uma casa de chegada e não pode andar se já estiver em uma casa de chegada)
+  Após a escolha, a casa destino do peão atenderá aos critérios, para "n" sendo o número tirado no dado:
+--Caso esteja em uma base, a casa destino é a casa de saída de sua cor
+--Caso esteja em uma casa do oscar, a casa destino é a casa que está "n" posições a frente de sua casa atual.
+--Caso esteja em uma casa circular, a casa destino é a casa "n" posições à frente de sua casa atual, a não ser que haja uma casa de entrada de sua cor poucas posições à frente (antes da suposta casa destino). Neste caso, o peão fará um desvio na casa destino, entrando no oscar de sua cor. A casa destino será uma casa do oscar (completando "n" casas puladas).
+  Se a casa destino do peão já possuir um peão de outra cor, então no ato do movimento o peão comerá o outro da outra cor. Isso significa que o peão que estava na casa destino voltará para sua posição inicial: a base de sua cor.
+  A nova posição do peão após andar é a casa destino.
+ 
+-Tabuleiro:
+
+  É onde ocorre toda movimentação da partida e onde ficam contidos os peões.
+  É composto por 4 bases, 4 oscars e várias casas.
+  Cada base possui uma cor.
+  Cada base pode conter até 4 peões de sua cor.
+  Cada casa pode conter no máximo 1 peão.
+  Cada oscar é uma organização linear de 6 casas de uma cor única, chamadas de "casas de oscar".
+  As casas de oscar são ordenadas com as 5 primeiras casas sendo "casas de oscar normal" e a última sendo a "casa de chegada".
+  As casas circulares dispõe-se em uma organização circular, ou seja, possuem possível ordenação em dois sentidos: horário e anti-horário. Os peões movimentam-se no sentido horário, logo essa é a ordenação padrão adotada para essas casas.
+  As casas circulares podem conter peões de qualquer cor, enquanto em qualquer momento do jogo uma casa de oscar só conterá um peão de sua cor.
+
+  As 76 casas são dividas entre:
+* 52 Casas circulares, dentre as quais:
+--- 44 Casas circulares normais
+--- 4 Casas de saída
+--- 4 Casas de entrada
+* 24 Casas de oscar divididas entre 4 oscars, dentre as quais:
+--- 20 Casas de oscar normais, 5 em cada oscar
+--- 4 Casas de chegada, 1 em cada oscar
+
+  As 4 casas de saída ficam equidistantes entre si na organização circular (com 12 casas entre si), em cada intervalo de 1/4 do percurso.
+  As 4 casas de entrada também estão em organização similar.
+
+  As seguintes casas possuem atributo "cor":
+  Casas de saída
+  Casas de entrada
+  Casas de oscar (normais e chegada)
+ 
+  As casas de saída (da cor correspondente) são o destino de todo peão que sai de uma base.
+  As casas de entrada de cada cor estão a duas casas de distância no sentido anti-horário das casas de saída da mesma cor. Como os peões andam no sentido horário, precisam percorrer 50 casas para ir de uma casa de saída a uma de entrada da mesma cor.
+  Cada casa de entrada representa uma "entrada" para o oscar de cor correspondente. Na movimentação do peão pelas casas circulares, caso ele chegue a uma casa de entrada de sua cor, é redirecionado para a primeira casa do oscar da mesma cor.
+
+-É desejável:
+  Interface gráfica, com peões, bases, oscars e casas de saída coloridos. Se não for possível, as cores serão representadas por letras ou strings.
+
+
+	->Requisitos Não Funcionais:
+
+-Desempenho:
+  O programa tem que ter um tempo de resposta aceitável na maioria das máquinas onde forem realizados os testes.
+
+-Reusabilidade:
+  Módulos têm que ser o mais reutilizáveis possíveis, quando possível e útil, implementados de maneira genérica.
+
+-Corretude:
+  Todos os módulos devem ser testados e aprovados um por um.
+
+-Confiabilidade/Corretude:
+  Minimizar as possibilidades da ocorrência de defeitos e erros, empregando técnicas pra que isso ocorra.
+
+-Robustez:
+  A interface deve disponibilizar as possibilidades de ações e movimentos deos jogadores de forma robusta e não permitindo estados inválidos da execução do programa.  

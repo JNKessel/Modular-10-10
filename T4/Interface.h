@@ -7,10 +7,16 @@
 *
 *	$HA Histórico de evolução:
 *		Versâo	Autor	Data		Observações
-*		1.00	rrc		16/12/2016	Começo de implementação
+*		1.00	rrc		16/12/2016	Começo de implementação, implementação da maioria das funções do módulo
+*		3.00	rrc		18/12/2016	Fim da implementação de módulo
 *
 *	$ED Descrição do módulo:
-*		Este módulo permite o desenho na tela através de uma interface gráfica
+*		Este módulo permite o desenho na tela do jogo de ludo através de uma interface gráfica. Iniciar uma janela para imprimir
+*		a interface gráfica toma posse do fluxo de execução do programa, o que significa que nenhuma função chamada após
+*		a função ITFC_IniciarJanela funcionará, e ela não retornará. Para que o programador ainda tenha controle sobre o que
+*		ocorre no fluxo de execução após a janela da interface ser executada, pode-se implementar funções próprias que serão
+*		passadas antes para as funções ITFC_ConfigurarLoopJanela e ITFC_ConfigurarLoopInterface. Isso fará com que tais funções
+*		próprias sejam executadas em loop (em ordem predeterminada) durante a existência da janela.
 *******************************************************************************************************************************/
 
 #pragma once

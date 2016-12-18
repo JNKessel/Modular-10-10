@@ -1,3 +1,19 @@
+/*******************************************************************************************************************************
+*	$MCD Módulo de definição: Módulo Partida
+*	Arquivo:	PARTIDA.H
+*	Letras identificadoras:		PART
+*
+*	Autores:	rrc - Rafael Rubim Cabral
+*
+*	$HA Histórico de evolução:
+*		Versâo	Autor	Data		Observações
+*		1.00	rrc		17/10/2016	Começo de implementação, maioria das funções ainda não implementadas
+*		1.10	rrc		09/12/2016	Documentação de funções
+*		2.00	rrc		13/12/2016	Implementação de outras funções
+*		3.00	rrc		14/12/2016	Fim das implementações
+*		4.00	rrc		15/12/2016	Adições ao módulo, correção de bugs
+*		5.00	rrc		18/12/2016	Várias adições de funções a serem usadas pelo módulo ITFC
+*******************************************************************************************************************************/
 
 #include "Partida.h"
 
@@ -19,6 +35,12 @@
 *	Dados encapsulados no módulo:
 *******************************************************************************************************************************/
 
+/*******************************************************************************************************************************
+*	$TC Tipo de dados: PART Jpgador
+*
+*	$ED Descrição do tipo:
+*		Representa um jogador, que possui um númerp identificador, uma lista de peões e a cor de seus peões
+*******************************************************************************************************************************/
 typedef struct PART_tgJogador {
     
 	int iNumJogador;
@@ -110,9 +132,9 @@ PART_tpCondRet PART_CriarPartida(int n) {
 		/* Cores dos jogadores estão na ordem */
 		switch(i) {
 			case 0:	cor = AZUL;		break;
-			case 1: cor = VERMELHO;	break;
+			case 1: cor = AMARELO;	break;
 			case 2:	cor = VERDE;	break;
-			case 3:	cor = AMARELO;	break;
+			case 3:	cor = VERMELHO;	break;
 		}
 		/* Criar jogador */
 		jog = (PART_tpJogador*)malloc(sizeof(PART_tpJogador));
@@ -187,10 +209,10 @@ PART_tpCondRet PART_Jogar() {
 
 	printf("Pressione qualquer tecla para jogar o dado...");
 
-	numDado = getch() - '0';
+	getch();
 
-	/*srand(time(NULL));
-	numDado = (rand() % 6) + 1;*/
+	srand(time(NULL));
+	numDado = (rand() % 6) + 1;
 
 	printf("\nO dado rola... Voce sorteou um %d!\n", numDado);
 
@@ -570,6 +592,9 @@ PART_tpCondRet PART_ObterCasaPeaoJogador(int iNumJogador, int iNumPeao, TAB_tppC
 		return PART_CondRetErroLista;
 	}
 
+	/* Índice do elemento atual da lista */
+	i = 0;
+
 	/* Percorrer lista procurando por número de peão */
 	while(1) {
 		PEAO_tppPeao tempPeao;
@@ -591,7 +616,7 @@ PART_tpCondRet PART_ObterCasaPeaoJogador(int iNumJogador, int iNumPeao, TAB_tppC
 		}
 
 		/* Se peão é o peão procurado */
-		if (numTempPeao = iNumPeao) {
+		if (numTempPeao == iNumPeao) {
 
 			/* Retornar casa do peão */
 			debugPeao = PEAO_ObterCasaPeao(tempPeao, casaPeao);
@@ -604,7 +629,7 @@ PART_tpCondRet PART_ObterCasaPeaoJogador(int iNumJogador, int iNumPeao, TAB_tppC
 		}
 
 		/* Se chegou em último elemento e não encontrou peão, erro */
-		if (i <= qtdPeoes - 1) {
+		if (i >= qtdPeoes - 1) {
 			return PART_CondRetInconsistencia;
 		}
 
@@ -614,7 +639,7 @@ PART_tpCondRet PART_ObterCasaPeaoJogador(int iNumJogador, int iNumPeao, TAB_tppC
 		if (debugLista) {
 			return PART_CondRetErroLista;
 		}
-	}
+	}	/* while */
 
 	return PART_CondRetOK;
 }	/* Fim Função PART_ObterCasaPeaoJogador */
@@ -1102,3 +1127,7 @@ static PART_tpCondRet PART_ImprimirCor(DEF_tpCor cor) {
 	}	/* switch */
 	return PART_CondRetOK;
 }	/* Fim Função PART_ImprimirCor */
+
+/*******************************************************************************************************************************
+*	Fim do módulo de definição: Módulo Partida
+*******************************************************************************************************************************/

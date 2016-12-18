@@ -1,3 +1,18 @@
+/*******************************************************************************************************************************
+*	$MCD Módulo de implementação: Módulo Interface
+*	Arquivo:	INTERFACE.H
+*	Letras identificadoras:		ITFC
+*
+*	Autores:	rrc - Rafael Rubim Cabral
+*
+*	$HA Histórico de evolução:
+*		Versâo	Autor	Data		Observações
+*		1.00	rrc		16/12/2016	Começo de implementação, implementação da maioria das funções do módulo Função
+*									ITFC_CarregarTexturaBMP foi parcialmente copiada da internet. Créditos para o usuário Dinesh Subedi:
+*									http://stackoverflow.com/questions/12518111/how-to-load-a-bmp-on-glut-to-use-it-as-a-texture
+*		2.00	rrc		18/12/2016	Fim da implementação de módulo
+*******************************************************************************************************************************/
+
 #include "interface.h"
 #include "definicoes.h"
 #include <stdlib.h>
@@ -8,10 +23,25 @@
 
 #include "glut.h"
 
+
+/*******************************************************************************************************************************
+*	$TC Tipo de dados: ITFC Fluxo de execução
+*
+*	$ED Descrição do tipo:
+*		Representa os determinados momentos em que o fluxo de execução do loop da janela pode estar.
+*******************************************************************************************************************************/
 typedef enum {
+	TELA_BRANCA,
+		/* Desenha tela branca antes de começar o jogo */
+
 	INICIO,
+		/* Criação da partida do jogo */
+
 	INTERFACE,
+		/* Loop da interface, durante a partida do jogo */
+
 	FIM
+		/* Após fim da partida do jogo */
 } ITFC_tpFluxoExecucao;
 
 /*******************************************************************************************************************************
@@ -48,23 +78,14 @@ static int (*FuncaoCondicaoFimLoopInterface)() = NULL;
 static DEF_tpBool janelaIniciada = False;
 	/* Para saber se o loop principal iniciou ou não  */
 
-static ITFC_tpFluxoExecucao fluxoExecucao = INICIO;
+static ITFC_tpFluxoExecucao fluxoExecucao = TELA_BRANCA;
 	/* Estado do fluxo de execução da janela */
 
 static GLuint texturaTabuleiro;
 	/* Textura do tabuleiro */
 
-static GLuint texturaPeaoAzul;
-	/* Textura do peão azul */
-
-static GLuint texturaPeaoAmarelo;
-	/* Textura do peão amarelo */
-
-static GLuint texturaPeaoVerde;
-	/* Textura do peão verde */
-
-static GLuint texturaPeaoVermelho;
-	/* Textura do peão vermelho */
+static GLuint texturaTelaBranca;
+	/* Textura da tela em branco */
 
 /*******************************************************************************************************************************
 *	Protótipos de funções encapsuladas no módulo:
@@ -165,26 +186,20 @@ ITFC_tpCondRet ITFC_ConfigurarLoopJanela(void (*inicioLoopJanela)(), void (*fimL
 */
 ITFC_tpCondRet ITFC_CarregarImagens() {
 	ITFC_tpCondRet debugInterface;
+
+	/* Carregar imagem do tabuleiro */
 	debugInterface = ITFC_CarregarTexturaBMP("tabuleiro.bmp", &texturaTabuleiro);
+	/* Se não retornou OK, erro */
 	if (debugInterface) {
 		return debugInterface;
 	}
-	//debugInterface = ITFC_CarregarTexturaBMP("peaoAzul.bmp", &texturaPeaoAzul);
-	//if (debugInterface) {
-	//	return debugInterface;
-	//}
-	//debugInterface = ITFC_CarregarTexturaBMP("peaoAmarelo.bmp", &texturaPeaoAmarelo);
-	//if (debugInterface) {
-	//	return debugInterface;
-	//}
-	//debugInterface = ITFC_CarregarTexturaBMP("peaoVerde.bmp", &texturaPeaoVerde);
-	//if (debugInterface) {
-	//	return debugInterface;
-	//}
-	//debugInterface = ITFC_CarregarTexturaBMP("peaoVermelho.bmp", &texturaPeaoVermelho);
-	//if (debugInterface) {
-	//	return debugInterface;
-	//}
+
+	/* Carregar imagem da tela em branco */
+	debugInterface = ITFC_CarregarTexturaBMP("telaBranca.bmp", &texturaTelaBranca);
+	/* Se não retornou OK, erro */
+	if (debugInterface) {
+		return debugInterface;
+	}
 	return ITFC_CondRetOK;
 }	/* Fim Função ITFC_CarregarImagens */
 
@@ -239,6 +254,17 @@ static void ITFC_LoopDisplay() {
 
 	/* Testar onde está fluxo de execução do programa */
 	switch(fluxoExecucao) {
+		case TELA_BRANCA:
+			/* Desenhar tela em branco */
+			debugInterface = ITFC_DisplayBranco();
+			/* Se não retornou OK, erro */
+			if (debugInterface) {
+				ITFC_ApresentarErro("Erro em display da interface.");
+			}
+			/* Mudar fluxo de execução */
+			fluxoExecucao = INICIO;
+
+
 		case INICIO:
 
 			/* Criar partida */
@@ -301,6 +327,8 @@ static void ITFC_LoopDisplay() {
 			}
 
 			break;
+		default:
+			ITFC_ApresentarErro("Erro: fluxo de execucao inesperado.");
 		}	/* switch */
 
 	glutPostRedisplay();
@@ -353,9 +381,17 @@ static ITFC_tpCondRet ITFC_Display() {
 *******************************************************************************************************************************/
 static ITFC_tpCondRet ITFC_DisplayBranco() {
 
+	ITFC_tpCondRet debugInterface;
+
 	glClearColor(1, 1, 1, 0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	/* Desenhar tabuleiro */
+	debugInterface = ITFC_DesenharTextura(texturaTelaBranca, -1, -1, 2, 2);
+	/* Se não retornou OK, erro */
+	if (debugInterface) {
+		ITFC_ApresentarErro("Erro em desenho de tabuleiro.");
+	}
 
 	glutSwapBuffers();
 
@@ -464,6 +500,8 @@ static ITFC_tpCondRet ITFC_DesenharTextura(GLuint textura, float xEsquerda, floa
 
 	glBindTexture(GL_TEXTURE_2D, textura);
 
+	glColor3f(1,1,1);
+
 	glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);	glVertex2f(xEsquerda, yBaixo);
 		glTexCoord2f(1, 0);	glVertex2f(xEsquerda + largura, yBaixo);
@@ -506,7 +544,7 @@ static ITFC_tpCondRet ITFC_DefinirCor(DEF_tpCor cor) {
 			glColor3f(0,0,1);
 			break;
 		case AMARELO:
-			glColor3f(0,0.8,0.8);
+			glColor3f(1,1,0);
 			break;
 		case VERDE:
 			glColor3f(0,1,0);
@@ -536,14 +574,14 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 		ITFC_ApresentarErro("Erro de desenho da interface: Nenhuma partida foi iniciada.");
 	}
 	if (debugPartida) {
-		ITFC_ApresentarErro("Erro no módulo PART.");
+		ITFC_ApresentarErro("Erro no modulo PART.");
 	}
 
 	/* Pegar quantidade de peões por jogador */
 	debugPartida = PART_ObterQtdPeoes(&qtdPeoes);
 	/* Se não retornou OK, erro */
 	if (debugPartida) {
-		ITFC_ApresentarErro("Erro no módulo PART.");
+		ITFC_ApresentarErro("Erro no modulo PART.");
 	}
 
 	for (i = 1; i <= qtdJogadores; i++) {
@@ -553,7 +591,7 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 		debugPartida = PART_ObterCorJogador(i, &corJog);
 		/* Se não retornou OK, erro */
 		if (debugPartida) {
-			ITFC_ApresentarErro("Erro no módulo PART.");
+			ITFC_ApresentarErro("Erro no modulo PART.");
 		}
 
 		/* Desenhar peões */
@@ -564,6 +602,7 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 			float tamanhoLadoCasa;
 			float xCasa, yCasa;
 			float xAjusteFonte, yAjusteFonte;
+			float bordaPeao;
 
 			/* Pegar tamanho do lado de uma casa */
 			tamanhoLadoCasa = 2.0 / 15;
@@ -572,7 +611,7 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 			debugPartida = PART_ObterCasaPeaoJogador(i, j, &tempCasa);
 			/* Se não retornou OK, erro */
 			if (debugPartida) {
-				ITFC_ApresentarErro("Erro no módulo PART.");
+				ITFC_ApresentarErro("Erro no modulo PART.");
 			}
 
 			if (tempCasa != NULL) {
@@ -582,8 +621,11 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 				debugTabuleiro = TAB_ObterPosicaoCasa(tempCasa, &xTab, &yTab);
 				/* Se não retornou OK, erro */
 				if (debugTabuleiro) {
-					ITFC_ApresentarErro("Erro no módulo TAB.");
+					ITFC_ApresentarErro("Erro no modulo TAB.");
 				}
+
+				xTab = 13;
+				yTab = 6;
 
 				/* Converte posição (x, y) para critérios do openGL */
 				xCasa = (xTab * tamanhoLadoCasa) - 1;
@@ -614,7 +656,7 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 						yTabBase = 9;
 						break;
 					default:
-						ITFC_ApresentarErro("Erro de inconsistência da cor do jogador.");
+						ITFC_ApresentarErro("Erro de inconsistencia da cor do jogador.");
 				}
 
 				/* Converte posição (x, y) da base para critérios do openGL */
@@ -640,8 +682,19 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 						yCasa = yBase + (1.5 * tamanhoLadoCasa);
 						break;
 					default:
-						ITFC_ApresentarErro("Erro de inconsistência do número do peão.");
+						ITFC_ApresentarErro("Erro de inconsistência do numero do peao.");
 				}
+			}
+
+			bordaPeao = tamanhoLadoCasa * 1 / 30;
+
+			glColor3f(0, 0, 0);
+
+			/* Desenhar círculo preto um pouco maior para fazer borda no peão */
+			debugInterface = ITFC_DesenharCirculo(xCasa - bordaPeao, yCasa - bordaPeao, tamanhoLadoCasa + (2 * bordaPeao));
+			/* Se não retornou OK, erro */
+			if (debugInterface) {
+				ITFC_ApresentarErro("Erro ao desenhar peao.");
 			}
 
 			/* Definir cor de desenho como cor do jogador */
@@ -655,7 +708,7 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 			debugInterface = ITFC_DesenharCirculo(xCasa, yCasa, tamanhoLadoCasa);
 			/* Se não retornou OK, erro */
 			if (debugInterface) {
-				ITFC_ApresentarErro("Erro ao desenhar peão.");
+				ITFC_ApresentarErro("Erro ao desenhar peao.");
 			}
 
 			xAjusteFonte = tamanhoLadoCasa * 1 / 3;
@@ -663,9 +716,13 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 
 			glColor3f(0, 0, 0);
 			glRasterPos2f(xCasa + xAjusteFonte, yCasa + yAjusteFonte);
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, j + '0');
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, j + '0');
 		}
 	}
 
 	return ITFC_CondRetOK;
 }
+
+/*******************************************************************************************************************************
+*	Fim do módulo de implementação: Módulo Interface
+*******************************************************************************************************************************/

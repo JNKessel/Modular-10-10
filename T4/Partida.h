@@ -12,6 +12,7 @@
 *		2.00	rrc		13/12/2016	Implementação de outras funções
 *		3.00	rrc		14/12/2016	Fim das implementações
 *		4.00	rrc		15/12/2016	Adições ao módulo, correção de bugs
+*		5.00	rrc		18/12/2016	Várias adições de funções a serem usadas pelo módulo ITFC
 *
 *	$ED Descrição do módulo:
 *		Este módulo permite a criação de uma partida a partir de sua quantidade de jogadores e manipulação de cada turno através

@@ -181,6 +181,17 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet);
 LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet);
 
 /***********************************************************************
+* $FC FunçãoLST_ObterTamanhoListaCAlt
+*
+* (Segunda função alternativa para a funçao "LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet)")
+* 
+* $FV Valores de Retorno
+*     LSTC_CondRetOK - Operação realizada sem problemas
+*	  LSTC_CondRetListaInexistente - Não existe lista
+***********************************************************************/
+LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRet);
+
+/***********************************************************************
 * $FC Função: LST_Deturpadora
 ***********************************************************************/
 LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod);

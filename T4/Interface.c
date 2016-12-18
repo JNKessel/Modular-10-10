@@ -1,6 +1,7 @@
 #include "interface.h"
 #include "definicoes.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "glut.h"
 
@@ -47,6 +48,21 @@ static DEF_tpBool janelaIniciada = False;
 static ITFC_tpFluxoExecucao fluxoExecucao = INICIO;
 	/* Estado do fluxo de execução da janela */
 
+static GLuint texturaTabuleiro;
+	/* Textura do tabuleiro */
+
+static GLuint texturaPeaoAzul;
+	/* Textura do peão azul */
+
+static GLuint texturaPeaoAmarelo;
+	/* Textura do peão amarelo */
+
+static GLuint texturaPeaoVerde;
+	/* Textura do peão verde */
+
+static GLuint texturaPeaoVermelho;
+	/* Textura do peão vermelho */
+
 /*******************************************************************************************************************************
 *	Protótipos de funções encapsuladas no módulo:
 *******************************************************************************************************************************/
@@ -58,6 +74,8 @@ static void ITFC_LoopDisplay();
 static void ITFC_Display();
 
 static void ITFC_DisplayBranco();
+
+static ITFC_tpCondRet ITFC_CarregarTexturaBMP(const char *pathArquivo, GLuint* indiceTexturaRet);
 
 /*******************************************************************************************************************************
 *	Código de funções exportadas pelo módulo:
@@ -108,6 +126,8 @@ ITFC_tpCondRet ITFC_ConfigurarJanela(int larguraJanela, int alturaJanela) {
 
 	glutDisplayFunc(ITFC_LoopDisplay);
 
+	glEnable(GL_TEXTURE_2D);
+
 	janelaConfigurada = True;
 
 	return ITFC_CondRetOK;
@@ -128,6 +148,34 @@ ITFC_tpCondRet ITFC_ConfigurarLoopJanela(void (*inicioLoopJanela)(), void (*fimL
 
 	return ITFC_CondRetOK;
 }	/* Fim Função ITFC_ConfigurarLoopJanela */
+
+/*******************************************************************************************************************************
+*	Função: ITFC_CarregarImagens
+*/
+ITFC_tpCondRet ITFC_CarregarImagens() {
+	ITFC_tpCondRet debugInterface;
+	debugInterface = ITFC_CarregarTexturaBMP("tabuleiro.bmp", &texturaTabuleiro);
+	if (debugInterface) {
+		return debugInterface;
+	}
+	//debugInterface = ITFC_CarregarTexturaBMP("peaoAzul.bmp", &texturaPeaoAzul);
+	//if (debugInterface) {
+	//	return debugInterface;
+	//}
+	//debugInterface = ITFC_CarregarTexturaBMP("peaoAmarelo.bmp", &texturaPeaoAmarelo);
+	//if (debugInterface) {
+	//	return debugInterface;
+	//}
+	//debugInterface = ITFC_CarregarTexturaBMP("peaoVerde.bmp", &texturaPeaoVerde);
+	//if (debugInterface) {
+	//	return debugInterface;
+	//}
+	//debugInterface = ITFC_CarregarTexturaBMP("peaoVermelho.bmp", &texturaPeaoVermelho);
+	//if (debugInterface) {
+	//	return debugInterface;
+	//}
+	return ITFC_CondRetOK;
+}	/* Fim Função ITFC_CarregarImagens */
 
 /*******************************************************************************************************************************
 *	Função: ITFC_ConfigurarLoopInterface
@@ -226,6 +274,15 @@ static void ITFC_Display() {
 	/* glutGet(GLUT_WINDOW_WIDTH); */
 	/* glutGet(GLUT_WINDOW_HEIGHT); */
 
+	glBindTexture(GL_TEXTURE_2D, texturaTabuleiro);
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);	glVertex3f(-1, -1, 0);
+		glTexCoord2f(1, 0);	glVertex3f(1, -1, 0);
+		glTexCoord2f(1, 1);	glVertex3f(1, 1, 0);
+		glTexCoord2f(0, 1);	glVertex3f(-1, 1, 0);
+	glEnd();
+
 	glutSwapBuffers();
 }	/* Fim Função ITFC_Display */
 
@@ -243,3 +300,100 @@ static void ITFC_DisplayBranco() {
 
 	glutSwapBuffers();
 }	/* Fim Função ITFC_DisplayBranco */
+
+/*******************************************************************************************************************************
+*	$FC Função: ITFC_CarregarTexturaBMP
+*
+*	$ED Descrição da função:
+*		Recebe o caminho de uma imagem no formato .bmp, carrega-a como textura no openGL e retorna índice da textura.
+*
+*	$EP Parâmetros:
+*		$P pathArquivo		-	caminho para arquivo em formato .bmp da imagem.
+*		$P indiceTexturaRet	-	parâmetro que receberá índice da textura carregada. Este parâmetro é passado como referência.
+*
+*	$FV Valor retornado:
+*		ITFC_CondRetOK
+*		ITFC_CondRetErroCarregamentoImagem
+*		ITFC_CondRetSemMemoria
+*******************************************************************************************************************************/
+static ITFC_tpCondRet ITFC_CarregarTexturaBMP(const char *pathArquivo, GLuint* indiceTexturaRet) {
+	GLuint textura;
+	unsigned char* vetorImagem;
+	unsigned char* ponteiro;
+	unsigned char header[54];
+	FILE * imagem;
+	int i;
+	int larguraImagem = 0;
+	int alturaImagem = 0;
+
+	/* Abrir arquivo da imagem como binário para leitura */
+	imagem = fopen( pathArquivo, "rb" );
+	/* Se não carregar, erro */
+	if (imagem == NULL) {
+		return ITFC_CondRetErroCarregamentoImagem;
+	}
+
+	/* Segundo a internet, headers de imagens .bmp têm 54 bytes (se está na internet só pode ser verdade) */
+	/* Guardar header em buffer */
+	fread(header, 54, 1, imagem);
+
+	/* Carregar largura da imagem a partir do header (valor inteiro de 4 bytes que começa no 19º byte, segundo a internet) */
+	/* Copiar de header para variável, byte a byte */
+	ponteiro = (unsigned char*) &larguraImagem;
+	for (i = 0; i < 4; i++) {
+		*ponteiro = header[18+i];
+		ponteiro++;
+	}
+	/* Carregar altura da imagem a partir do header (valor inteiro de 4 bytes que começa no 23º byte, segundo a internet) */
+	/* Copiar de header para variável, byte a byte */
+	ponteiro = (unsigned char*) &alturaImagem;
+	for (i = 0; i < 4; i++) {
+		*ponteiro = header[22+i];
+		ponteiro++;
+	}
+
+	/* Carregar buffer pra guardar imagem */
+	vetorImagem = (unsigned char*) malloc(larguraImagem*alturaImagem*3);
+	/* Se não houve espaço, erro */
+	if (vetorImagem == NULL) {
+		return ITFC_CondRetSemMemoria;
+	}
+	
+	/* Carregar imagem em buffer */
+	fread(vetorImagem, larguraImagem*alturaImagem*3, 1, imagem);
+
+	/* Fechar arquivo binário */
+	fclose(imagem);
+
+	/* Inverte R e B porque imagens .bmp são guardadas na memória em formato BGR ao invés de RGB */
+	for(i = 0; i < larguraImagem*alturaImagem; i++) {
+		int indice = i*3;
+		unsigned char B,R;
+
+		B = vetorImagem[indice];
+		R = vetorImagem[indice+2];
+
+		vetorImagem[indice] = R;
+		vetorImagem[indice+2] = B;
+	}
+
+	/* Criar textura no openGL */
+	glGenTextures(1, &textura);
+	glBindTexture(GL_TEXTURE_2D, textura);
+
+	/* Carregar buffer da imagem em textura (é tudo copiado da internet) */
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE,GL_MODULATE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, larguraImagem, alturaImagem, GL_RGB, GL_UNSIGNED_BYTE, vetorImagem);
+
+	/* Liberar buffer */
+	free( vetorImagem );
+
+	/* Retornar índice da textura */
+	*indiceTexturaRet = textura;
+
+	return ITFC_CondRetOK;
+}	/* Fim Função ITFC_CarregarTexturaBMP */

@@ -36,6 +36,12 @@ typedef enum {
 
 	ITFC_CondRetJanelaNaoConfigurada,
 		/* Janela ainda não foi configurada */
+
+	ITFC_CondRetSemMemoria,
+		/* Falta de memória */
+
+	ITFC_CondRetErroCarregamentoImagem
+		/* Não carregou imagem */
 } ITFC_tpCondRet;
 
 /*******************************************************************************************************************************
@@ -71,6 +77,20 @@ ITFC_tpCondRet ITFC_ConfigurarInterface(int* pArgc, char** argv);
 *		ITFC_CondRetJanelaJaConfigurada
 *******************************************************************************************************************************/
 ITFC_tpCondRet ITFC_ConfigurarJanela(int largura, int altura);
+
+
+/*******************************************************************************************************************************
+*	$FC Função: ITFC_CarregarImagens
+*
+*	$ED Descrição da função:
+*		Carrega imagens utilizadas pela interface gráfica no jogo.
+*
+*	$FV Valor retornado:
+*		ITFC_CondRetOK
+*		ITFC_CondRetErroCarregamentoImagem
+*		ITFC_CondRetSemMemoria
+*******************************************************************************************************************************/
+ITFC_tpCondRet ITFC_CarregarImagens();
 
 /*******************************************************************************************************************************
 *	$FC Função: ITFC_ConfigurarLoopJanela

@@ -34,6 +34,8 @@ static int testeRecomecarPartida();
 *******************************************************************************************************************************/
 int main(int argc, char**argv) {
 
+	ITFC_tpCondRet debugInterface;
+
 	printf("\tBem vindo ao LUDO 10/10!\n\nPressione qualquer tecla para iniciar uma partida...");
 
 	getch();
@@ -42,6 +44,9 @@ int main(int argc, char**argv) {
 	ITFC_ConfigurarJanela(500, 500);
 	ITFC_ConfigurarLoopJanela(antesPartida, depoisPartida, testeRecomecarPartida);
 	ITFC_ConfigurarLoopInterface(loopPartida, testeJogadorVenceu);
+	debugInterface = ITFC_CarregarImagens();
+	if (debugInterface)
+		apresentarFalha();
 	ITFC_IniciarJanela();
 
 	return 0;

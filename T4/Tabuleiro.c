@@ -522,6 +522,7 @@ static void PosicionarCasas(){
 	TAB_tppCasa casa_temp;
 	int i;
 
+	/********************Posiciona as casas da lista circular na interface********************/
 	for(i = -1; i <= 4; i++) {
 		LSTC_ObterElemento(tab->tabuleiro, i, (void**)&casa_temp);
 		casa_temp->x = (13 - i);
@@ -560,6 +561,25 @@ static void PosicionarCasas(){
 	LSTC_ObterElemento(tab->tabuleiro, 50, (void**)&casa_temp);
 	casa_temp->x = 14;
 	casa_temp->y = 7;
+	/***************************************************************************/
+	
+	/********************Posiciona as casas das listas dos oscares na interface********************/
+	for(i = 0; i<=5; i++){
+	
+		LSTC_ObterElemento(tab->azul, i, (void**)&casa_temp);
+		casa_temp->x = (13 - i);
+	        casa_temp->y = 7;
+		LSTC_ObterElemento(tab->amarelo, i, (void**)&casa_temp);
+		casa_temp->x = (1 + i);
+	        casa_temp->y = 7;
+		LSTC_ObterElemento(tab->verde, i, (void**)&casa_temp);
+		casa_temp->x = (1 + i);
+	        casa_temp->y = 7;
+		LSTC_ObterElemento(tab->vermelho, i, (void**)&casa_temp);
+		casa_temp->x = 7;
+	        casa_temp->y = (13 - i);
+	}
+	/***************************************************************************/
 	
 }
 

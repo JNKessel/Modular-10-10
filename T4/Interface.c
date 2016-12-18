@@ -2,6 +2,7 @@
 #include "definicoes.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "glut.h"
 
@@ -77,6 +78,10 @@ static void ITFC_DisplayBranco();
 
 static ITFC_tpCondRet ITFC_CarregarTexturaBMP(const char *pathArquivo, GLuint* indiceTexturaRet);
 
+static void desenharTextura(GLuint textura, float xEsquerda, float yBaixo, float largura, float altura);
+
+static void desenharCirculo(float xEsquerda, float yBaixo, float diametro);
+
 /*******************************************************************************************************************************
 *	Código de funções exportadas pelo módulo:
 *******************************************************************************************************************************/
@@ -125,8 +130,6 @@ ITFC_tpCondRet ITFC_ConfigurarJanela(int larguraJanela, int alturaJanela) {
 	glutCreateWindow("LUDO 10/10");
 
 	glutDisplayFunc(ITFC_LoopDisplay);
-
-	glEnable(GL_TEXTURE_2D);
 
 	janelaConfigurada = True;
 
@@ -268,20 +271,16 @@ static void ITFC_LoopDisplay() {
 *******************************************************************************************************************************/
 static void ITFC_Display() {
 
-	glClearColor(0, 0, 0, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(1, 1, 1, 1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	/* glutGet(GLUT_WINDOW_WIDTH); */
 	/* glutGet(GLUT_WINDOW_HEIGHT); */
 
-	glBindTexture(GL_TEXTURE_2D, texturaTabuleiro);
+	desenharTextura(texturaTabuleiro, -1, -1, 2, 2);
 
-	glBegin(GL_QUADS);
-		glTexCoord2f(0, 0);	glVertex3f(-1, -1, 0);
-		glTexCoord2f(1, 0);	glVertex3f(1, -1, 0);
-		glTexCoord2f(1, 1);	glVertex3f(1, 1, 0);
-		glTexCoord2f(0, 1);	glVertex3f(-1, 1, 0);
-	glEnd();
+	glColor3f(0.4,0.3,0.1);
+		desenharCirculo(-1, -1, 0.13);
 
 	glutSwapBuffers();
 }	/* Fim Função ITFC_Display */
@@ -397,3 +396,34 @@ static ITFC_tpCondRet ITFC_CarregarTexturaBMP(const char *pathArquivo, GLuint* i
 
 	return ITFC_CondRetOK;
 }	/* Fim Função ITFC_CarregarTexturaBMP */
+
+static void desenharTextura(GLuint textura, float xEsquerda, float yBaixo, float largura, float altura) {
+	glEnable(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, textura);
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);	glVertex2f(xEsquerda, yBaixo);
+		glTexCoord2f(1, 0);	glVertex2f(xEsquerda + largura, yBaixo);
+		glTexCoord2f(1, 1);	glVertex2f(xEsquerda + largura, yBaixo + altura);
+		glTexCoord2f(0, 1);	glVertex2f(xEsquerda, yBaixo + altura);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+}
+
+static void desenharCirculo(float xEsquerda, float yBaixo, float diametro) {
+	float raio = diametro / 2;
+	float xCentro = xEsquerda + raio;
+	float yCentro = yBaixo + raio;
+	int pontosCircunferencia = 50;
+	int i;
+	float diferencaAngulos = 2*3.1415 / pontosCircunferencia;
+	float anguloPonto = 0;
+	glBegin(GL_TRIANGLE_FAN);
+		glVertex2f(xCentro, yCentro);
+		for (i = 0; i <= pontosCircunferencia; i++) {
+			glVertex2f(xCentro + raio*cos(anguloPonto), yCentro + raio*sin(anguloPonto));
+			anguloPonto += diferencaAngulos;
+		}
+	glEnd();
+}

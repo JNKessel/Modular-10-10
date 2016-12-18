@@ -22,18 +22,24 @@ typedef struct PEAO_tgPeao {
     int numero;
 } PEAO_tpPeao;
 
+/***************************************************************************
+*
+*  Função: PEAO_CriarPeao
+*  ****/
 PEAO_tpCondRet PEAO_CriarPeao(PEAO_tppPeao* pPeao, DEF_tpCor Cor, int iNum) {
 
+    //Aloca espaço para o peão e verifica se tem memoria o suficiente para isso
     *pPeao = (PEAO_tppPeao)malloc(sizeof(PEAO_tpPeao));
-
     if(*pPeao == NULL) {
         return PEAO_CondRetSemMemoria;
     }
 
+	//numero do peão deve ser entre 1 e 4	
 	if(iNum < 1 || iNum > 4) {
 		return PEAO_CondRetNumeroInvalido;
 	}
 
+	//inicializa os valores do peão, com a posição inicial dele sendo a base	
 	(*pPeao)->pos = NULL;
 	(*pPeao)->estado = Base;
 	(*pPeao)->cor = Cor;
@@ -42,6 +48,10 @@ PEAO_tpCondRet PEAO_CriarPeao(PEAO_tppPeao* pPeao, DEF_tpCor Cor, int iNum) {
     return PEAO_CondRetOK;
 }
 
+/***************************************************************************
+*
+*  Função: PEAO_AndarPeao
+*  ****/
 PEAO_tpCondRet PEAO_AndarPeao(PEAO_tppPeao pPeao, int n) {
 
 	TAB_tppCasa casa;
@@ -90,6 +100,10 @@ PEAO_tpCondRet PEAO_AndarPeao(PEAO_tppPeao pPeao, int n) {
 	return PEAO_CondRetOK;
 }
 
+/***************************************************************************
+*
+*  Função: PEAO_SairBasePeao
+*  ****/
 PEAO_tpCondRet PEAO_SairBasePeao(PEAO_tppPeao pPeao) {
   
 	TAB_tppCasa casa;
@@ -107,8 +121,10 @@ PEAO_tpCondRet PEAO_SairBasePeao(PEAO_tppPeao pPeao) {
     debugTabuleiro = TAB_RetornarCasaDeSaida(pPeao -> cor, &casa);
 	/* Se não retornou OK, erro */
 	if (debugTabuleiro)	return PEAO_CondRetErroTabuleiro;
-  
+    
+    //troca a posição do peão	
     pPeao -> pos = casa;
+    //modifica o estado do peão, ja que ele saiu da base	
     pPeao -> estado = Tabuleiro;
 
 	/* Avisar para nova casa que agora há um peão lá */
@@ -119,12 +135,17 @@ PEAO_tpCondRet PEAO_SairBasePeao(PEAO_tppPeao pPeao) {
     return PEAO_CondRetOK;
 } 
 
+/***************************************************************************
+*
+*  Função: PEAO_EstaPeaoFinal
+*  ****/
 PEAO_tpCondRet PEAO_EstaPeaoFinal(PEAO_tppPeao pPeao, DEF_tpBool* BoolRet) {
 
 	if(pPeao == NULL) {
 		return PEAO_CondRetPeaoInexistente;
 	}
 
+	//verifica se o estado do peão é igual a final	
 	if (pPeao->estado == Final)
 		*BoolRet = True;
 	else
@@ -133,12 +154,17 @@ PEAO_tpCondRet PEAO_EstaPeaoFinal(PEAO_tppPeao pPeao, DEF_tpBool* BoolRet) {
     return PEAO_CondRetOK;
 }
 
+/***************************************************************************
+*
+*  Função: PEAO_EstaPeaoBase
+*  ****/
 PEAO_tpCondRet PEAO_EstaPeaoBase(PEAO_tppPeao pPeao, DEF_tpBool* BoolRet) {
 
 	if(pPeao == NULL) {
 		return PEAO_CondRetPeaoInexistente;
 	}
 
+	//verifica se o estado do peão é igual a base
 	if (pPeao->estado == Base)
 		*BoolRet = True;
 	else
@@ -146,7 +172,11 @@ PEAO_tpCondRet PEAO_EstaPeaoBase(PEAO_tppPeao pPeao, DEF_tpBool* BoolRet) {
 
     return PEAO_CondRetOK;
 }
- 
+
+/***************************************************************************
+*
+*  Função: PEAO_ObterNumeroPeao
+*  ****/
 PEAO_tpCondRet PEAO_ObterNumeroPeao(PEAO_tppPeao pPeao, int* NumRet) {
 
 	if(pPeao == NULL) {
@@ -158,6 +188,10 @@ PEAO_tpCondRet PEAO_ObterNumeroPeao(PEAO_tppPeao pPeao, int* NumRet) {
     return PEAO_CondRetOK;
 }
 
+/***************************************************************************
+*
+*  Função: PEAO_ObterCasaPeao
+*  ****/
 PEAO_tpCondRet PEAO_ObterCasaPeao(PEAO_tppPeao pPeao, TAB_tppCasa * casaRetorno) {
 
 	if(pPeao == NULL) {
@@ -168,7 +202,11 @@ PEAO_tpCondRet PEAO_ObterCasaPeao(PEAO_tppPeao pPeao, TAB_tppCasa * casaRetorno)
 	
 	return PEAO_CondRetOK;
 }
- 
+
+/***************************************************************************
+*
+*  Função: PEAO_ChecarMovimentoDisponivelPeao
+*  ****/
 PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, DEF_tpBool* BoolRet, DEF_tpCor* CorRet) {
 
 	DEF_tpCor corNaCasa;
@@ -242,6 +280,10 @@ PEAO_tpCondRet PEAO_ChecarMovimentoDisponivelPeao(PEAO_tppPeao pPeao, int dado, 
     return PEAO_CondRetOK;
 }
 
+/***************************************************************************
+*
+*  Função: PEAO_VoltarBasePeao
+*  ****/
 PEAO_tpCondRet PEAO_VoltarBasePeao(PEAO_tppPeao pPeao) {
 
 	TAB_tpCondRet debugTabuleiro;
@@ -265,6 +307,11 @@ PEAO_tpCondRet PEAO_VoltarBasePeao(PEAO_tppPeao pPeao) {
     return PEAO_CondRetOK;
 }
 
+
+/***************************************************************************
+*
+*  Função: PEAO_DestruirPeao
+*  ****/
 PEAO_tpCondRet PEAO_DestruirPeao(PEAO_tppPeao pPeao) {
 
 	if(pPeao == NULL){

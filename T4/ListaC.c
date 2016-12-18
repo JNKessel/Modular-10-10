@@ -883,7 +883,7 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet
 	NOLST_tppNoLista noTemp;
 
 	*pTamanhoRet = 1;
-	if (!pLstC){
+	if (!pLstC) {
 		return LSTC_CondRetListaInexistente;
 	}
 
@@ -902,11 +902,16 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet
 	  nenhum erro o tratador nao faz nada*/
 	/*tratador*/TratadorParaPonteiroPerdido(pLstC, /*assertiva*/AssertivaParaPonteiroPerdido(pLstC));
 
-	NOLST_ObterProxNoh(pLstC->pNoCorr1, &noTemp);
-	while(noTemp != pLstC->pNoCorr1){
+
+	if (pLstC->pNoCorr1 == NULL) {
+		*pTamanhoRet = 0;
+	} else {
+		NOLST_ObterProxNoh(pLstC->pNoCorr1, &noTemp);
+		while(noTemp != pLstC->pNoCorr1) {
 	
-		NOLST_ObterProxNoh(noTemp, &noTemp);
-		*pTamanhoRet ++;
+			NOLST_ObterProxNoh(noTemp, &noTemp);
+			(*pTamanhoRet) ++;
+		}
 	}
 
 	return LSTC_CondRetOK;
@@ -940,11 +945,15 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRe
 	  nenhum erro o tratador nao faz nada*/
 	/*tratador*/TratadorParaPonteiroPerdido(pLstC, /*assertiva*/AssertivaParaPonteiroPerdido(pLstC));
 
-	NOLST_ObterNohPrevio(pLstC->pNoCorr1, &noTemp);
-	while(noTemp != pLstC->pNoCorr1){
+	if (pLstC->pNoCorr1 == NULL) {
+		*pTamanhoRet = 0;
+	} else {
+		NOLST_ObterNohPrevio(pLstC->pNoCorr1, &noTemp);
+		while(noTemp != pLstC->pNoCorr1){
 	
-		NOLST_ObterNohPrevio(noTemp, &noTemp);
-		*pTamanhoRet ++;
+			NOLST_ObterNohPrevio(noTemp, &noTemp);
+			(*pTamanhoRet) ++;
+		}
 	}
 
 	return LSTC_CondRetOK;

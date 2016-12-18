@@ -51,7 +51,7 @@ static TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa casa);
 
 static TAB_tppTabuleiro tab;
 
-static void PosicionarCasas();
+static TAB_tpCondRet PosicionarCasas();
 
 /* Código do módulo de implementação */
 
@@ -480,7 +480,7 @@ TAB_tpCondRet PreencheListaRetaFinal(LIS_tppLista lst) {
     int i;
     LIS_tpCondRet debugLIS;
     TAB_tppCasa casa;
-    for(i=0;i<4;i++){
+    for(i=0;i<5;i++){
         TAB_CriarCasa(&casa);
         debugLIS = LIS_InserirElementoApos(lst, casa);
         if(debugLIS){
@@ -517,9 +517,10 @@ TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa* casa){
     }
 }
 
-static void PosicionarCasas(){
+static TAB_tpCondRet PosicionarCasas(){
 
 	TAB_tppCasa casa_temp;
+	LIS_tpCondRet debugLista;
 	int i;
 
 	/********************Posiciona as casas da lista circular na interface********************/
@@ -562,25 +563,71 @@ static void PosicionarCasas(){
 	casa_temp->x = 14;
 	casa_temp->y = 7;
 	/***************************************************************************/
+
+	debugLista = LIS_IrInicioLista(tab->azul);
+	if (debugLista) {
+		return TAB_CondRetErroLista;
+	}
+	debugLista = LIS_IrInicioLista(tab->amarelo);
+	if (debugLista) {
+		return TAB_CondRetErroLista;
+	}
+	debugLista = LIS_IrInicioLista(tab->verde);
+	if (debugLista) {
+		return TAB_CondRetErroLista;
+	}
+	debugLista = LIS_IrInicioLista(tab->vermelho);
+	if (debugLista) {
+		return TAB_CondRetErroLista;
+	}
 	
 	/********************Posiciona as casas das listas dos oscares na interface********************/
-	for(i = 0; i<=5; i++){
+	for(i = 0; i <= 5; i++){
 	
-		LSTC_ObterElemento(tab->azul, i, (void**)&casa_temp);
+		debugLista = LIS_ObterValor(tab->azul, (void**)&casa_temp);
+		if (debugLista) {
+			return TAB_CondRetErroLista;
+		}
 		casa_temp->x = (13 - i);
-	        casa_temp->y = 7;
-		LSTC_ObterElemento(tab->amarelo, i, (void**)&casa_temp);
+			casa_temp->y = 7;
+		debugLista = LIS_ObterValor(tab->amarelo, (void**)&casa_temp);
+		if (debugLista) {
+			return TAB_CondRetErroLista;
+		}
 		casa_temp->x = (1 + i);
-	        casa_temp->y = 7;
-		LSTC_ObterElemento(tab->verde, i, (void**)&casa_temp);
+			casa_temp->y = 7;
+		debugLista = LIS_ObterValor(tab->verde, (void**)&casa_temp);
+		if (debugLista) {
+			return TAB_CondRetErroLista;
+		}
 		casa_temp->x = (1 + i);
-	        casa_temp->y = 7;
-		LSTC_ObterElemento(tab->vermelho, i, (void**)&casa_temp);
+			casa_temp->y = 7;
+		debugLista = LIS_ObterValor(tab->vermelho, (void**)&casa_temp);
+		if (debugLista) {
+			return TAB_CondRetErroLista;
+		}
 		casa_temp->x = 7;
-	        casa_temp->y = (13 - i);
+			casa_temp->y = (13 - i);
+
+		debugLista = LIS_AvancarElementoCorrente(tab->azul, 1);
+		if (debugLista) {
+			return TAB_CondRetErroLista;
+		}
+		debugLista = LIS_AvancarElementoCorrente(tab->amarelo, 1);
+		if (debugLista) {
+			return TAB_CondRetErroLista;
+		}
+		debugLista = LIS_AvancarElementoCorrente(tab->verde, 1);
+		if (debugLista) {
+			return TAB_CondRetErroLista;
+		}
+		debugLista = LIS_AvancarElementoCorrente(tab->vermelho, 1);
+		if (debugLista) {
+			return TAB_CondRetErroLista;
+		}
 	}
 	/***************************************************************************/
-	
+	return TAB_CondRetOK;
 }
 
 

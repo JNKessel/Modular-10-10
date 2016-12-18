@@ -589,25 +589,25 @@ static TAB_tpCondRet PosicionarCasas(){
 			return TAB_CondRetErroLista;
 		}
 		casa_temp->x = (13 - i);
-			casa_temp->y = 7;
+		casa_temp->y = 7;
 		debugLista = LIS_ObterValor(tab->amarelo, (void**)&casa_temp);
 		if (debugLista) {
 			return TAB_CondRetErroLista;
 		}
-		casa_temp->x = (1 + i);
-			casa_temp->y = 7;
+		casa_temp->x = 7;
+		casa_temp->y = (1 + i);
 		debugLista = LIS_ObterValor(tab->verde, (void**)&casa_temp);
 		if (debugLista) {
 			return TAB_CondRetErroLista;
 		}
 		casa_temp->x = (1 + i);
-			casa_temp->y = 7;
+		casa_temp->y = 7;
 		debugLista = LIS_ObterValor(tab->vermelho, (void**)&casa_temp);
 		if (debugLista) {
 			return TAB_CondRetErroLista;
 		}
 		casa_temp->x = 7;
-			casa_temp->y = (13 - i);
+		casa_temp->y = (13 - i);
 
 		debugLista = LIS_AvancarElementoCorrente(tab->azul, 1);
 		if (debugLista) {

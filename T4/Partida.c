@@ -329,7 +329,7 @@ PART_tpCondRet PART_Jogar() {
 
 	/* Se for necessário comer outro peão */
 	if (corAComer != SEM_COR) {
-		PART_ComerPeao(peaoEscolhido, corAComer);
+		PART_ComerPeao(peaoEscolhido, jogAtual->Cor, corAComer);
 		jogarNovamente = 1;
 	}	/* if */
 
@@ -985,11 +985,12 @@ static int CriterioProcurarNumJogador(void* pElemBuscado, void* pElemLista) {
 *	$FC Função: PART_ComerPeao
 *
 *	$ED Descrição da função:
-*		Recebe o peão que comerá o outro, cuja posição já deve ser a mesma casa do peão comido. Recebe também a cor do peão 
-*		comido. Faz o peão comido voltar para a base e imprime uma mensagem avisando que ele foi comido na interface do console.
+*		Recebe o peão que comerá o outro e sua cor, cuja posição já deve ser a mesma casa do peão comido. Recebe também a cor do 
+*		peão comido. Faz o peão comido voltar para a base e imprime uma mensagem avisando que ele foi comido na interface do console.
 *
 *	$EP Parâmetros:
 *		$P peaoPrincipal	-	peão que comerá o outro
+*		$P corPeaoPrincipal	-	cor do peão que comerá o outro
 *		$P corPeaoComido	-	cor do peão que será comido
 *
 *	$FV Valor retornado:
@@ -998,8 +999,9 @@ static int CriterioProcurarNumJogador(void* pElemBuscado, void* pElemLista) {
 *		PART_CondRetErroPeao
 *		PART_CondRetErroListaC
 *		PART_CondRetErroLista
+*		PART_CondRetErroTabuleiro
 *******************************************************************************************************************************/
-static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoComido) {
+static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoPrincipal, DEF_tpCor corPeaoComido) {
 	TAB_tppCasa casaAComer;
 	LSTC_tpCondRet debugListaC;
 	PEAO_tpCondRet debugPeao;
@@ -1059,11 +1061,19 @@ static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPe
 				/* Em caso positivo, retornar peão para base, imprimir mensagem e encerrar função */
 
 			PART_tpCondRet debugPartida;
+			TAB_tpCondRet debugTabuleiro;
 
 			/* Voltar para base */
 			debugPeao = PEAO_VoltarBasePeao(tempPeao);
 			/* Se não retornou OK, erro */
 			if (debugPeao)	return PART_CondRetErroPeao;
+
+			/* Agora que o peão foi comido, botar a nova cor naquela casa */
+			debugTabuleiro = TAB_MudarCorPeaoNaCasa(casaAComer, corPeaoPrincipal);
+			/* Se não retornou OK, erro */
+			if (debugTabuleiro) {
+				return PART_CondRetErroTabuleiro;
+			}
 
 			/* Pegar número do peão comido */
 			debugPeao = PEAO_ObterNumeroPeao(tempPeao, &numPeaoComido);

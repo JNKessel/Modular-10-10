@@ -22,6 +22,7 @@
 #pragma once
 
 #include "Definicoes.h"
+#include "Tabuleiro.h"
 
 /*******************************************************************************************************************************
 *	$TC Tipo de dados: PART Condições de retorno
@@ -49,7 +50,7 @@ typedef enum {
 		/* Erro em uso de função de módulo TAB */
 
 	PART_CondRetNumInvalido,
-		/* Número de jogadores especificado não é válido */
+		/* Número especificado não é válido */
 
 	PART_CondRetPartidaInexistente,
 		/* Tentativa de operação sobre partida que não foi criada ou já foi destruída */
@@ -148,6 +149,81 @@ PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet
 *		PART_CondRetPartidaInexistente
 *******************************************************************************************************************************/
 PART_tpCondRet PART_AnunciarVencedor(DEF_tpCor CorVencedor);
+
+/*******************************************************************************************************************************
+*	$FC Função: PART_ObterQtdJogadores
+*
+*	$ED Descrição da função:
+*		Retorna a quantidade de jogadores participantes da partida atual em andamento
+*
+*	$EP Parâmetros:
+*		$P qtdJogadores	-	parâmetro que receberá quantidade de jogadores. Esse parâmetro é passado como referência.
+*
+*	$FV Valor retornado:
+*		PART_CondRetOK
+*		PART_CondRetPartidaInexistente
+*		PART_CondRetErroListaC
+*******************************************************************************************************************************/
+PART_tpCondRet PART_ObterQtdJogadores(int* qtdJogadores);
+
+/*******************************************************************************************************************************
+*	$FC Função: PART_ObterQtdPeoes
+*
+*	$ED Descrição da função:
+*		Retorna a quantidade de peões que cada jogador participante da partida atual em andamento possui (usualmente sempre 4)
+*
+*	$EP Parâmetros:
+*		$P qtdPeoes	-	parâmetro que receberá quantidade de peões. Esse parâmetro é passado como referência.
+*
+*	$FV Valor retornado:
+*		PART_CondRetOK
+*******************************************************************************************************************************/
+PART_tpCondRet PART_ObterQtdPeoes(int* qtdPeoes);
+
+/*******************************************************************************************************************************
+*	$FC Função: PART_ObterCorJogador
+*
+*	$ED Descrição da função:
+*		Retorna a cor do jogador de número N. O número de cada jogador é salvo em ordem de criação no início da partida.
+*		O primeiro jogador a jogar é o número 1 e assim por diante.
+*
+*	$EP Parâmetros:
+*		$P iNumJogador	-	número N do jogador em questão (Entre 1 e 4).
+*		$P corJogador	-	parâmetro que receberá cor do jogador. Esse parâmetro é passado como referência.
+*
+*	$FV Valor retornado:
+*		PART_CondRetOK
+*		PART_CondRetPartidaInexistente
+*		PART_CondRetNumInvalido
+*		PART_CondRetInconsistencia
+*		PART_CondRetErroListaC
+*******************************************************************************************************************************/
+PART_tpCondRet PART_ObterCorJogador(int iNumJogador, DEF_tpCor* corJogador);
+
+
+/*******************************************************************************************************************************
+*	$FC Função: PART_ObterCasaPeaoJogador
+*
+*	$ED Descrição da função:
+*		Retorna a casa atual do peão de número M do jogador de número N. O número de cada jogador é salvo em ordem de criação no
+*		início da partida. O primeiro jogador a jogar é o número 1 e assim por diante.
+*
+*	$EP Parâmetros:
+*		$P iNumJogador	-	número N do jogador em questão (Entre 1 e 4).
+*		$P iNumPeao		-	número M do peão em questão (Usualmente entre 1 e 4).
+*		$P casaPeao		-	parâmetro que receberá casa do peão do jogador. Se o peão estiver na base, será retornado NULL.
+*							Esse parâmetro é passado como referência.
+*
+*	$FV Valor retornado:
+*		PART_CondRetOK
+*		PART_CondRetPartidaInexistente
+*		PART_CondRetNumInvalido
+*		PART_CondRetInconsistencia
+*		PART_CondRetErroListaC
+*		PART_CondRetErroLista
+*		PART_CondRetErroPeao
+*******************************************************************************************************************************/
+PART_tpCondRet PART_ObterCasaPeaoJogador(int iNumJogador, int iNumPeao, TAB_tppCasa* casaPeao);
 
 /*******************************************************************************************************************************
 *	$FC Função: PART_DestruirPartida

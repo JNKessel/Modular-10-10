@@ -4,7 +4,6 @@
 #include "Peao.h"
 #include "ListaC.h"
 #include "Lista.h"
-#include "Tabuleiro.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <conio.h>
@@ -22,6 +21,7 @@
 
 typedef struct PART_tgJogador {
     
+	int iNumJogador;
     LIS_tppLista pLstPeoes;
     DEF_tpCor Cor;
 
@@ -54,6 +54,8 @@ static PART_tpCondRet PART_ChecarPeoesDisponiveis(PART_tpJogador* jogadorVez, in
 static PART_tpCondRet PART_Escolher(LIS_tppLista peoesDisponiveis, PEAO_tppPeao* peaoEscolhidoRet);
 
 static int CriterioProcurarCorJogador(void* pElemBuscado, void* pElemLista);
+
+static int CriterioProcurarNumJogador(void* pElemBuscado, void* pElemLista);
 
 static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoComido);
 
@@ -117,6 +119,7 @@ PART_tpCondRet PART_CriarPartida(int n) {
 		if (!jog)	return PART_CondRetSemMemoria;
 
 		jog->Cor = cor;
+		jog->iNumJogador = i + 1;
 
 		/* Criar lista de peões */
 		debugLista = LIS_CriarLista(&jog->pLstPeoes, ExcluirPeao);
@@ -425,6 +428,198 @@ PART_tpCondRet PART_AnunciarVencedor(DEF_tpCor CorVencedorRet) {
 }	/* Fim Função PART_AnunciarVencedor */
 
 /*******************************************************************************************************************************
+*	Função: PART_ObterQtdJogadores
+*/
+PART_tpCondRet PART_ObterQtdJogadores(int* qtdJogadores) {
+	LSTC_tpCondRet debugListaC;
+	int tamLst;
+
+	if (lstJogadores == NULL) {
+		return PART_CondRetPartidaInexistente;
+	}
+
+	debugListaC = LSTC_ObterTamanhoListaC(lstJogadores, &tamLst);
+	if (debugListaC) {
+		return PART_CondRetErroListaC;
+	}
+
+	*qtdJogadores = tamLst;
+
+	return PART_CondRetOK;
+}	/* Fim Função PART_ObterQtdJogadores */
+
+/*******************************************************************************************************************************
+*	Função: PART_ObterQtdPeoes
+*/
+PART_tpCondRet PART_ObterQtdPeoes(int* qtdPeoes) {
+
+	*qtdPeoes = NUM_PEOES;
+
+	return PART_CondRetOK;
+}	/* Fim Função PART_ObterQtdPeoes */
+
+/*******************************************************************************************************************************
+*	Função: PART_ObterCorJogador
+*/
+PART_tpCondRet PART_ObterCorJogador(int iNumJogador, DEF_tpCor* corJogador) {
+
+	PART_tpCondRet debugPartida;
+	LSTC_tpCondRet debugListaC;
+	PART_tpJogador* jog;
+	int qtdMaxJogadores, indice;
+
+	if (lstJogadores == NULL) {
+		return PART_CondRetPartidaInexistente;
+	}
+
+	/* Pegar quantidade máxima de jogadores para testes */
+	debugPartida = PART_ObterQtdJogadores(&qtdMaxJogadores);
+	/* Se não retornou OK, erro */
+	if (debugPartida) {
+		return debugPartida;
+	}
+
+	if (iNumJogador < 1 || iNumJogador > qtdMaxJogadores) {
+		return PART_CondRetNumInvalido;
+	}
+
+	/* Pegar índice de jogador na lista */
+	debugListaC = LSTC_ProcurarElemento(lstJogadores, &iNumJogador, &indice, CriterioProcurarNumJogador);
+	/* Se não retornou OK, erro */
+	if (debugListaC == LSTC_CondRetElemInexistente) {
+		return PART_CondRetInconsistencia;
+	}
+	if (debugListaC) {
+		return PART_CondRetErroListaC;
+	}
+
+	/* Pegar jogador */
+	debugListaC = LSTC_ObterElemento(lstJogadores, indice, (void**)&jog);
+	/* Se não retornou OK, erro */
+	if (debugListaC) {
+		return PART_CondRetErroListaC;
+	}
+
+	/* Retornar cor do jogador */
+	*corJogador = jog->Cor;
+
+	return PART_CondRetOK;
+}	/* Fim Função PART_ObterCorJogador */
+
+/*******************************************************************************************************************************
+*	Função: PART_ObterCasaPeaoJogador
+*/
+PART_tpCondRet PART_ObterCasaPeaoJogador(int iNumJogador, int iNumPeao, TAB_tppCasa* casaPeao) {
+
+	PART_tpCondRet debugPartida;
+	LSTC_tpCondRet debugListaC;
+	LIS_tpCondRet debugLista;
+	LIS_tppLista lstPeoes;
+	PART_tpJogador* jog;
+	int qtdMaxJogadores, indice, qtdPeoes, i;
+
+	if (lstJogadores == NULL) {
+		return PART_CondRetPartidaInexistente;
+	}
+
+	/* Pegar quantidade máxima de jogadores para testes */
+	debugPartida = PART_ObterQtdJogadores(&qtdMaxJogadores);
+	/* Se não retornou OK, erro */
+	if (debugPartida) {
+		return debugPartida;
+	}
+
+	if (iNumJogador < 1 || iNumJogador > qtdMaxJogadores) {
+		return PART_CondRetNumInvalido;
+	}
+
+	if (iNumPeao < 1 || iNumPeao > NUM_PEOES) {
+		return PART_CondRetNumInvalido;
+	}
+
+	/* Pegar índice de jogador na lista */
+	debugListaC = LSTC_ProcurarElemento(lstJogadores, &iNumJogador, &indice, CriterioProcurarNumJogador);
+	/* Se não retornou OK, erro */
+	if (debugListaC == LSTC_CondRetElemInexistente) {
+		return PART_CondRetInconsistencia;
+	}
+	if (debugListaC) {
+		return PART_CondRetErroListaC;
+	}
+
+	/* Pegar jogador */
+	debugListaC = LSTC_ObterElemento(lstJogadores, indice, (void**)&jog);
+	/* Se não retornou OK, erro */
+	if (debugListaC) {
+		return PART_CondRetErroListaC;
+	}
+
+	lstPeoes = jog->pLstPeoes;
+
+	/* Pegar quantidade de peões na lista */
+	debugLista = LIS_ObterTamanhoLista(lstPeoes, &qtdPeoes);
+	/* Se não retornou OK, erro */
+	if (debugLista) {
+		return PART_CondRetErroLista;
+	}
+
+	/* Ir para início de lista de peões */
+	debugLista = LIS_IrInicioLista(lstPeoes);
+	/* Se não retornou OK, erro */
+	if (debugLista) {
+		return PART_CondRetErroLista;
+	}
+
+	/* Percorrer lista procurando por número de peão */
+	while(1) {
+		PEAO_tppPeao tempPeao;
+		PEAO_tpCondRet debugPeao;
+		int numTempPeao;
+
+		/* Pegar peão */
+		debugLista = LIS_ObterValor(lstPeoes, &tempPeao);
+		/* Se não retornou OK, erro */
+		if (debugLista) {
+			return PART_CondRetErroLista;
+		}
+
+		/* Pegar número do peão */
+		debugPeao = PEAO_ObterNumeroPeao(tempPeao, &numTempPeao);
+		/* Se não retornou OK, erro */
+		if (debugPeao) {
+			return PART_CondRetErroPeao;
+		}
+
+		/* Se peão é o peão procurado */
+		if (numTempPeao = iNumPeao) {
+
+			/* Retornar casa do peão */
+			debugPeao = PEAO_ObterCasaPeao(tempPeao, casaPeao);
+			/* Se não retornou OK, erro */
+			if (debugPeao) {
+				return PART_CondRetErroPeao;
+			}
+
+			break;
+		}
+
+		/* Se chegou em último elemento e não encontrou peão, erro */
+		if (i <= qtdPeoes - 1) {
+			return PART_CondRetInconsistencia;
+		}
+
+		/* Avançar em lista de peões */
+		debugLista = LIS_AvancarElementoCorrente(lstPeoes, 1);
+		/* Se não retornou OK, erro */
+		if (debugLista) {
+			return PART_CondRetErroLista;
+		}
+	}
+
+	return PART_CondRetOK;
+}	/* Fim Função PART_ObterCasaPeaoJogador */
+
+/*******************************************************************************************************************************
 *	Função: PART_DestruirPartida
 */
 PART_tpCondRet PART_DestruirPartida() {
@@ -445,7 +640,7 @@ PART_tpCondRet PART_DestruirPartida() {
 	lstJogadores = NULL;
 
 	return PART_CondRetOK;
-} /* Fim Função PART_DestruirPartida */
+}	/* Fim Função PART_DestruirPartida */
 
 /*******************************************************************************************************************************
 *	Código de funções encapsuladas no módulo:
@@ -734,6 +929,30 @@ static int CriterioProcurarCorJogador(void* pElemBuscado, void* pElemLista) {
 		return 1;
 	else
 		return 0;
+}
+
+/*******************************************************************************************************************************
+*	$FC Função: CriterioProcurarNumJogador
+*
+*	$ED Descrição da função:
+*		Função de critério de busca em lista circular. Serve para procurar um número de um jogador em uma lista de jogadores.
+*
+*	$EP Parâmetros:
+*		$P pElemBuscado	-	será procurado um número
+*		$P pElemLista	-	elementos da lista são jogadores
+*
+*	$FV Valor retornado:
+*		1	-	caso jogador do número passado seja encontrado
+*		0	-	caso jogador não tenha sido encontrado
+*******************************************************************************************************************************/
+static int CriterioProcurarNumJogador(void* pElemBuscado, void* pElemLista) {
+	int numBuscado = *(int*) pElemBuscado;
+	PART_tpJogador* pJogadorLista = (PART_tpJogador*) pElemLista;
+	if (pJogadorLista->iNumJogador == numBuscado) {
+		return 1;
+	} else {
+		return 0;
+	}
 }
 
 /*******************************************************************************************************************************

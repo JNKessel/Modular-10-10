@@ -114,7 +114,8 @@ PEAO_tpCondRet PEAO_ObterNumeroPeao(PEAO_tppPeao pPeao, int* NumRet);
 * $FC Funçao: PEAO_ObterCasaPeao
 * 
 * $ED Descriçao da funçao:
-* Recebe um peao e retorna na variavelde casaRetorno um ponteiro para a casa na qual o peao se encontra
+* Recebe um peao e retorna na variavelde casaRetorno um ponteiro para a casa na qual o peao se encontra.
+* Retorna na variável NULL caso o peão esteja na base
 *
 * $FV Valores de Retorno:
 *     PEAO_CondRetPeaoInexistente - Peao nao existe

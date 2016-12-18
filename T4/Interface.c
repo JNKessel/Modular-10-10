@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include "partida.h"
+#include "tabuleiro.h"
 
 #include "glut.h"
 
@@ -72,15 +74,21 @@ static void ITFC_LoopPrincipal();
 
 static void ITFC_LoopDisplay();
 
-static void ITFC_Display();
+static ITFC_tpCondRet ITFC_Display();
 
-static void ITFC_DisplayBranco();
+static ITFC_tpCondRet ITFC_DisplayBranco();
 
 static ITFC_tpCondRet ITFC_CarregarTexturaBMP(const char *pathArquivo, GLuint* indiceTexturaRet);
 
-static void desenharTextura(GLuint textura, float xEsquerda, float yBaixo, float largura, float altura);
+static ITFC_tpCondRet ITFC_DesenharTextura(GLuint textura, float xEsquerda, float yBaixo, float largura, float altura);
 
-static void desenharCirculo(float xEsquerda, float yBaixo, float diametro);
+static ITFC_tpCondRet ITFC_DesenharCirculo(float xEsquerda, float yBaixo, float diametro);
+
+static void ITFC_ApresentarErro(const char* msg);
+
+static ITFC_tpCondRet ITFC_DefinirCor(DEF_tpCor cor);
+
+static ITFC_tpCondRet ITFC_DesenharPeoes();
 
 /*******************************************************************************************************************************
 *	Código de funções exportadas pelo módulo:
@@ -227,35 +235,70 @@ ITFC_tpCondRet ITFC_IniciarJanela() {
 static void ITFC_LoopDisplay() {
 
 	int retorno;
+	ITFC_tpCondRet debugInterface;
 
+	/* Testar onde está fluxo de execução do programa */
 	switch(fluxoExecucao) {
 		case INICIO:
 
+			/* Criar partida */
 			FuncaoInicioLoopJanela();
+
+			/* Mudar fluxo de execução */
 			fluxoExecucao = INTERFACE;
-			ITFC_Display();
+
+			/* Começar a desenhar partida */
+			debugInterface = ITFC_Display();
+			/* Se não retornou OK, erro */
+			if (debugInterface) {
+				ITFC_ApresentarErro("Erro em display da interface.");
+			}
 
 			break;
 		case INTERFACE:
 
+			/* Executar turno da partida */
 			FuncaoLoopInterface();
+
+			/* Testar se partida acabou */
 			retorno = FuncaoCondicaoFimLoopInterface();
+
+			/* Se partida acabar, mudar fluxo de execução */
 			if (retorno) {
 				fluxoExecucao = FIM;
 			}
-			ITFC_Display();
+
+			/* Desenhar partida */
+			debugInterface = ITFC_Display();
+			/* Se não retornou OK, erro */
+			if (debugInterface) {
+				ITFC_ApresentarErro("Erro em display da interface.");
+			}
 
 			break;
 		case FIM:
 
+			/* Finalizar partida */
 			FuncaoFimLoopJanela();
+
+			/* Testar se jogo deve ser reiniciado */
 			retorno = FuncaoCondicaoFimLoopJanela();
 			if (retorno) {
+					/* Em caso negativo, fechar jogo */
+
 				exit(0);
 			} else {
+					/* Em caso positivo, mudar fluxo de execução */
+
 				fluxoExecucao = INICIO;
 			}
-			ITFC_DisplayBranco();
+
+			/* Desenhar tela em branco */
+			debugInterface = ITFC_DisplayBranco();
+			/* Se não retornou OK, erro */
+			if (debugInterface) {
+				ITFC_ApresentarErro("Erro em display da interface.");
+			}
 
 			break;
 		}	/* switch */
@@ -269,20 +312,37 @@ static void ITFC_LoopDisplay() {
 *	$ED Descrição da função:
 *		Desenha tabuleiro e peões na tela
 *******************************************************************************************************************************/
-static void ITFC_Display() {
+static ITFC_tpCondRet ITFC_Display() {
 
+	PART_tpCondRet debugPartida;
+	TAB_tpCondRet debugTabuleiro;
+	ITFC_tpCondRet debugInterface;
+	int qtdJogadores;
+	int qtdPeoes;
+	int i, j;
+
+	/* Limpar buffer secundário */
 	glClearColor(1, 1, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	/* glutGet(GLUT_WINDOW_WIDTH); */
-	/* glutGet(GLUT_WINDOW_HEIGHT); */
+	/* Desenhar tabuleiro */
+	debugInterface = ITFC_DesenharTextura(texturaTabuleiro, -1, -1, 2, 2);
+	/* Se não retornou OK, erro */
+	if (debugInterface) {
+		ITFC_ApresentarErro("Erro em desenho de tabuleiro.");
+	}
 
-	desenharTextura(texturaTabuleiro, -1, -1, 2, 2);
-
-	glColor3f(0.4,0.3,0.1);
-		desenharCirculo(-1, -1, 0.13);
-
+	/* Desenhar todos os peões de cada jogador */
+	debugInterface = ITFC_DesenharPeoes();
+	/* Se não retornou OK, erro */
+	if (debugInterface) {
+		ITFC_ApresentarErro("Erro em desenho de peoes.");
+	}
+	
+	/* Imprimir buffer secundário */
 	glutSwapBuffers();
+
+	return ITFC_CondRetOK;
 }	/* Fim Função ITFC_Display */
 
 /*******************************************************************************************************************************
@@ -291,13 +351,15 @@ static void ITFC_Display() {
 *	$ED Descrição da função:
 *		Desenha imagem em branco
 *******************************************************************************************************************************/
-static void ITFC_DisplayBranco() {
+static ITFC_tpCondRet ITFC_DisplayBranco() {
 
 	glClearColor(1, 1, 1, 0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 
 	glutSwapBuffers();
+
+	return ITFC_CondRetOK;
 }	/* Fim Função ITFC_DisplayBranco */
 
 /*******************************************************************************************************************************
@@ -389,7 +451,7 @@ static ITFC_tpCondRet ITFC_CarregarTexturaBMP(const char *pathArquivo, GLuint* i
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, larguraImagem, alturaImagem, GL_RGB, GL_UNSIGNED_BYTE, vetorImagem);
 
 	/* Liberar buffer */
-	free( vetorImagem );
+	free(vetorImagem);
 
 	/* Retornar índice da textura */
 	*indiceTexturaRet = textura;
@@ -397,7 +459,7 @@ static ITFC_tpCondRet ITFC_CarregarTexturaBMP(const char *pathArquivo, GLuint* i
 	return ITFC_CondRetOK;
 }	/* Fim Função ITFC_CarregarTexturaBMP */
 
-static void desenharTextura(GLuint textura, float xEsquerda, float yBaixo, float largura, float altura) {
+static ITFC_tpCondRet ITFC_DesenharTextura(GLuint textura, float xEsquerda, float yBaixo, float largura, float altura) {
 	glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, textura);
@@ -409,9 +471,10 @@ static void desenharTextura(GLuint textura, float xEsquerda, float yBaixo, float
 		glTexCoord2f(0, 1);	glVertex2f(xEsquerda, yBaixo + altura);
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
+	return ITFC_CondRetOK;
 }
 
-static void desenharCirculo(float xEsquerda, float yBaixo, float diametro) {
+static ITFC_tpCondRet ITFC_DesenharCirculo(float xEsquerda, float yBaixo, float diametro) {
 	float raio = diametro / 2;
 	float xCentro = xEsquerda + raio;
 	float yCentro = yBaixo + raio;
@@ -426,4 +489,183 @@ static void desenharCirculo(float xEsquerda, float yBaixo, float diametro) {
 			anguloPonto += diferencaAngulos;
 		}
 	glEnd();
+	return ITFC_CondRetOK;
+}
+
+static void ITFC_ApresentarErro(const char* msg) {
+	system("cls");
+	printf("ITFC (Modulo interface): ");
+	printf(msg);
+	puts("\n");
+	exit(1);
+}
+
+static ITFC_tpCondRet ITFC_DefinirCor(DEF_tpCor cor) {
+	switch(cor) {
+		case AZUL:
+			glColor3f(0,0,1);
+			break;
+		case AMARELO:
+			glColor3f(0,0.8,0.8);
+			break;
+		case VERDE:
+			glColor3f(0,1,0);
+			break;
+		case VERMELHO:
+			glColor3f(1,0,0);
+			break;
+		default:
+			glColor3f(0,0,0);
+	}
+	return ITFC_CondRetOK;
+}
+
+static ITFC_tpCondRet ITFC_DesenharPeoes() {
+
+	PART_tpCondRet debugPartida;
+	TAB_tpCondRet debugTabuleiro;
+	ITFC_tpCondRet debugInterface;
+	int qtdJogadores;
+	int qtdPeoes;
+	int i, j;
+
+	/* Pegar quantidade de jogadores participantes da partida */
+	debugPartida = PART_ObterQtdJogadores(&qtdJogadores);
+	/* Se não retornou OK, erro */
+	if (debugPartida == PART_CondRetPartidaInexistente) {
+		ITFC_ApresentarErro("Erro de desenho da interface: Nenhuma partida foi iniciada.");
+	}
+	if (debugPartida) {
+		ITFC_ApresentarErro("Erro no módulo PART.");
+	}
+
+	/* Pegar quantidade de peões por jogador */
+	debugPartida = PART_ObterQtdPeoes(&qtdPeoes);
+	/* Se não retornou OK, erro */
+	if (debugPartida) {
+		ITFC_ApresentarErro("Erro no módulo PART.");
+	}
+
+	for (i = 1; i <= qtdJogadores; i++) {
+		DEF_tpCor corJog;
+
+		/* Pegar cor do jogador */
+		debugPartida = PART_ObterCorJogador(i, &corJog);
+		/* Se não retornou OK, erro */
+		if (debugPartida) {
+			ITFC_ApresentarErro("Erro no módulo PART.");
+		}
+
+		/* Desenhar peões */
+		for(j = 1; j <= qtdPeoes; j++) {
+			TAB_tppCasa tempCasa;
+			TAB_tpCondRet debugTabuleiro;
+			int xTab, yTab;
+			float tamanhoLadoCasa;
+			float xCasa, yCasa;
+			float xAjusteFonte, yAjusteFonte;
+
+			/* Pegar tamanho do lado de uma casa */
+			tamanhoLadoCasa = 2.0 / 15;
+
+			/* Obter casa do peão */
+			debugPartida = PART_ObterCasaPeaoJogador(i, j, &tempCasa);
+			/* Se não retornou OK, erro */
+			if (debugPartida) {
+				ITFC_ApresentarErro("Erro no módulo PART.");
+			}
+
+			if (tempCasa != NULL) {
+					/* Peão não está na base */
+
+				/* Obter posição (x, y) da casa (nos critérios do módulo TAB) */
+				debugTabuleiro = TAB_ObterPosicaoCasa(tempCasa, &xTab, &yTab);
+				/* Se não retornou OK, erro */
+				if (debugTabuleiro) {
+					ITFC_ApresentarErro("Erro no módulo TAB.");
+				}
+
+				/* Converte posição (x, y) para critérios do openGL */
+				xCasa = (xTab * tamanhoLadoCasa) - 1;
+				yCasa = (yTab * tamanhoLadoCasa) - 1;
+
+			} else {
+					/* Peão está na base */
+
+				int xTabBase, yTabBase;
+				float xBase, yBase;
+
+				/* Pegar coordenadas do tabuleiro (em critérios do módulo TAB) */
+				switch(corJog) {
+					case AZUL:
+						xTabBase = 9;
+						yTabBase = 0;
+						break;
+					case AMARELO:
+						xTabBase = 0;
+						yTabBase = 0;
+						break;
+					case VERDE:
+						xTabBase = 0;
+						yTabBase = 9;
+						break;
+					case VERMELHO:
+						xTabBase = 9;
+						yTabBase = 9;
+						break;
+					default:
+						ITFC_ApresentarErro("Erro de inconsistência da cor do jogador.");
+				}
+
+				/* Converte posição (x, y) da base para critérios do openGL */
+				xBase = (xTabBase * tamanhoLadoCasa) - 1;
+				yBase = (yTabBase * tamanhoLadoCasa) - 1;
+
+				/* Obtém posição (x, y) do peão na base */
+				switch(j) {
+					case 1:
+						xCasa = xBase + (2.5 * tamanhoLadoCasa);
+						yCasa = yBase + (3.5 * tamanhoLadoCasa);
+						break;
+					case 2:
+						xCasa = xBase + (1.5 * tamanhoLadoCasa);
+						yCasa = yBase + (2.5 * tamanhoLadoCasa);
+						break;
+					case 3:
+						xCasa = xBase + (3.5 * tamanhoLadoCasa);
+						yCasa = yBase + (2.5 * tamanhoLadoCasa);
+						break;
+					case 4:
+						xCasa = xBase + (2.5 * tamanhoLadoCasa);
+						yCasa = yBase + (1.5 * tamanhoLadoCasa);
+						break;
+					default:
+						ITFC_ApresentarErro("Erro de inconsistência do número do peão.");
+				}
+			}
+
+			/* Definir cor de desenho como cor do jogador */
+			debugInterface = ITFC_DefinirCor(corJog);
+			/* Se não retornou OK, erro */
+			if (debugInterface) {
+				ITFC_ApresentarErro("Erro em definicao de cor do jogador.");
+			}
+
+			/* Desenhar peão em sua posição */
+			debugInterface = ITFC_DesenharCirculo(xCasa, yCasa, tamanhoLadoCasa);
+			/* Se não retornou OK, erro */
+			if (debugInterface) {
+				ITFC_ApresentarErro("Erro ao desenhar peão.");
+			}
+
+			xAjusteFonte = tamanhoLadoCasa * 1 / 3;
+			yAjusteFonte = tamanhoLadoCasa * 1 / 3;
+
+			glColor3f(0, 0, 0);
+			glRasterPos2f(xCasa + xAjusteFonte, yCasa + yAjusteFonte);
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, j + '0');
+		}
+	}
+
+	return ITFC_CondRetOK;
 }

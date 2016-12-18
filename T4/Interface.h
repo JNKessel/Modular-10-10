@@ -40,7 +40,7 @@ typedef enum {
 	ITFC_CondRetSemMemoria,
 		/* Falta de memória */
 
-	ITFC_CondRetErroCarregamentoImagem
+	ITFC_CondRetErroCarregamentoImagem,
 		/* Não carregou imagem */
 } ITFC_tpCondRet;
 

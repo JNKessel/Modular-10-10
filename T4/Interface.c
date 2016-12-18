@@ -128,6 +128,8 @@ ITFC_tpCondRet ITFC_ConfigurarInterface(int* pArgc, char** argv) {
 	glutInit(pArgc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
 
+	/* Definir limites do plano cartesiano da janela: todas as coordenadas, a propósito de desenho, estão entre -1 e 1 (da esquerda
+	pra direita da janela) horizontalmente e entre -1 e 1 (de baixo para cima da janela) verticalmente. */
 	gluOrtho2D(-1, 1, -1, 1);
 
 	larguraTela = glutGet(GLUT_SCREEN_WIDTH);
@@ -338,7 +340,10 @@ static void ITFC_LoopDisplay() {
 *	$FC Função: ITFC_LoopDisplay
 *
 *	$ED Descrição da função:
-*		Desenha tabuleiro e peões na tela
+*		Desenha tabuleiro e peões na tela. Essa função deve ser chamada dentro do loop de display.
+*
+*	$FV Valor retornado:
+*		ITFC_CondRetOK
 *******************************************************************************************************************************/
 static ITFC_tpCondRet ITFC_Display() {
 
@@ -377,7 +382,10 @@ static ITFC_tpCondRet ITFC_Display() {
 *	$FC Função: ITFC_DisplayBranco
 *
 *	$ED Descrição da função:
-*		Desenha imagem em branco
+*		Desenha imagem em branco. Essa função deve ser chamada dentro do loop de display.
+*
+*	$FV Valor retornado:
+*		ITFC_CondRetOK
 *******************************************************************************************************************************/
 static ITFC_tpCondRet ITFC_DisplayBranco() {
 
@@ -495,6 +503,23 @@ static ITFC_tpCondRet ITFC_CarregarTexturaBMP(const char *pathArquivo, GLuint* i
 	return ITFC_CondRetOK;
 }	/* Fim Função ITFC_CarregarTexturaBMP */
 
+/*******************************************************************************************************************************
+*	$FC Função: ITFC_DesenharTextura
+*
+*	$ED Descrição da função:
+*		Recebe índice de uma textura e a desenha em tela com o vértice inferior esquerdo nas coordenadas (x, y) passadas e com
+*		a largura e altura especificados. Essa função deve ser chamada dentro do loop de display.
+*
+*	$EP Parâmetros:
+*		$P textura		-	índice descritor da textura.
+*		$P xEsquerda	-	coordenada x do vértice inferior esquerdo
+*		$P yBaixo		-	coordenada y do vértice inferior esquerdo
+*		$P largura		-	largura da textura em desenho
+*		$P altura		-	altura da textura em desenho
+*
+*	$FV Valor retornado:
+*		ITFC_CondRetOK
+*******************************************************************************************************************************/
 static ITFC_tpCondRet ITFC_DesenharTextura(GLuint textura, float xEsquerda, float yBaixo, float largura, float altura) {
 	glEnable(GL_TEXTURE_2D);
 
@@ -512,6 +537,22 @@ static ITFC_tpCondRet ITFC_DesenharTextura(GLuint textura, float xEsquerda, floa
 	return ITFC_CondRetOK;
 }
 
+/*******************************************************************************************************************************
+*	$FC Função: ITFC_DesenharCirculo
+*
+*	$ED Descrição da função:
+*		Recebe coordenadas (x, y) do vértice inferior esquerdo de um quadrado imaginário e o tamanho do lado desse quadrado.
+*		Desenha um círculo preenchido inscrito nesse quadrado imaginário (mas não desenha quadrado nenhum). Note que o lado
+*		do quadrado será o diâmetro do círculo. Essa função deve ser chamada dentro do loop de display.
+*
+*	$EP Parâmetros:
+*		$P xEsquerda	-	coordenada x da extremidade esquerda do círculo
+*		$P yBaixo		-	coordenada y da extremidade de baixo do círculo
+*		$P diametro		-	diâmetro do círculo (ou lado de um quadrado imaginário)
+*
+*	$FV Valor retornado:
+*		ITFC_CondRetOK
+*******************************************************************************************************************************/
 static ITFC_tpCondRet ITFC_DesenharCirculo(float xEsquerda, float yBaixo, float diametro) {
 	float raio = diametro / 2;
 	float xCentro = xEsquerda + raio;
@@ -530,6 +571,15 @@ static ITFC_tpCondRet ITFC_DesenharCirculo(float xEsquerda, float yBaixo, float 
 	return ITFC_CondRetOK;
 }
 
+/*******************************************************************************************************************************
+*	$FC Função: ITFC_ApresentarErro
+*
+*	$ED Descrição da função:
+*		Imprime mensagem de erro passada como erro do módulo interface e encerra programa.
+*
+*	$EP Parâmetros:
+*		$P msg	-	mensagem a ser impressa antes do encerramento do programa
+*******************************************************************************************************************************/
 static void ITFC_ApresentarErro(const char* msg) {
 	system("cls");
 	printf("ITFC (Modulo interface): ");
@@ -538,6 +588,19 @@ static void ITFC_ApresentarErro(const char* msg) {
 	exit(1);
 }
 
+/*******************************************************************************************************************************
+*	$FC Função: ITFC_DefinirCor
+*
+*	$ED Descrição da função:
+*		Recebe uma cor predefinida e define o padrão de desenho dos objetos posteriores à chamada da função como aquela cor.
+*		SEM_COR é desenhado como preto. Essa função deve ser chamada dentro do loop de display.
+*
+*	$EP Parâmetros:
+*		$P cor	-	cor a ser definida
+*
+*	$FV Valor retornado:
+*		ITFC_CondRetOK
+*******************************************************************************************************************************/
 static ITFC_tpCondRet ITFC_DefinirCor(DEF_tpCor cor) {
 	switch(cor) {
 		case AZUL:
@@ -558,6 +621,15 @@ static ITFC_tpCondRet ITFC_DefinirCor(DEF_tpCor cor) {
 	return ITFC_CondRetOK;
 }
 
+/*******************************************************************************************************************************
+*	$FC Função: ITFC_DesenharPeoes
+*
+*	$ED Descrição da função:
+*		Desenha os peões de todos os jogadores participantes da partida atual. Essa função deve ser chamada dentro do loop de display.
+*
+*	$FV Valor retornado:
+*		ITFC_CondRetOK
+*******************************************************************************************************************************/
 static ITFC_tpCondRet ITFC_DesenharPeoes() {
 
 	PART_tpCondRet debugPartida;

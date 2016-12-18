@@ -92,6 +92,12 @@ static void apresentarFalha() {
 	exit(1);
 }
 
+/*******************************************************************************************************************************
+*	$FC Função: antesPartida
+*
+*	$ED Descrição da função:
+*		Pedaço de código que será executado com a criação da janela da interface e sempre que o jogo for recomeçado.
+*******************************************************************************************************************************/
 static void antesPartida() {
 
 	PART_tpCondRet debugPartida;

@@ -4,7 +4,7 @@
 *	$TC Tipo de dados: DEF Cor
 *
 *	$ED Descrição do tipo:
-*		Representa uma cor de um jogador, peão ou oscar	
+*		Representa uma cor de um jogador, peão ou oscar.
 *******************************************************************************************************************************/
 typedef enum {
 	SEM_COR		= 0,
@@ -14,6 +14,12 @@ typedef enum {
     VERMELHO	= 4
 } DEF_tpCor;
  
+/*******************************************************************************************************************************
+*	$TC Tipo de dados: ITFC Booleano
+*
+*	$ED Descrição do tipo:
+*		Representa um estado lógico: verdadeiro ou falso.
+*******************************************************************************************************************************/
 typedef enum {
     False,
 	True

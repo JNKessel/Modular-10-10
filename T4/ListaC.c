@@ -864,12 +864,12 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	tamanho1 = *pTamanhoRet;
 	LSTC_ObterTamanhoListaCAlt(pLstC, &tamanho2);
 	LSTC_ObterTamanhoListaCAlt2(pLstC, &tamanho3);
-	/*if((tamanho1 != tamanho2) ||(tamanho1 != tamanho3)){
+	if((tamanho1 != tamanho2) ||(tamanho1 != tamanho3)){
 	
 		//tratador
 		*pTamanhoRet = TratadorParaObterTamanhoInconsistente(tamanho1, tamanho2, tamanho2);
 	
-	}*/
+	}
 	
 	return LSTC_CondRetOK;
 } /* Fim funcao: LSTC &Obter Tamanho ListaC */

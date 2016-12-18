@@ -520,8 +520,9 @@ TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa* casa){
 static void PosicionarCasas(){
 
 	TAB_tppCasa casa_temp;
+	int i;
 
-	for(int i = -1; i <= 4; i++){
+	for(i = -1; i <= 4; i++) {
 		LSTC_ObterElemento(tab->tabuleiro, i, (void**)&casa_temp);
 		casa_temp->x = (13 - i);
 		casa_temp->y = 6 ;

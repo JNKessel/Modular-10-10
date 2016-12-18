@@ -696,9 +696,6 @@ static ITFC_tpCondRet ITFC_DesenharPeoes() {
 					ITFC_ApresentarErro("Erro no modulo TAB.");
 				}
 
-				xTab = 13;
-				yTab = 6;
-
 				/* Converte posição (x, y) para critérios do openGL */
 				xCasa = (xTab * tamanhoLadoCasa) - 1;
 				yCasa = (yTab * tamanhoLadoCasa) - 1;

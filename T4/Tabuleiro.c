@@ -51,6 +51,8 @@ static TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa casa);
 
 static TAB_tppTabuleiro tab;
 
+static void PosicionarCasas();
+
 /* Código do módulo de implementação */
 
 TAB_tpCondRet TAB_CriarTabuleiro() {
@@ -201,6 +203,8 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
         return debugTAB;
     }//if
 
+    PosicionarCasas();
+	    
     return TAB_CondRetOK;
 
 }
@@ -511,6 +515,51 @@ TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa* casa){
         (*casa)->oscar = NULL;
         return TAB_CondRetOK;
     }
+}
+
+static void PosicionarCasas(){
+
+	TAB_tppCasa casa_temp;
+
+	for(int i = -1; i <= 4; i++){
+		LSTC_ObterElemento(tab->tabuleiro, i, (void**)&casa_temp);
+		casa_temp->x = (13 - i);
+		casa_temp->y = 6 ;
+		LSTC_ObterElemento(tab->tabuleiro, i+6 , (void**)&casa_temp);
+		casa_temp->x = 8;
+		casa_temp->y = (4 - i);
+		LSTC_ObterElemento(tab->tabuleiro, i+13 , (void**)&casa_temp);
+		casa_temp->x = 6;
+		casa_temp->y = (i + 1);
+		LSTC_ObterElemento(tab->tabuleiro, i+19 , (void**)&casa_temp);
+		casa_temp->x = (4 - i);
+		casa_temp->y = 6;
+		LSTC_ObterElemento(tab->tabuleiro, i+26 , (void**)&casa_temp);
+		casa_temp->x = (i + 1);
+		casa_temp->y = 8;
+		LSTC_ObterElemento(tab->tabuleiro, i+32 , (void**)&casa_temp);
+		casa_temp->x = 6;
+		casa_temp->y = (10 + i);
+		LSTC_ObterElemento(tab->tabuleiro, i+39 , (void**)&casa_temp);
+		casa_temp->x = 8;
+		casa_temp->y = (13 - i);
+		LSTC_ObterElemento(tab->tabuleiro, i+45 , (void**)&casa_temp);
+		casa_temp->x = (10 + i);
+		casa_temp->y = 8;
+	}
+	LSTC_ObterElemento(tab->tabuleiro, 11, (void**)&casa_temp);
+	casa_temp->x = 7;
+	casa_temp->y = 0;
+	LSTC_ObterElemento(tab->tabuleiro, 24, (void**)&casa_temp);
+	casa_temp->x = 0;
+	casa_temp->y = 7;
+	LSTC_ObterElemento(tab->tabuleiro, 37, (void**)&casa_temp);
+	casa_temp->x = 7;
+	casa_temp->y = 14;
+	LSTC_ObterElemento(tab->tabuleiro, 50, (void**)&casa_temp);
+	casa_temp->x = 14;
+	casa_temp->y = 7;
+	
 }
 
 

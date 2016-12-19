@@ -19,6 +19,8 @@
 /* Incluir stdio para uso no módulo "Generico" */
 #include <stdio.h>
 
+#define _DEBUG
+
 #define LISTAC_OWN
 	#include "ListaC.h"
 #undef LISTAC_OWN
@@ -90,7 +92,7 @@ LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(v
 	*pLstCRet = (LSTC_tppListaC)malloc(sizeof(LSTC_tpListaC));
 	if (!pLstCRet){
 		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_CriarFaltouMemoria");
+		CNT_CONTAR("LSTC_CriarFaltouMemoria");
 		#endif
 		return LSTC_CondRetSemMemoria;
 	} /* if */
@@ -117,9 +119,8 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 	NOLST_tpCondRet debugNo;
 	if (!pLstC){
 		
-		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_ListaInexistente");
-		#endif
+		CNT_CONTAR("LSTC_ListaInexistente");
+		
 		return LSTC_CondRetListaInexistente;
 	} /* if */
 	
@@ -160,18 +161,16 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 
 		if (debugNo){
 			
-			#ifdef _DEBUG
-				CNT_CONTAR("LSTC_DestuicaoErroNo1");
-			#endif
+			CNT_CONTAR("LSTC_DestuicaoErroNo1");
+			
 			return LSTC_CondRetErroNo;
 		}
 		debugNo = NOLST_ObterInfoNoh(temp, &tempInfo);
 		
 		if (debugNo){
 			
-			#ifdef _DEBUG
-				CNT_CONTAR("LSTC_DestruicaoErroNo2");
-			#endif
+			CNT_CONTAR("LSTC_DestruicaoErroNo2");
+			
 			return LSTC_CondRetErroNo;
 		}
 		
@@ -181,9 +180,9 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		
 		debugNo = NOLST_DestruirNoh(temp);
 		if (debugNo){
-			#ifdef _DEBUG
-				CNT_CONTAR("LSTC_DestruicaoErroNo3");
-			#endif
+			
+			CNT_CONTAR("LSTC_DestruicaoErroNo3");
+			
 			return LSTC_CondRetErroNo;
 		}
 	}
@@ -510,14 +509,14 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 	if (iPos % pLstC->NumElem == 0) {
 
 		if((pLstC->pNoCorr1 != pLstC->pNoCorr2)
-			|| (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
-			|| (pLstC->pNoCorr2 != pLstC->pNoCorr3)) { //Assertiva
+		   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
+		   || (pLstC->pNoCorr2 != pLstC->pNoCorr3)){ //Assertiva
 			//Tratador
 			#ifdef _DEBUG
 				CNT_CONTAR("LSTC_RetirarTratadorCorrente");
 			#endif
 			TratadorParaCorrentePerdida(pLstC);
-			}
+	    	}
 
 		temp = pLstC->pNoCorr1;
 		debugNo = NOLST_ObterProxNoh(pLstC->pNoCorr1, &pLstC->pNoCorr1);
@@ -531,7 +530,7 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 	} else {
 		
 		debug = JumpToPos(pLstC, iPos, &temp);
-		if (debug) {
+		if (debug){
 			return debug;
 		}
 		
@@ -546,10 +545,7 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 		pLstC->ExcluirElem(tempInfo);
 	}
 	
-	debugNo = NOLST_DestruirNoh(temp);
-	if (debugNo) {
-		return LSTC_CondRetErroNo;
-	}
+	free(temp);
 	
 	pLstC->NumElem--;
 	
@@ -669,7 +665,7 @@ LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo
 	
 	if((pLstC->pNoCorr1 != pLstC->pNoCorr2) 
 	   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
-	   || (pLstC->pNoCorr2 != pLstC->pNoCorr3)) { //Assertiva
+	   || (pLstC->pNoCorr2 != pLstC->pNoCorr3)){ //Assertiva
 		//Tratador
 		#ifdef _DEBUG
 			CNT_CONTAR("LSTC_AtribuirTratadorCorrente");
@@ -923,7 +919,7 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	if (debugListaC) {
 		return debugListaC;
 	}
-	if((tamanho1 != tamanho2) ||(tamanho1 != tamanho3)) {
+	if((tamanho1 != tamanho2) ||(tamanho1 != tamanho3)){
 	
 		//tratador
 		*pTamanhoRet = TratadorParaObterTamanhoInconsistente(tamanho1, tamanho2, tamanho2);

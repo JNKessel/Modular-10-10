@@ -882,6 +882,7 @@ LSTC_tpCondRet LSTC_ProcurarElemento(LSTC_tppListaC pLstC, void* pElemBuscado, i
 LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 
 	int tamanho1, tamanho2, tamanho3;
+	LSTC_tpCondRet debugListaC;
 
 	if (!pLstC){
 		return LSTC_CondRetListaInexistente;
@@ -901,8 +902,16 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	
 	//Assertiva
 	tamanho1 = *pTamanhoRet;
-	LSTC_ObterTamanhoListaCAlt(pLstC, &tamanho2);
-	LSTC_ObterTamanhoListaCAlt2(pLstC, &tamanho3);
+	debugListaC = LSTC_ObterTamanhoListaCAlt(pLstC, &tamanho2);
+	/* Se não retornou OK, erro */
+	if (debugListaC) {
+		return debugListaC;
+	}
+	debugListaC = LSTC_ObterTamanhoListaCAlt2(pLstC, &tamanho3);
+	/* Se não retornou OK, erro */
+	if (debugListaC) {
+		return debugListaC;
+	}
 	if((tamanho1 != tamanho2) ||(tamanho1 != tamanho3)){
 	
 		//tratador
@@ -1177,6 +1186,10 @@ int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3){
 		if(Tam1 == Tam2){
 
 			return Tam1;
+		}
+		else if (Tam3 == Tam2) {
+
+			return Tam3;
 		}
 	}
 	return Tam1;

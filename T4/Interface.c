@@ -630,7 +630,6 @@ static ITFC_tpCondRet ITFC_DefinirCor(DEF_tpCor cor) {
 static ITFC_tpCondRet ITFC_DesenharPeoes() {
 
 	PART_tpCondRet debugPartida;
-	TAB_tpCondRet debugTabuleiro;
 	ITFC_tpCondRet debugInterface;
 	int qtdJogadores;
 	int qtdPeoes;

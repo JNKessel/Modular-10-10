@@ -115,7 +115,7 @@ LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(v
 
 LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 	NOLST_tpCondRet debugNo;
-	int modo;
+	LSTC_tpCondRet assertiva;
 	
 	if (!pLstC){
 		
@@ -141,13 +141,13 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		TratadorParaCorrentePerdida(pLstC);
 	}
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 	
 	#ifdef _DEBUG
@@ -207,7 +207,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 *  ****/
 
 LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet) {
-	int modo;
+	LSTC_tpCondRet assertiva;
 	if (!pLstC){
 		return LSTC_CondRetListaInexistente;
 	}
@@ -223,13 +223,13 @@ LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet) {
 		TratadorParaCorrentePerdida(pLstC);
 	}
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
 
@@ -281,7 +281,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 	NOLST_tppNoLista novo = NULL, temp;
 	NOLST_tpCondRet debugNo;
 	LSTC_tpCondRet debug;
-	int modo;
+	LSTC_tpCondRet assertiva;
 	
 	if((pLstC->pNoCorr1 != pLstC->pNoCorr2)
 	   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
@@ -293,13 +293,13 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 		TratadorParaCorrentePerdida(pLstC);
 	}
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
 	if (!pLstC){
@@ -408,7 +408,7 @@ LSTC_tpCondRet LSTC_InserirElementoAlt(LSTC_tppListaC pLstC, int iPos, void* pIn
    	int i;
 	NOLST_tpCondRet debugNo;
     	NOLST_tppNoLista No = pLstC->pNoCorr1, prox;
-	int modo;
+	LSTC_tpCondRet assertiva;
 
 	if((pLstC->pNoCorr1 != pLstC->pNoCorr2) 
 	   || (pLstC->pNoCorr1 != pLstC->pNoCorr3)
@@ -420,13 +420,13 @@ LSTC_tpCondRet LSTC_InserirElementoAlt(LSTC_tppListaC pLstC, int iPos, void* pIn
 		TratadorParaCorrentePerdida(pLstC);
 	}
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
      
     if(pLstC == NULL){
@@ -497,15 +497,15 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 	NOLST_tpCondRet debugNo;
 	LSTC_tpCondRet debug;
 	void* tempInfo;
-	int modo;
+	LSTC_tpCondRet assertiva;
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
 	if (!pLstC)	return LSTC_CondRetListaInexistente;
@@ -595,7 +595,7 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
 	int i;
 	NOLST_tppNoLista No, prox;
 	NOLST_tpCondRet debugNo;
-	int modo;
+	LSTC_tpCondRet assertiva;
 
 	if((pLstC->pNoCorr1 != pLstC->pNoCorr2) 
 	   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
@@ -607,13 +607,13 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
 		TratadorParaCorrentePerdida(pLstC);
 	}
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
      
     if(pLstC == NULL){
@@ -701,7 +701,7 @@ LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo
 	NOLST_tppNoLista no;
 	LSTC_tpCondRet debug;
 	NOLST_tpCondRet debugNo;
-        int modo;
+        LSTC_tpCondRet assertiva;
 	
 	if((pLstC->pNoCorr1 != pLstC->pNoCorr2) 
 	   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
@@ -713,13 +713,13 @@ LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo
 		TratadorParaCorrentePerdida(pLstC);
 	}
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
 	if (!pLstC){
@@ -777,7 +777,7 @@ LSTC_tpCondRet LSTC_ObterElemento(LSTC_tppListaC pLstC, int iPos, void** pInfoRe
 	NOLST_tppNoLista no;
 	LSTC_tpCondRet debug;
 	NOLST_tpCondRet debugNo;
-	int modo;
+	LSTC_tpCondRet assertiva;
 	
 	if((pLstC->pNoCorr1 != pLstC->pNoCorr2) 
 	   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
@@ -789,13 +789,13 @@ LSTC_tpCondRet LSTC_ObterElemento(LSTC_tppListaC pLstC, int iPos, void** pInfoRe
 		TratadorParaCorrentePerdida(pLstC);
 	}
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
 	if (!pLstC){
@@ -851,15 +851,15 @@ LSTC_tpCondRet LSTC_ObterElemento(LSTC_tppListaC pLstC, int iPos, void** pInfoRe
 LSTC_tpCondRet LSTC_MoverCorrente(LSTC_tppListaC pLstC, int iN) {
 	LSTC_tpCondRet debug;
 	NOLST_tppNoLista no;
-	int modo;
+	LSTC_tpCondRet assertiva;
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 	
 	if (!pLstC){
@@ -887,15 +887,15 @@ LSTC_tpCondRet LSTC_ProcurarElemento(LSTC_tppListaC pLstC, void* pElemBuscado, i
 	int i, flag = 0;
 	NOLST_tpCondRet debugNo;
 	LSTC_tpCondRet debug;
-	int modo;
+	LSTC_tpCondRet assertiva;
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
 	if (!pLstC) {
@@ -995,7 +995,7 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 
 LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	NOLST_tppNoLista noTemp;
-	int modo;
+	LSTC_tpCondRet assertiva;
 
 	*pTamanhoRet = 1;
 	if (!pLstC) {
@@ -1012,13 +1012,13 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet
 		TratadorParaCorrentePerdida(pLstC);
 	}
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
 
@@ -1043,7 +1043,7 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet
 
 LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	NOLST_tppNoLista noTemp;
-	int modo;
+	LSTC_tpCondRet assertiva;
 
 	*pTamanhoRet = 1;
 	if (!pLstC){
@@ -1060,13 +1060,13 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRe
 		TratadorParaCorrentePerdida(pLstC);
 	}
 	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
 	if (pLstC->pNoCorr1 == NULL) {
@@ -1105,7 +1105,7 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRe
 
 static LSTC_tpCondRet JumpToPos(LSTC_tppListaC pLstC, int iPos, NOLST_tppNoLista* pNoRet) {
 	
-	int modo;
+	LSTC_tpCondRet assertiva;
 	
 	NOLST_tppNoLista aux = pLstC->pNoCorr1;
 	NOLST_tpCondRet debugNo;
@@ -1119,14 +1119,13 @@ static LSTC_tpCondRet JumpToPos(LSTC_tppListaC pLstC, int iPos, NOLST_tppNoLista
 		#endif
 		TratadorParaCorrentePerdida(pLstC);
 	}
-	
-	/*A assertiva retorna um inteiro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
+	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
-	modo = AssertivaParaPonteiroPerdido(pLstC);
-	if(modo != 0 ){
+	assertiva = AssertivaParaPonteiroPerdido(pLstC);
+	if(assertiva != LSTC_CondRetOK){
 		/*tratador*/
-		TratadorParaPonteiroPerdido(pLstC, modo);
+		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
 	if (!pLstC){
@@ -1288,14 +1287,14 @@ int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3){
 *		$P pLstC	-	ponteiro para a lista circular a ser verificada
 *
 *	$FV Valor retornado:
-*		1, caso ponteiro prox tenha sido perdido
-*		-1, caso ponteiro ant tenha sido perdido
-*		0, caso tudo esteja em ordem
+*		LSTC_CondRetPonteiroPerdidoProx, caso ponteiro prox tenha sido perdido
+*		LSTC_CondRetPonteiroPerdidoAnt, caso ponteiro ant tenha sido perdido
+*		LSTC_CondRetOK, caso tudo esteja em ordem
 *		
 *******************************************************************************************************************************/
 
 //checa se algum ponteiro da lista foi perdido em qualquer direçao da lista
-int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
+LSTC_tpCondRet AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
 
 	NOLST_tppNoLista noAnt = pLstC->pNoCorr1;
 	NOLST_tppNoLista noProx = pLstC->pNoCorr1;
@@ -1303,18 +1302,18 @@ int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
 
 	// Lista vazia
 	if (pLstC->pNoCorr1 == NULL) {
-		return 0;
+		return LSTC_CondRetOK;
 	}
 
 	do{
 		NOLST_ObterProxNoh(noProx, &noProx);
 		if(noProx == NULL){
-			return 1;
+			return LSTC_CondRetPonteiroPerdidoProx;
 		}
 	
 		NOLST_ObterNohPrevio(noProx, &noTemp);
 		if(noTemp != noAnt){
-			return -1;
+			return LSTC_CondRetPonteiroPerdidoAnt;
 		}
 		
 		NOLST_ObterProxNoh(noAnt, &noAnt);
@@ -1327,18 +1326,18 @@ int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
 	do{
 		NOLST_ObterNohPrevio(noAnt, &noAnt);
 		if(noAnt == NULL){
-			return -1;
+			return LSTC_CondRetPonteiroPerdidoAnt;
 		}
 	
 		NOLST_ObterProxNoh(noAnt, &noTemp);
 		if(noTemp != noProx){
-			return 1;
+			return LSTC_CondRetPonteiroPerdidoProx;
 		}
 		
 		NOLST_ObterNohPrevio(noProx, &noProx);
 	
 	}while(noAnt != pLstC->pNoCorr1);
-	return 0;
+	return LSTC_CondRetOK;
 	
 } /* Fim funcao: AssertivaParaPonteiroPerdido */
 
@@ -1358,13 +1357,13 @@ int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC){
 *******************************************************************************************************************************/
 
 //resolve o erro se algum ponteiro for perdido
-void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao){
+void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, LSTC_tpCondRet direcao){
 
 	NOLST_tppNoLista noAnt = pLstC->pNoCorr1;
 	NOLST_tppNoLista noProx = pLstC->pNoCorr1;
 	NOLST_tppNoLista noTemp;
 	
-	if(direcao == 1){
+	if(direcao == LSTC_CondRetPonteiroPerdidoProx){
 	
 		do{
 			NOLST_ObterNohPrevio(noAnt, &noAnt);
@@ -1379,7 +1378,7 @@ void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao){
 	
 		}while(noAnt != pLstC->pNoCorr1);
 	
-	}else if(direcao == -1){
+	}else if(direcao == LSTC_CondRetPonteiroPerdidoAnt){
 	
 		do{
 			NOLST_ObterProxNoh(noProx, &noProx);

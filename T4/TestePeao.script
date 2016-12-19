@@ -1,0 +1,58 @@
+// Script:    TestePeao.script
+// Autor:     Julio Neuman Kessel
+// Data:      19/out/2016
+// Propósito: Testar o módulo Peao
+//
+
+== Inicializar valores
+=declararparm   parm1                  int  1
+=declararparm   parm2                  int  2
+=declararparm   parm3                  int  3
+
+=declararparm   cor1                   int  1
+=declararparm   cor2                   int  2
+=declararparm   cor3                   int  3
+=declararparm   cor4                   int  4
+
+=declararparm   num0                   int  0
+=declararparm   num3                   int  3
+=declararparm   num5                   int  5
+
+=declararparm   indicePeao0            int  0
+=declararparm   indicePeao1            int  1
+=declararparm   indicePeao2            int  2
+
+=declararparm   OK                     int  0
+=declararparm   FaltouMemoria          int  1
+=declararparm   NumeroDePeaoInvalido   int  2
+=declararparm   PeaoNaoExiste          int  3
+
+== Criar peao
+=criarpeao   indicePeao0    cor1    num0    NumeroDePeaoInvalido
+=criarpeao   indicePeao0    cor1    num5    NumeroDePeaoInvalido
+=criarpeao   indicePeao0    cor1    num3    OK
+
+== Peao sair base
+=sairbase    indicePeao1  PeaoNaoExiste
+=sairbase    indicePeao0    OK
+
+== Checar se peao esta na casa final
+=estaPeaoFinal  indicePeao1  parm1 PeaoNaoExiste
+=estaPeaoFinal  indicePeao0  parm1 OK
+
+== Checar se peao esta na base
+=estaPeaoBase  indicePeao1  parm1  PeaoNaoExiste
+=estaPeaoBase  indicePeao0  parm1  OK
+
+==Checar se peao pode se movimentar
+=checaMovimentoDisponivel   indicePeao1   parm1   parm2   parm3  PeaoNaoExiste
+=checaMovimentoDisponivel   indicePeao0   parm1   parm2   parm3  OK
+
+== Peao voltar para a base
+=voltarbase    indicePeao1  PeaoNaoExiste
+=voltarbase    indicePeao0  OK
+
+== Destruir peao
+=destruirpeao  indicePeao1  PeaoNaoExiste
+=destruirpeao  indicePeao0  OK
+

@@ -1,21 +1,23 @@
 /*****************************************************************
- /*
- /* Módulo de implementação: Módulo Tabuleiro
- /*
- /* Nome do arquivo: Tabuleiro.c
- /*
- /****************************************************************/
+/*
+/* Módulo de implementação: Módulo Tabuleiro
+/*
+/* Nome do arquivo: Tabuleiro.c
+/*
+/****************************************************************/
 /* Inclusões do compilador */
  
 #include <stdlib.h>
-
-/* Inclusão do respectivo módulo de definição */
-#include "Tabuleiro.h"
 
 /* Inclusão de módulos de definição de servidores e de tabelas de definição */
 #include "Definicoes.h"
 #include "ListaC.h"
 #include "Lista.h"
+
+/* Inclusão do respectivo módulo de definição */
+#define TABULEIRO_OWN
+	#include "Tabuleiro.h"
+#undef TABULEIRO_OWN
 
 typedef struct TAB_tgTabuleiro {
     LSTC_tppListaC tabuleiro;

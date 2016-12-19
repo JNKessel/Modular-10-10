@@ -21,6 +21,12 @@
 
 #pragma once
 
+#if defined( INTERFACE_OWN )
+   #define INTERFACE_EXT
+#else
+   #define INTERFACE_EXT extern
+#endif
+
 /*******************************************************************************************************************************
 *	$TC Tipo de dados: ITFC Condições de retorno
 *

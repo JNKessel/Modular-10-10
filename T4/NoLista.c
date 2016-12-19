@@ -17,9 +17,11 @@
 *		5.00	rrc		18/12/2016	Várias adições de funções a serem usadas pelo módulo ITFC
 *******************************************************************************************************************************/
 
-#include "NoLista.h"
-
 #include <stdlib.h>
+
+#define NOLISTA_OWN
+	#include "NoLista.h"
+#undef NOLISTA_OWN
 
 /***********************************************************************
 *

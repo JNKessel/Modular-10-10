@@ -12,25 +12,54 @@
 *
 *
 ***************************************************************************/
-
-#include "ListaC.h"
-#include "CONTA.h"		//Modulo do arcabouco de teste
 #include <stdlib.h>
+
 #include "NoLista.h"
 
+#define LISTAC_OWN
+	#include "ListaC.h"
+#undef LISTAC_OWN
+
+/* Modulo do arcabouco de teste */
+#ifdef _DEBUG
+	#include "Generico.h"
+	#include "Conta.h"
+	#include "cespdin.h"
+	#include "IdTiposEspaco.def"
+#endif
+
 /***********************************************************************
+*	$TC Tipo de dados: LSTC descritor da cabeca da lista circular
 *
-*  $TC Tipo de dados: LSTC descritor da cabeca da lista circular
-*
-*
+*	$ED Descrição do tipo
+*		Representa a cabeça da lista
 ***********************************************************************/
 
 typedef struct LSTC_tgListaC {
 	NOLST_tppNoLista pNoCorr1;
+		/* Ponteiro 1 para nó corrente */
+
 	NOLST_tppNoLista pNoCorr2;
+		/* Ponteiro 2 para nó corrente */
+
 	NOLST_tppNoLista pNoCorr3;
+		/* Ponteiro 3 para nó corrente */
+
+		/*	$EED Assertivas estruturais
+		*		Todos os ponteiros para nós corrente devem apontar 
+		*		para o mesmo nó (lista só possui um nó corrente)
+		*/
+
 	int NumElem;
+		/* Número de elementos da lista circular */
+
+		/*	$EED Assertivas estruturais
+		*		Deve equivaler à quantidade de nós diferente que se
+		*		se apontam na lista.
+		*/
+
 	void (* ExcluirElem)(void* pInfo);
+		/* Função de exclusão dos elementos da lista */
 } LSTC_tpListaC;
 
 /***** Protótipos das funções encapuladas no módulo *****/

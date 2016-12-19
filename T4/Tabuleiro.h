@@ -10,8 +10,13 @@
  *  jnk - 19/10/2016 - Adição de comentarios e descrição de funções
  /****************************************************************/
 
-#if !defined TAB_MOD
-#define TAB_MOD
+#pragma once
+
+#if defined( TABULEIRO_OWN )
+   #define TABULEIRO_EXT
+#else
+   #define TABULEIRO_EXT extern
+#endif
 
 #include "Definicoes.h"
 #include "ListaC.h"
@@ -149,7 +154,6 @@ TAB_tpCondRet TAB_ObterPosicaoCasa(TAB_tppCasa casa, int* x, int* y);
 ***********************************************************************/
 TAB_tpCondRet TAB_DestruirTabuleiro();
 
-#endif
 /********** Fim da definição: modulo **********/
 
 

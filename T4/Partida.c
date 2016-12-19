@@ -14,9 +14,6 @@
 *		4.00	rrc		15/12/2016	Adições ao módulo, correção de bugs
 *		5.00	rrc		18/12/2016	Várias adições de funções a serem usadas pelo módulo ITFC
 *******************************************************************************************************************************/
-
-#include "Partida.h"
-
 #include "Peao.h"
 #include "ListaC.h"
 #include "Lista.h"
@@ -24,6 +21,10 @@
 #include <stdio.h>
 #include <conio.h>
 #include <time.h>
+
+#define PARTIDA_OWN
+	#include "partida.h"
+#undef PARTIDA_OWN
 
 #define NUM_PEOES 4
 	/* Número de peões que cada jogador possui */

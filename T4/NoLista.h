@@ -9,6 +9,12 @@
 
 #pragma once
 
+#if defined( NOLISTA_OWN )
+   #define NOLISTA_EXT
+#else
+   #define NOLISTA_EXT extern
+#endif
+
 typedef enum {
 	NOLST_CondRetOK = 0,
 	NOLST_CondRetErro,

@@ -22,6 +22,12 @@
 
 #pragma once
 
+#if defined( PARTIDA_OWN )
+   #define PARTIDA_EXT
+#else
+   #define PARTIDA_EXT extern
+#endif
+
 #include "Definicoes.h"
 #include "Tabuleiro.h"
 

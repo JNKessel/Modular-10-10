@@ -8,6 +8,12 @@
 *******************************************************/
 #pragma once
 
+#if defined( LISTAC_OWN )
+   #define LISTAC_EXT
+#else
+   #define LISTAC_EXT extern
+#endif
+
 typedef struct LSTC_tgListaC* LSTC_tppListaC;
 
 typedef enum {

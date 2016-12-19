@@ -13,15 +13,17 @@
 *		2.00	rrc		18/12/2016	Fim da implementação de módulo
 *******************************************************************************************************************************/
 
-#include "interface.h"
 #include "definicoes.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "partida.h"
 #include "tabuleiro.h"
-
 #include "glut.h"
+
+#define INTERFACE_OWN
+	#include "interface.h"
+#undef INTERFACE_OWN
 
 
 /*******************************************************************************************************************************

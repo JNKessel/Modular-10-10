@@ -9,6 +9,12 @@
 
 #pragma once
 
+#if defined( PEAO_OWN )
+   #define PEAO_EXT
+#else
+   #define PEAO_EXT extern
+#endif
+
 #include "Definicoes.h"
 #include "Tabuleiro.h"
 

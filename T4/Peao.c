@@ -6,8 +6,11 @@
 *******************************************************/
 
 #include <stdlib.h>
-#include "Peao.h"
 #include "Definicoes.h"
+
+#define PEAO_OWN
+	#include "Peao.h"
+#undef PEAO_OWN
 
 typedef enum PEAO_tgEstado {
     Base,

@@ -49,7 +49,7 @@ static void ExcluirCasa (void* casa);
 
 static TAB_tpCondRet PreencheListaRetaFinal(LIS_tppLista lst);
 
-static TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa casa);
+static TAB_tpCondRet TAB_CriarCasa(TAB_tppCasa* casa);
 
 static TAB_tppTabuleiro tab;
 
@@ -62,7 +62,7 @@ TAB_tpCondRet TAB_CriarTabuleiro() {
     LSTC_tpCondRet debugLSTC;
     LIS_tpCondRet debugLIS;
     TAB_tpCondRet debugTAB;
-    TAB_tpCasa *casa;
+    TAB_tppCasa casa;
     
     if(tab!=NULL) {
         return TAB_CondRetTabJaExiste;
@@ -228,7 +228,6 @@ static int Criterio(void* pElemBuscado, void* pElemLista){
 TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_tppCasa* casaRetorno) {
 	int i;
 	TAB_tppCasa casa_temp = NULL;
-	DEF_tpBool booleano;
 	int indice;
 	LIS_tppLista oscar;
 	LIS_tpCondRet debugLis;

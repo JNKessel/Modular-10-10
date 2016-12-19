@@ -21,12 +21,12 @@
 #undef LISTAC_OWN
 
 /* Modulo do arcabouco de teste */
-#ifdef _DEBUG
+/*#ifdef _DEBUG
 	#include "Generico.h"
 	#include "Conta.h"
 	#include "cespdin.h"
 	#include "IdTiposEspaco.def"
-#endif
+#endif*/
 
 /***********************************************************************
 *	$TC Tipo de dados: LSTC descritor da cabeca da lista circular

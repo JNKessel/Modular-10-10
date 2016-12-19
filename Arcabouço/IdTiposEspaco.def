@@ -2,21 +2,21 @@
 #define TIPOS_ESPACO_
 /***************************************************************************
 *
-*  $MCD Arquivo de definição: TiposEspacos.def
+*  $MCD Arquivo de definiÃ§Ã£o: TiposEspacos.def
 *
-*  Projeto: Automatização de testes
+*  Projeto: AutomatizaÃ§Ã£o de testes
 *  Gestor:  LES/DI/PUC-Rio
 *  Autores: avs
 *
-*  $ED Descrição do arquivo
-*     Este arquivo declara os identificadores de tipos dos espaços de dados
+*  $ED DescriÃ§Ã£o do arquivo
+*     Este arquivo declara os identificadores de tipos dos espaÃ§os de dados
 *     a serem utilizados por um determinado construto.
-*     Para facilitar a evolução dos construtos, este tipo deverá ser
-*     redefinido sempre que um construto faça uso de algum módulo
-*     que utilize espaços de dados dinâmicos. Para cada módulo deve ser
-*     definido um arquivo do gênero "TiposEspacosXXX.def" e que contém
-*     os identificadores dos tipos de espaço utilizados naquele módulo.
-*     estes arquivos devem ser incluídos entre o identificador
+*     Para facilitar a evoluÃ§Ã£o dos construtos, este tipo deverÃ¡ ser
+*     redefinido sempre que um construto faÃ§a uso de algum mÃ³dulo
+*     que utilize espaÃ§os de dados dinÃ¢micos. Para cada mÃ³dulo deve ser
+*     definido um arquivo do gÃªnero "TiposEspacosXXX.def" e que contÃ©m
+*     os identificadores dos tipos de espaÃ§o utilizados naquele mÃ³dulo.
+*     estes arquivos devem ser incluÃ­dos entre o identificador
 *     CED_ID_TIPO_VALOR_NULO  e  CED_ID_TIPO_ILEGAL 
 *
 ***************************************************************************/
@@ -25,12 +25,12 @@ typedef enum
 {
    CED_ID_TIPO_VALOR_NULO ,
 
-   /* Incluir aqui a tabela de tipos do módulo (construto) a testar */
-
+   #include "TiposEspacosListaC.def"
+   
    CED_ID_TIPO_NULL   = 99998 ,
    CED_ID_TIPO_ILEGAL = 99999 
 } CED_tpIdTipoEspaco ;
 
-/********** Fim do arquivo de definição: TiposEspacos.def  **********/
+/********** Fim do arquivo de definiÃ§Ã£o: TiposEspacos.def  **********/
 
 #endif

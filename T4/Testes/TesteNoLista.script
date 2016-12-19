@@ -1,0 +1,66 @@
+// Script:    TesteNoLista.script
+// Autor:     Rafael Rubim Cabral
+// Data:      19/oct/2016
+// Propósito: Testar o módulo NoLista
+//
+
+== Inicializar Valores
+=declararparm	OK						int 0
+=declararparm	Erro					int 1
+=declararparm	SemMemoria				int 2
+=declararparm	NoOcupado				int 3
+=declararparm	NoInexistente			int 4
+
+=declararparm	inxA					int 0
+=declararparm	inxB					int 1
+=declararparm	inxC					int 2
+=declararparm	inxD					int 3
+=declararparm	inxE					int 4
+=declararparm	no1						int 0
+=declararparm	no2						int 1
+=declararparm	no3						int 2
+=declararparm	no4						int 3
+=declararparm	no5						int 4
+=declararparm	no6						int 5
+=declararparm	no7						int 6
+=declararparm	null					int 9
+
+=resetteste
+== Criacao / Destruicao
+=cria 		no1 	inxA 	null		null		OK
+=destroi	no2		NoInexistente
+=destroi	no1		OK
+=cria 		no1	 	inxA	null		null		OK
+
+== Fit
+=cria			no2		inxB	null	null		OK
+=cria			no4		inxE	null	null		OK
+
+=colocafrente	no1		no2		OK
+=colocafrente   no4     no2     NoOcupado
+=colocafrente   no6     no2     NoInexistente
+
+=cria			no3		inxC	null	null		OK
+=colocaatras	no1		no3		OK
+=colocafrente   no4     no2     NoOcupado
+=colocaatras    no6     no2     NoInexistente
+
+=obterprox		no1		no2		OK
+=obterprevio	no2		no1		OK
+
+== Info
+=atribinfo		no6		inxD	NoInexistente
+=atribinfo		no1		inxD	OK
+=obterinfo		no1		'a'		OK
+=recuperar
+
+=obterinfo		no1		'd'		OK
+=obterinfo		no3		'c'		OK
+=obterinfo		no2		'b'		OK
+=obterinfo		no4		'd'		OK
+=recuperar
+
+
+
+
+

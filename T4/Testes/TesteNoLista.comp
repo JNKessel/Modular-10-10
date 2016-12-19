@@ -1,0 +1,25 @@
+# Composicao do programa de teste de um no de lista
+
+[Diretorios]
+
+Nome        =  TesteNoLista
+PathDefault =	..\Fontes
+err         =	..\Produto
+obj			=	..\Objetos
+c			=	..\Fontes
+h			=	..\Fontes
+def			=	..\Tabelas
+
+[Modulos]
+TesteNoLista
+NoLista
+
+[BuildInicio]
+/OUT:..\Produto\TesteNoLista.exe
+/INCREMENTAL:NO
+/MACHINE:IX86
+
+[BuildFim]
+ArcaboucoTeste.lib
+
+[Fim]

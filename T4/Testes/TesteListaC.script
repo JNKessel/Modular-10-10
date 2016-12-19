@@ -1,0 +1,51 @@
+// Script:    TesteListaCircular.script
+// Autor:     Pedro Henrique Frayha
+// Data:      19/oct/2016
+// Propósito: Testar superficialmente o módulo lista circular genérica duplamente encadeada
+//
+
+== Inicializar Valores
+=declararparm	OK					int 0
+=declararparm	Erro				int 1
+=declararparm	PosInvalida			int 2
+=declararparm	PosOcupada			int 3
+=declararparm	EhVazia				int 4
+=declararparm	ElemInexistente		int 5
+=declararparm	ListaInexistente	int 6
+
+=declararparm	true	int 1
+=declararparm	false	int	0
+=declararparm	indA	int 0
+=declararparm	indB	int 1
+=declararparm	indC	int 2
+=declararparm	indD	int 3
+=declararparm	lst1	int 0
+
+=resetteste
+== Criacao / Destruicao
+=cria 		lst1	OK
+=destroi	lst1	OK
+=cria		lst1	OK
+
+== Vazia / Nao Vazia
+=ehvazia	lst1	false	OK
+=recuperar
+=ehvazia	lst1	true	OK
+=destroi	lst1	OK
+=ehvazia	lst1	false	OK
+=recuperar
+=cria		lst1	OK
+
+== Insere
+=ins		lst1	0		indA	OK
+=ehvazia	lst1	false	OK
+=ins		lst1	0 		indA	OK
+=ins		lst1	1		indB	OK
+=retir		lst1	0		OK
+=atrib		lst1	0		indC	OK
+=atrib		lst1	1		indB	OK
+=obter		lst1	0		'c'		OK
+=ins		lst1	0		indB	OK
+=move		lst1	1		OK
+=obtertam	lst1	3		OK
+=busca		lst1	indB	0	OK

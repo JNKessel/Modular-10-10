@@ -1,0 +1,28 @@
+# Composicao do programa de teste do módulo tabuleiro
+
+[Diretorios]
+
+Nome        =  TesteTabuleiro
+PathDefault =	..\Fontes
+err         =	..\Produto
+obj			=	..\Objetos
+c			=	..\Fontes
+h			=	..\Fontes
+def			=	..\Tabelas
+
+[Modulos]
+TesteTabuleiro
+Tabuleiro
+Lista
+ListaC
+NoLista
+
+[BuildInicio]
+/OUT:..\Produto\TesteTabuleiro.exe
+/INCREMENTAL:NO
+/MACHINE:IX86
+
+[BuildFim]
+ArcaboucoTeste.lib
+
+[Fim]

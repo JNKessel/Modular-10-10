@@ -1,0 +1,26 @@
+# Composicao do programa de teste de uma lista circular duplamente encadeada
+
+[Diretorios]
+
+Nome        =  TesteListaC
+PathDefault =	..\Fontes
+err         =	..\Produto
+obj			=	..\Objetos
+c			=	..\Fontes
+h			=	..\Fontes
+def			=	..\Tabelas
+
+[Modulos]
+TesteListaC
+ListaC
+NoLista
+
+[BuildInicio]
+/OUT:..\Produto\TesteListaC.exe
+/INCREMENTAL:NO
+/MACHINE:IX86
+
+[BuildFim]
+ArcaboucoTeste.lib
+
+[Fim]

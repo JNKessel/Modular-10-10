@@ -1,0 +1,29 @@
+# Composicao do programa de teste do módulo peão
+
+[Diretorios]
+
+Nome        =  TestePeao
+PathDefault =	..\Fontes
+err         =	..\Produto
+obj			=	..\Objetos
+c			=	..\Fontes
+h			=	..\Fontes
+def			=	..\Tabelas
+
+[Modulos]
+TestePeao
+Peao
+Tabuleiro
+Lista
+ListaC
+NoLista
+
+[BuildInicio]
+/OUT:..\Produto\TestePeao.exe
+/INCREMENTAL:NO
+/MACHINE:IX86
+
+[BuildFim]
+ArcaboucoTeste.lib
+
+[Fim]

@@ -19,8 +19,6 @@
 /* Incluir stdio para uso no módulo "Generico" */
 #include <stdio.h>
 
-#define _DEBUG
-
 #define LISTAC_OWN
 	#include "ListaC.h"
 #undef LISTAC_OWN

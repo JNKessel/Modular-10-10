@@ -312,6 +312,9 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 		else if(corPeao == VERMELHO) {
 			oscar = tab->vermelho;
 		}
+		else {
+			return TAB_CondRetErro;
+		}
 
 		/* Ir pro início do oscar */
 		debugLis = LIS_IrInicioLista(oscar);
@@ -404,6 +407,9 @@ TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor cor, TAB_tppCasa* casaRetorno) {
     else if(cor == VERMELHO){
         pos=39;
     }
+	else {
+		return TAB_CondRetErro;
+	}
     
     debugLSTC = LSTC_ObterElemento(tab->tabuleiro, pos, (void**)casaRetorno);
     if(debugLSTC){

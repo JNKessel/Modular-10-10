@@ -474,7 +474,7 @@
                                     void * pValor        )
    {
 
-      tpElemLista * pElem, * pCorrInicial ;
+      tpElemLista * pElem;
 
       #ifdef _DEBUG
          assert( pLista  != NULL ) ;

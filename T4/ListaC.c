@@ -552,7 +552,7 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 
 LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
 	int i;
-	NOLST_tppNoLista No = pLstC->pNoCorr1, prox;
+	NOLST_tppNoLista No, prox;
 	NOLST_tpCondRet debugNo;
 
 	if((pLstC->pNoCorr1 != pLstC->pNoCorr2) 
@@ -597,12 +597,14 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
 
 		return LSTC_CondRetListaVazia;
 	}
+
+	No = pLstC->pNoCorr1;
      
 	#ifdef _DEBUG
 	    	//CNT_CONTAR("LSTC_RetirarAltPosValida"); 
 	#endif
 	
-    if(iPos == 0){
+    if(iPos == 0) {
 	    #ifdef _DEBUG
 	    	//CNT_CONTAR("LSTC_RetirarAltPosCabeca");
 	    #endif
@@ -625,10 +627,15 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
     if(debugNo){
         return LSTC_CondRetErroNo;
     }
-     
-	pLstC->pNoCorr1 = prox;
-	pLstC->pNoCorr2 = prox;
-	pLstC->pNoCorr3 = prox;
+    
+	if(iPos == 0) {
+	    #ifdef _DEBUG
+	    	//CNT_CONTAR("LSTC_RetirarAltPosCabeca2");
+	    #endif
+	    pLstC->pNoCorr1 = prox;
+		pLstC->pNoCorr2 = prox;
+		pLstC->pNoCorr3 = prox;
+    }
 	
 	pLstC->NumElem--;
      

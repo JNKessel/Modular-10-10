@@ -28,14 +28,31 @@ typedef struct TAB_tgTabuleiro* TAB_tppTabuleiro;
 
 typedef enum{
     TAB_CondRetOK,
+		/* Nenhum problema */
+
     TAB_CondRetErro,
+		/* Erro de inconsistência */
+
     TAB_CondRetSemMemoria,
+		/* Falta de memória */
+
     TAB_CondRetErroListaCircular,
+		/* Erro no uso do módulo LSTC */
+
     TAB_CondRetErroLista,
+		/* Erro no uso do módulo LIS */
+
     TAB_CondRetTabJaExiste,
+		/* Tabuleiro já foi criado */
+
     TAB_CondRetTabInexistente,
+		/* Tabuleiro ainda não foi criado ou já foi destruído */
+
     TAB_CondRetCasaInexistente,
+		/* Casa não existe no tabuleiro */
+
     TAB_CondRetUltrapassouFinal
+		/* Casa desejada ultrapassa os limites do fim do tabuleiro (fim de um dos oscars) */
 	} TAB_tpCondRet;
 
 typedef struct TAB_tgCasa* TAB_tppCasa;
@@ -68,6 +85,7 @@ TAB_tpCondRet TAB_CriarTabuleiro();
 *	TAB_CondRetErroLista
 *	TAB_CondRetErroListaCircular
 *	TAB_CondRetCasaInexistente	-	casa passada não está no tabuleiro
+*	TAB_CondRetErro
 ***********************************************************************/
 TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_tppCasa *casaRetorno);
 
@@ -95,6 +113,7 @@ TAB_tpCondRet TAB_ChecarCor(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCo
 * $FV Valores de Retorno:
 *     TAB_CondRetErroListaCircular - Erro no uso de função do modulo ListaC
 *     TAB_CondRetOK - Operaçao realizada sem problemas
+*	  TAB_CondRetErro
 ***********************************************************************/
 TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor c, TAB_tppCasa* casaRetorno); 
 

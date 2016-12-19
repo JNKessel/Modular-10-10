@@ -16,16 +16,21 @@
 
 #include "NoLista.h"
 
+/* Incluir stdio para uso no módulo "Generico" */
+#include <stdio.h>
+
+#define _DEBUG
+
 #define LISTAC_OWN
 	#include "ListaC.h"
 #undef LISTAC_OWN
 
 /* Modulo do arcabouco de teste */
 #ifdef _DEBUG
-	//#include "Generico.h"
+	#include "Generico.h"
 	#include "Conta.h"
-	//#include "cespdin.h"
-	//#include "IdTiposEspaco.def"
+	#include "cespdin.h"
+	#include "IdTiposEspaco.def"
 #endif
 
 /***********************************************************************
@@ -86,7 +91,9 @@ static int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3);
 LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(void* pInfo)) {
 	*pLstCRet = (LSTC_tppListaC)malloc(sizeof(LSTC_tpListaC));
 	if (!pLstCRet){
-		// //CNT_CONTAR("LSTC_CriarFaltouMemoria");
+		#ifdef _DEBUG
+		CNT_CONTAR("LSTC_CriarFaltouMemoria");
+		#endif
 		return LSTC_CondRetSemMemoria;
 	} /* if */
 	
@@ -112,7 +119,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 	NOLST_tpCondRet debugNo;
 	if (!pLstC){
 		
-		//CNT_CONTAR("LSTC_ListaInexistente");
+		CNT_CONTAR("LSTC_ListaInexistente");
 		
 		return LSTC_CondRetListaInexistente;
 	} /* if */
@@ -154,7 +161,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 
 		if (debugNo){
 			
-			//CNT_CONTAR("LSTC_DestuicaoErroNo1");
+			CNT_CONTAR("LSTC_DestuicaoErroNo1");
 			
 			return LSTC_CondRetErroNo;
 		}
@@ -162,7 +169,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		
 		if (debugNo){
 			
-			//CNT_CONTAR("LSTC_DestruicaoErroNo2");
+			CNT_CONTAR("LSTC_DestruicaoErroNo2");
 			
 			return LSTC_CondRetErroNo;
 		}
@@ -174,7 +181,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		debugNo = NOLST_DestruirNoh(temp);
 		if (debugNo){
 			
-			//CNT_CONTAR("LSTC_DestruicaoErroNo3");
+			CNT_CONTAR("LSTC_DestruicaoErroNo3");
 			
 			return LSTC_CondRetErroNo;
 		}

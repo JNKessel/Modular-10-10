@@ -24,7 +24,9 @@ typedef enum {
 	LSTC_CondRetNoNaoCriado,
 	LSTC_CondRetErroNo,
 	LSTC_CondRetListaInexistente,
-	LSTC_CondRetListaVazia
+	LSTC_CondRetListaVazia,
+	LSTC_CondRetPonteiroPerdidoProx,
+	LSTC_CondRetPonteiroPerdidoAnt
 } LSTC_tpCondRet;
 
 typedef enum {

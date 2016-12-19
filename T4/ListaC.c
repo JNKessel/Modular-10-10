@@ -604,7 +604,7 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
 	    	//CNT_CONTAR("LSTC_RetirarAltPosValida"); 
 	#endif
 	
-	pLstC->pNoCorr1;
+	prox = pLstC->pNoCorr1;
 		/* Para não dar warning */
 
     if(iPos == 0) {

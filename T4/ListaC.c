@@ -90,7 +90,7 @@ LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(v
 	*pLstCRet = (LSTC_tppListaC)malloc(sizeof(LSTC_tpListaC));
 	if (!pLstCRet){
 		#ifdef _DEBUG
-		CNT_CONTAR("LSTC_CriarFaltouMemoria");
+			CNT_CONTAR("LSTC_CriarFaltouMemoria");
 		#endif
 		return LSTC_CondRetSemMemoria;
 	} /* if */
@@ -117,8 +117,9 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 	NOLST_tpCondRet debugNo;
 	if (!pLstC){
 		
-		CNT_CONTAR("LSTC_ListaInexistente");
-		
+		#ifdef _DEBUG
+			CNT_CONTAR("LSTC_ListaInexistente");
+		#endif
 		return LSTC_CondRetListaInexistente;
 	} /* if */
 	
@@ -159,16 +160,20 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 
 		if (debugNo){
 			
-			CNT_CONTAR("LSTC_DestuicaoErroNo1");
-			
+			#ifdef _DEBUG
+				CNT_CONTAR("LSTC_DestuicaoErroNo1");
+			#endif
+
 			return LSTC_CondRetErroNo;
 		}
 		debugNo = NOLST_ObterInfoNoh(temp, &tempInfo);
 		
 		if (debugNo){
 			
-			CNT_CONTAR("LSTC_DestruicaoErroNo2");
-			
+			#ifdef _DEBUG
+				CNT_CONTAR("LSTC_DestruicaoErroNo2");
+			#endif
+
 			return LSTC_CondRetErroNo;
 		}
 		
@@ -179,8 +184,10 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		debugNo = NOLST_DestruirNoh(temp);
 		if (debugNo){
 			
-			CNT_CONTAR("LSTC_DestruicaoErroNo3");
-			
+			#ifdef _DEBUG
+				CNT_CONTAR("LSTC_DestruicaoErroNo3");
+			#endif
+
 			return LSTC_CondRetErroNo;
 		}
 	}
@@ -535,7 +542,7 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 	}
 
 	debugNo = NOLST_ObterInfoNoh(temp, &tempInfo);
-	if (debugNo){
+	if (debugNo) {
 		return LSTC_CondRetErroNo;
 	}
 	
@@ -543,7 +550,10 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 		pLstC->ExcluirElem(tempInfo);
 	}
 	
-	free(temp);
+	debugNo = NOLST_DestruirNoh(temp);
+	if (debugNo) {
+		return LSTC_CondRetErroNo;
+	}
 	
 	pLstC->NumElem--;
 	

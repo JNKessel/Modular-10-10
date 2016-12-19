@@ -80,7 +80,7 @@ static int CriterioProcurarCorJogador(void* pElemBuscado, void* pElemLista);
 
 static int CriterioProcurarNumJogador(void* pElemBuscado, void* pElemLista);
 
-static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoComido);
+static PART_tpCondRet PART_ComerPeao(PEAO_tppPeao peaoPrincipal, DEF_tpCor corPeaoPrincipal, DEF_tpCor corPeaoComido);
 
 static PART_tpCondRet PART_ImprimirCor(DEF_tpCor cor);
 
@@ -212,7 +212,7 @@ PART_tpCondRet PART_Jogar() {
 
 	getch();
 
-	srand(time(NULL));
+	srand((unsigned int) time(NULL));
 	numDado = (rand() % 6) + 1;
 
 	printf("\nO dado rola... Voce sorteou um %d!\n", numDado);
@@ -362,11 +362,9 @@ PART_tpCondRet PART_Jogar() {
 *	Função: PART_ChecarVitoria
 */
 PART_tpCondRet PART_ChecarVitoria(DEF_tpBool* BoolRet, DEF_tpCor* CorVencedorRet) {
-	int i, qtdPeoes, peoesFinal = 0, qtdJog;
+	int i, qtdPeoes, peoesFinal = 0;
 	PART_tpJogador* jog;
-	PEAO_tppPeao peao;
 	LIS_tppLista lstPeoes;
-	LSTC_tpCondRet debugListaC;
 	LIS_tpCondRet debugLista;
 
 	if (lstJogadores == NULL)	return PART_CondRetPartidaInexistente;

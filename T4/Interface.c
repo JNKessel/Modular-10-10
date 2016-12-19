@@ -349,12 +349,7 @@ static void ITFC_LoopDisplay() {
 *******************************************************************************************************************************/
 static ITFC_tpCondRet ITFC_Display() {
 
-	PART_tpCondRet debugPartida;
-	TAB_tpCondRet debugTabuleiro;
 	ITFC_tpCondRet debugInterface;
-	int qtdJogadores;
-	int qtdPeoes;
-	int i, j;
 
 	/* Limpar buffer secundário */
 	glClearColor(1, 1, 1, 1);

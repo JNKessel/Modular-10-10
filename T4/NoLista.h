@@ -16,11 +16,17 @@
 #endif
 
 typedef enum {
-	NOLST_CondRetOK = 0,
-	NOLST_CondRetErro,
-	NOLST_CondRetSemMemoria,
-	NOLST_CondRetNoOcupado,
-	NOLST_CondRetNoInexistente
+	NOLST_CondRetOK				= 0,
+		/* Nenhum problema. */
+
+	NOLST_CondRetErro			= 1,
+		/* Erro de inconsistência */
+
+	NOLST_CondRetSemMemoria		= 2,
+		/*  */
+
+	NOLST_CondRetNoOcupado		= 3,
+	NOLST_CondRetNoInexistente	= 4
 } NOLST_tpCondRet;
 
 typedef struct NOLST_tgNoLista* NOLST_tppNoLista;
@@ -133,6 +139,23 @@ NOLST_tpCondRet NOLST_AtribuirInfoNoh(NOLST_tppNoLista pNoLst, void* pInfo);
 ***********************************************************************/
 NOLST_tpCondRet NOLST_ObterInfoNoh(NOLST_tppNoLista pNoLst, void** pInfoRet);
 
+/***********************************************************************
+* $FC Funçao: NOLST_LigarNos
+* 
+* $ED Descriçao da funçao:
+* Recebe dois nós e os liga, ignorando outros nós a que possam estar
+* ligados. Aceita NULL em qualquer parâmetro, o que pode ligar um nó com
+* NULL.
+*
+* $EP Parâmetros:
+*	$P pEsq	-	nó que ficará à esquerda (ou NULL). Seu ponteiro para direita
+*				agora será pDir. Seu ponteiro esquerdo não se altera.
+*	$P pDir	-	nó que ficará à direita (ou NULL). Seu ponteiro para esquerda
+*				agora será pEsq. Seu ponteiro direito não se altera.
+*
+* $FV Valores de Retorno:
+*     NOLST_CondRetOK - Operaçao realizada sem problemas
+***********************************************************************/
 NOLST_tpCondRet NOLST_LigarNos(NOLST_tppNoLista pEsq, NOLST_tppNoLista pDir);
 
 

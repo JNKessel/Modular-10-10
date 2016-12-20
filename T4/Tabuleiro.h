@@ -101,6 +101,8 @@ TAB_tpCondRet TAB_RetornarCasa(TAB_tppCasa casa, DEF_tpCor corPeao, int n, TAB_t
 *	TAB_CondRetUltrapassouFinal
 *	TAB_CondRetErroLista
 *	TAB_CondRetErroListaCircular
+*	TAB_CondRetCasaInexistente	-	casa passada não está no tabuleiro
+*	TAB_CondRetErro
 ***********************************************************************/
 TAB_tpCondRet TAB_ChecarCor(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCor* cRetorno);
 
@@ -113,7 +115,7 @@ TAB_tpCondRet TAB_ChecarCor(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCo
 * $FV Valores de Retorno:
 *     TAB_CondRetErroListaCircular - Erro no uso de função do modulo ListaC
 *     TAB_CondRetOK - Operaçao realizada sem problemas
-*	  TAB_CondRetErro
+*     TAB_CondRetErro
 ***********************************************************************/
 TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor cor, TAB_tppCasa* casaRetorno); 
 
@@ -127,7 +129,7 @@ TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor cor, TAB_tppCasa* casaRetorno);
 *
 * $FV Valores de Retorno:
 *     TAB_CondRetOK - Operaçao realizada sem problemas
-*	  TAB_CondRetCasaInexistente
+*     TAB_CondRetCasaInexistente
 ***********************************************************************/
 TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa c, DEF_tpBool* finalRetorno);
 
@@ -139,7 +141,7 @@ TAB_tpCondRet TAB_EhCasaFinal(TAB_tppCasa c, DEF_tpBool* finalRetorno);
 *
 * $FV Valores de Retorno:
 *     TAB_CondRetOK - Operaçao realizada sem problemas
-*	  TAB_CondRetCasaInexistente
+*     TAB_CondRetCasaInexistente
 ***********************************************************************/
 TAB_tpCondRet TAB_MudarCorPeaoNaCasa(TAB_tppCasa casa, DEF_tpCor cor);
 
@@ -156,7 +158,7 @@ TAB_tpCondRet TAB_MudarCorPeaoNaCasa(TAB_tppCasa casa, DEF_tpCor cor);
 *
 * $FV Valores de Retorno:
 *     TAB_CondRetOK - Operaçao realizada sem problemas
-*	  TAB_CondRetCasaInexistente
+*     TAB_CondRetCasaInexistente
 ***********************************************************************/
 TAB_tpCondRet TAB_ObterPosicaoCasa(TAB_tppCasa casa, int* x, int* y);
 

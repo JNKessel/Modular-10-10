@@ -1,0 +1,12 @@
+	      Data		    Horas Trabalhadas	    	Tipo de Tarefa				            	          	Breve Descrição
+      06/12/16	      		2		            Revisar especificações	    	      		Revisar módulos controladores de teste
+      08/12/16	      		1,5			               Estudar					                Estudo de caso de exceções
+      09/12/16	      		3		                   Projetar					                Redefinição da arquitetura do programa
+      11/12/16		      	4			            Codificar Módulos				              Finalização do módulo tabuleiro
+      13/12/16		      	2		            Diagnosticar e Corrigir			          	Avaliar módulos Peão e Nó Lista
+      14/12/16		      	3		                  Projetar				                 	Conceber funcionamento do controlador de jogo
+      16/12/16		      	4		            	Codificar Módulos			              	Implementação do módulo controlador de jogo
+      17/12/16		      	4		              	  Estudar					                  Estudo dos módulos CONTA e CESPDIN
+      18/12/16		      	4			                Projetar				                	Planejamento e implementação da Interface
+      19/12/16		      	8		          Redigir Script + Realizar testes	      	Instrumentação do módulo ListaC com CONTA
+      20/12/16		      	10		          Diagnosticar e Corrigir			          	Finalização dos testes e inclusão do CESPDIN    

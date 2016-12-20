@@ -120,7 +120,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 	if (!pLstC){
 		
 		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_ListaInexistente");
+			CNT_CONTAR("LSTC_DestruirListaInexistente");
 		#endif
 		return LSTC_CondRetListaInexistente;
 	} /* if */
@@ -145,7 +145,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
 	  nenhum erro o tratador nao faz nada*/
 	assertiva = AssertivaParaPonteiroPerdido(pLstC);
-	if(assertiva != LSTC_CondRetOK){
+	if(assertiva != LSTC_CondRetOK) {
 		/*tratador*/
 		#ifdef _DEBUG
 			CNT_CONTAR("LSTC_DestruirTratadorPonteiro");
@@ -174,7 +174,7 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		if (debugNo){
 			
 			#ifdef _DEBUG
-				CNT_CONTAR("LSTC_DestuicaoErroNo1");
+				CNT_CONTAR("LSTC_DestruicaoErroNo1");
 			#endif
 
 			return LSTC_CondRetErroNo;
@@ -455,7 +455,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 	debugNo = NOLST_CriarNoh(&novo, pInfo, NULL, NULL);
 	if (debugNo){
 		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_InserirErroNo4");
+			CNT_CONTAR("LSTC_InserirErroNo6");
 		#endif
 		return LSTC_CondRetNoNaoCriado;
 	}
@@ -463,7 +463,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 	debugNo = NOLST_AtribuirInfoNoh(novo, pInfo);
 	if (debugNo){
 		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_InserirErroNo5");
+			CNT_CONTAR("LSTC_InserirErroNo7");
 		#endif
 		return LSTC_CondRetErroNo;
 	}
@@ -471,7 +471,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 	debugNo = NOLST_ColocarNohEmFrente(temp, novo);
 	if (debugNo){
 		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_InserirErroNo6");
+			CNT_CONTAR("LSTC_InserirErroNo8");
 		#endif
 		return LSTC_CondRetErroNo;
 	}
@@ -619,6 +619,16 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 		#endif
 		return LSTC_CondRetListaInexistente;
 	}
+
+	if((pLstC->pNoCorr1 != pLstC->pNoCorr2)
+		   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
+		   || (pLstC->pNoCorr2 != pLstC->pNoCorr3)){ //Assertiva
+			//Tratador
+		#ifdef _DEBUG
+			CNT_CONTAR("LSTC_RetirarTratadorCorrente");
+		#endif
+		TratadorParaCorrentePerdida(pLstC);
+	}
 	
 	/*A assertiva retorna um tipo de erro informando qual a direçao do ponteiro na lista(duplamente incadeada) que tem erro.
 	  O Tratador vai entao(sabendo a direçao do ponteiro com problema) consertar o problema e se a assertiva nao detectar
@@ -631,7 +641,6 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 		#endif
 		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
-
 
 	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
 	if (iPos < 0 
@@ -655,7 +664,7 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 		/* Se a lista tem 5 elementos, passar o índice -1 equivale a passar o índice 4 (já que a lista é circular). */
 		if (iPos < 0){
 			#ifdef _DEBUG
-				CNT_CONTAR("LSTC_RetirarPosMenosQue0");
+				CNT_CONTAR("LSTC_RetirarPosMenorQue0");
 			#endif
 			iPos += pLstC->NumElem;
 		}
@@ -675,16 +684,6 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 		#ifdef _DEBUG
 			CNT_CONTAR("LSTC_RetirarPosMultiploNumElem");
 		#endif
-
-		if((pLstC->pNoCorr1 != pLstC->pNoCorr2)
-		   || (pLstC->pNoCorr1 != pLstC->pNoCorr3) 
-		   || (pLstC->pNoCorr2 != pLstC->pNoCorr3)){ //Assertiva
-			//Tratador
-			#ifdef _DEBUG
-				CNT_CONTAR("LSTC_RetirarTratadorCorrente");
-			#endif
-			TratadorParaCorrentePerdida(pLstC);
-	    	}
 
 		temp = pLstC->pNoCorr1;
 		debugNo = NOLST_ObterProxNoh(pLstC->pNoCorr1, &pLstC->pNoCorr1);

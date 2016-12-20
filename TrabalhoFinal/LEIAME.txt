@@ -1,0 +1,90 @@
+------ Autores ------
+
+- Rafael Cabral
+- Julio Kessel
+- Pedro Frayha
+
+
+---------  Descrição do Programa  ------------
+
+Programa que implementa um jogo de LUDO. Todas as funcionalidades do jogo estão de acordo com o designado na especificação de requisitos, o módulo ListaC foi devidamente instrumento e os demais módulos testados através do arcabouço de testes automatizados
+
+
+-------- Arquivos Fonte ----------
+
+			
+- Módulos de implementação:					INTERFACE.C
+								CONTROLADORDEJOGO.C
+								PARTIDA.C	
+								LISTA.C
+								LISTAC.C
+								TABULEIRO.C
+								PEAO.C
+								NOLISTA.C
+								TESTLISTA.C
+								TESTLISTAC.C
+								TESTTAB.C
+								TESTPEAO.C
+								TESTNOLISTA.C
+								
+- Módulos de definição:					INTERFACE.H
+								CONTROLADORDEJOGO.H
+								PARTIDA.H
+								LISTA.H
+								LISTAC.H
+								TABULEIRO.H
+								PEAO.H
+								NOLISTA.H
+								LERPARM.H
+								GENERICO.H
+								TST_ESPC.H
+								CONTA.C
+								CESPDIN.H
+			
+- Arcabouço de teste:						ArcaboucoTeste.lib
+
+
+
+- Arquivos de Script:						TesteLista.script
+								TesteListaC.script
+								TesteTabuleiro.script
+								TestePeao.script
+								TesteNoLista.script
+								
+
+- Arquivos de Log:						TesteLista.log
+								TesteListaC.log
+								TesteTabuleiro.log
+								TestePeao.log
+								TesteNoLista.log
+								
+								
+- Arquivo Executável:						TBA
+
+
+
+- Arquivos Bat:							TBA
+
+
+
+- Arquivos de Relatório:					Relatorios/RELATORIO-RC.txt
+								Relatorios/RELATORIO-JK.txt
+								Relatorios/RELATORIO-PHF.txt
+
+
+- Arquivo Leiame:						LEIAME.TXT
+
+
+
+- Arquivo de documentação:					N/A
+
+
+
+-------------  Modo de uso  -------------
+
+- Extraia o conteudo do arquivo .zip
+- Abra a linha de comando
+
+Para executar os testes:
+	- Dê dois cliques em ExecutarTeste.bat
+	- Abra o arquivo .log para verificar o resultado

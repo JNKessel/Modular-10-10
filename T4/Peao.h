@@ -47,7 +47,6 @@ typedef enum {
 ***********************************************************************/
 PEAO_tpCondRet PEAO_CriarPeao(PEAO_tppPeao* pPeao, DEF_tpCor Cor, int iNum);
 
-
 /***********************************************************************
 * $FC Funçao: PEAO_AndarPeao
 * 
@@ -127,7 +126,6 @@ PEAO_tpCondRet PEAO_ObterNumeroPeao(PEAO_tppPeao pPeao, int* NumRet);
 *     PEAO_CondRetPeaoInexistente - Peao nao existe
 *     PEAO_CondRetOK - Operaçao realizada sem problemas
 ***********************************************************************/
-
 PEAO_tpCondRet PEAO_ObterCasaPeao(PEAO_tppPeao pPeao, TAB_tppCasa* casaRetorno);
 
 /***********************************************************************

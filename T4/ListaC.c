@@ -1722,13 +1722,27 @@ void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, LSTC_tpCondRet direcao){
 #ifdef _DEBUG
 LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod){
     switch(cod){
-        case(Corrente):
+        case(Corrente1):
 		
-		CNT_CONTAR("LSTC_DeturpadoraCorrente");
+		CNT_CONTAR("LSTC_DeturpadoraCorrente1");
 		
             pLstC->pNoCorr1 = NULL;
             break;
-         
+	
+	case(Corrente2):
+		
+		CNT_CONTAR("LSTC_DeturpadoraCorrente2");
+		
+            pLstC->pNoCorr2 = NULL;
+            break;
+        
+	case(Corrente3):
+		
+		CNT_CONTAR("LSTC_DeturpadoraCorrente3");
+		
+            pLstC->pNoCorr3 = NULL;
+            break;
+		    
         case(Cabeca):
 		
 		CNT_CONTAR("LSTC_DeturpadoraCabeca");

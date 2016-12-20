@@ -9,25 +9,25 @@ LSTC_CriarSucesso
 LSTC_CriarFaltouMemoria
 LSTC_DestruirListaInexistente
 LSTC_DestruirListaExistente
-LSTC_DestruirTratadorCorrente \= -1
+LSTC_DestruirTratadorCorrente
 LSTC_DestruirTratadorPonteiro
 LSTC_DestruirLoop
 LSTC_DestruirNoUnico
-LSTC_DestruicaoErroNo1
-LSTC_DestruicaoErroNo2
-LSTC_DestruirExcluirElem
-LSTC_DestruicaoErroNo3
+LSTC_DestruicaoErroNo1 \= -2
+LSTC_DestruicaoErroNo2 \= -2
+LSTC_DestruirExcluirElem \= -1
+LSTC_DestruicaoErroNo3 \= -2
 LSTC_EhVaziaListaInexistente
-LSTC_EhVaziaTratadorCorrente \= -1
+LSTC_EhVaziaTratadorCorrente
 LSTC_EhVaziaTratadorPonteiroPerdido
 LSTC_EhVaziaListaVazia
 LSTC_EhVaziaListaNaoVazia
-LSTC_EhVaziaAltListaInexistente
+LSTC_EhVaziaAltListaInexistente	\= -2
 LSTC_EhVaziaAltTratadorCorrente \= -1
 LSTC_EhVaziaAltListaVazia
 LSTC_EhVaziaAltListaNaoVazia
 LSTC_InserirListaInexistente
-LSTC_InserirTratadorCorrente \= -1
+LSTC_InserirTratadorCorrente
 LSTC_InserirListaNaoVazia
 LSTC_InserirPosMenorQue0
 LSTC_InserirListaVazia
@@ -35,110 +35,112 @@ LSTC_InserirPos0
 LSTC_InserirPrimeiroElemento
 LSTC_InserirAposCorrente
 LSTC_InserirTratadorPonteiroPerdido
-LSTC_InserirErroNo1
-LSTC_InserirErroNo2
-LSTC_InserirErroNo3
-LSTC_InserirErroNo4
-LSTC_InserirErroNo5
-LSTC_InserirErroNo6
-LSTC_InserirErroJump
+LSTC_InserirErroNo1 \= -2
+LSTC_InserirErroNo2 \= -2
+LSTC_InserirErroNo3 \= -2
+LSTC_InserirErroNo4 \= -2
+LSTC_InserirErroNo5 \= -2
+LSTC_InserirErroNo6 \= -2
+LSTC_InserirErroNo7 \= -2
+LSTC_InserirErroNo8 \= -2
+LSTC_InserirErroJump \= -2
 LSTC_InserirOK
-LSTC_InserirAltListaInexistente
+LSTC_InserirAltListaInexistente \= -1
 LSTC_InserirAltTratadorCorrente \= -1
-LSTC_InserirAltTratadorPonteiroPerdido
-LSTC_InserirAltListaNaoVazia
-LSTC_InserirAltPosMenorQue0
-LSTC_InserirAltListaVazia
-LSTC_InserirAltLoopObterProxNo
-LSTC_InserirAltErroNo1
-LSTC_InserirAltErroNo2
-LSTC_InserirAltErroNo3
-LSTC_InserirAltOK
+LSTC_InserirAltTratadorPonteiroPerdido \= -1
+LSTC_InserirAltListaNaoVazia \= -1
+LSTC_InserirAltPosMenorQue0 \= -1
+LSTC_InserirAltListaVazia \= -1
+LSTC_InserirAltLoopObterProxNo \= -1
+LSTC_InserirAltErroNo1 \= -2
+LSTC_InserirAltErroNo2 \= -2
+LSTC_InserirAltErroNo3 \= -2
+LSTC_InserirAltOK \= -1
 LSTC_RetirarListaInexistente
 LSTC_RetirarTratadorPonteiroPerdido
-LSTC_RetirarTratadorCorrente \= -1
+LSTC_RetirarTratadorCorrente
 LSTC_RetirarListaNaoVazia
 LSTC_RetirarPosMenorQue0
 LSTC_RetirarListaVazia
 LSTC_RetirarPosMultiploNumElem
-LSTC_RetirarErroNo1
+LSTC_RetirarErroNo1 \= -2
 LSTC_RetirarNaoMultiploNumElem
-LSTC_RetirarErroJump
-LSTC_RetirarErroNo2
-LSTC_RetirarExcluirElem
-LSTC_RetirarErroNo3
+LSTC_RetirarErroJump \= -2
+LSTC_RetirarErroNo2 \= -2
+LSTC_RetirarExcluirElem \= -1
+LSTC_RetirarErroNo3 \= -2
 LSTC_RetirarOK
-LSTC_RetirarAltTratadorCorrente \= -1
-LSTC_RetirarAltPosInvalida
-LSTC_RetirarAltPosValida
-LSTC_RetirarAltPosCabeca
-LSTC_RetirarAltPosNaoCabeca
-LSTC_RetirarAltPosCabeca2
-LSTC_RetiratAltOK
+LSTC_RetirarAltTratadorCorrente
+LSTC_RetirarAltPosInvalida \= -1
+LSTC_RetirarAltPosValida \= -1
+LSTC_RetirarAltPosCabeca \= -1
+LSTC_RetirarAltPosNaoCabeca \= -1
+LSTC_RetirarAltPosCabeca2 \= -1
+LSTC_RetiratAltOK \= -1
 LSTC_AtribuirListaInexistente
-LSTC_AtribuirTratadorCorrente \= -1
+LSTC_AtribuirTratadorCorrente
 LSTC_AtribuirTratadorPonteiroPerdido
 LSTC_AtribuirListaNaoVazia
 LSTC_AtribuirPosMenorQue0
 LSTC_AtribuirListaVazia
-LSTC_AtribuirErroJump
-LSTC_AtribuirErroNo1
+LSTC_AtribuirErroJump \= -2
+LSTC_AtribuirErroNo1 \= -2
 LSTC_AtribuirOK
 LSTC_ObterListaInexistente
-LSTC_ObterTratadorCorrente \= -1
+LSTC_ObterTratadorCorrente
 LSTC_ObterTratadorPonteiroPerdido
 LSTC_ObterListaNaoVazia
 LSTC_ObterPosMenorQue0
 LSTC_ObterListaVazia
-LSTC_ObterErroJump
-LSTC_ObterErroNo1
+LSTC_ObterErroJump \= -2
+LSTC_ObterErroNo1 \= -2
 LSTC_ObterOK
 LSTC_MoverCorrenteListaInexistente
 LSTC_MoverCorrenteTratadorPonteiroPerdido
-LSTC_MoverCorrenteErroJump
-LSTC_MoverCorrenteOK
+LSTC_MoverCorrenteErroJump \= -2
+LSTC_MoverCorrenteOK \= -2
 LSTC_ProcurarListaInexistente
 LSTC_ProcurarTratadorPonteiroPerdido
-LSTC_ProcurarErroJump
-LSTC_ProcurarErroNo1
+LSTC_ProcurarErroJump \= -2
+LSTC_ProcurarErroNo1 \= -2
 LSTC_ProcurarAchouElem
 LSTC_ProcurarNaoAchouElem
 LSTC_ProcurarOK
 LSTC_TamanhoListaInexistente
-LSTC_TamanhoTratadorCorrente \= -1
-LSTC_TamanhoErroTamanhoAlt1
-LSTC_TamanhoErroTamanhoAlt2
-LSTC_TamanhoTratadorTamanhoInconsistente
+LSTC_TamanhoTratadorCorrente
+LSTC_TamanhoErroTamanhoAlt1 \= -2
+LSTC_TamanhoErroTamanhoAlt2 \= -2
+LSTC_TamanhoTratadorTamanhoInconsistente \= -1
 LSTC_TamanhoOK
-LSTC_TamanhoAltListaInexistente
+LSTC_TamanhoAltListaInexistente \= -2
 LSTC_TamanhoAltTratadorCorrente \= -1
-LSTC_TamanhoAltTratadorPonteiroPerdido
+LSTC_TamanhoAltTratadorPonteiroPerdido \= -1
 LSTC_TamanhoAltListaVazia
 LSTC_TamanhoAltLoop
 LSTC_TamanhoAltOK
-LSTC_TamanhoAlt2ListaInexistente
+LSTC_TamanhoAlt2ListaInexistente \= -2
 LSTC_TamanhoAlt2TratadorCorrente \= -1
-LSTC_TamanhoAlt2TratadorPonteiroPerdido
+LSTC_TamanhoAlt2TratadorPonteiroPerdido \= -1
 LSTC_TamanhoAlt2ListaVazia
 LSTC_TamanhoAlt2Loop
 LSTC_TamanhoAlt2OK
 LSTC_JumpTratadorCorrente \= -1
-LSTC_JumpListaInexistente
-LSTC_JumpTratadorPonteiroPerdido
+LSTC_JumpListaInexistente \= -2
+LSTC_JumpTratadorPonteiroPerdido \= -1
 LSTC_JumpListaNaoVazia
 LSTC_JumpPosMenorQue0
-LSTC_JumpListaVazia
+LSTC_JumpListaVazia \= -2
 LSTC_JumpLoop
-LSTC_JumpErroNo1
+LSTC_JumpErroNo1 \= -2
 LSTC_JumpOK
 LSTC_TratadorCorrenteCorr1DiferenteCorr2
 LSTC_TratadorCorrenteCorr2IgualCorr3
 LSTC_TratadorCorrenteCorr1IgualCorr3
 LSTC_TratadorCorrenteCorr1IgualCorr2
 LSTC_TratadorCorrenteOK
-LSTC_TratadorTamanhoTam1DiferenteTam2
-LSTC_TratadorTamanhoTam2IgualTam3
-LSTC_TratadorTamanhoTam1IgualTam3
+LSTC_TratadorTamanhoTam1DiferenteTam2 \= -1
+LSTC_TratadorTamanhoTam2IgualTam3 \= -1
+LSTC_TratadorTamanhoTam1IgualTam3 \= -1
 LSTC_AssertivaListaVazia
 LSTC_AssertivaListaNaoVazia
 LSTC_AssertivaPerdidoProx

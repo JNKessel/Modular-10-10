@@ -1,11 +1,26 @@
-/*******************************************************
-* $MCD Modulo de definiçao: Modulo NoLista
-* Arquivo:   NoLista.h
+/*******************************************************************************************************************************
+*	$MCD Módulo de definição: Módulo No Lista
+*	Arquivo:	NoLista.c
+*	Letras identificadoras:		NOLST
 *
-* Autores: rrc - Rafael Rubim Cabral
+*	Autores:	rrc	-	Rafael Rubim Cabral
+*				phf	-	Pedro Henrique Frayha
+*				jnk	-	Julio Neuman Kessel
 *
-* Editado: jnk - Julio Neuman Kessel 19/out/2016
-*******************************************************/
+*	$HA Histórico de evolução:
+*		Versâo	Autor	Data		Observações
+*		1.00	rrc		17/10/2016	Começo de implementação, maioria das funções ainda não implementadas
+*		1.10	rrc		09/12/2016	Documentação de funções
+*		2.00	rrc		13/12/2016	Implementação de outras funções
+*		3.00	rrc		14/12/2016	Fim das implementações
+*		4.00	rrc		15/12/2016	Adições ao módulo, correção de bugs
+*		5.00	rrc		18/12/2016	Várias adições de funções a serem usadas pelo módulo ITFC
+*		6.00	jnk		19/12/2016	Editado 
+*
+*	Esse módulo disponibiliza uma estrutura de dados genérica que serve de nó de uma lista. Cada nó possui duas referências (ponteiros)
+*	para outros nós, ou nada (NULL). O módulo permite sua manipulação de forma que sua aplicação possa ser variada segundo o módulo que
+*	o utiliza. Cada nó guarda um valor de um elemento de forma genérica (ponteiro).
+*******************************************************************************************************************************/
 
 #pragma once
 

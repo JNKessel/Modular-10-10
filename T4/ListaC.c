@@ -1,17 +1,16 @@
-/***************************************************************************
-*  $MCI Módulo de implementação: LSTC  Lista Circular duplamente encadeada
+/*******************************************************************************************************************************
+*	$MCD Módulo de implementação: Módulo Lista Circular
+*	Arquivo:	ListaC.C
+*	Letras identificadoras:		LSTC
 *
-*  Arquivo gerado:              ListaC.c
-*  Letras identificadoras:      LSTC
+*	Autores:	rrc - Rafael Rubim Cabral
+*				jnk - Julio Neuman Kessel
+*				phf - Pedro Henrique FR'HAYAHAH
 *
-*
-*  Projeto: INF 1301 / Jogo de Ludo
-*  Autores: phf
-*	    rrc
-*	    jnk
-*
-*
-***************************************************************************/
+*		Última modificação:
+*			20/dez/2016
+*******************************************************************************************************************************/
+
 #include <stdlib.h>
 
 #include "NoLista.h"
@@ -27,7 +26,10 @@
 #ifdef _DEBUG
 	#include "Generico.h"
 	#include "Conta.h"
+
+		/* Pelo menos tem o include which is nice */
 	#include "cespdin.h"
+
 	#include "IdTiposEspaco.def"
 #endif
 
@@ -1771,7 +1773,7 @@ LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod){
 		    
 		    CNT_CONTAR("LSTC_DeturpadorapProx");
 		    
-		    NOLST_LigarNos(pLst->pNoCorr1, NULL);
+		    NOLST_LigarNos(pLstC->pNoCorr1, NULL);
 		    break;
 	
 		    
@@ -1779,7 +1781,7 @@ LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod){
 		    
 		    CNT_CONTAR("LSTC_DeturpadorapAnt");
 		    
-		    NOLST_LigarNos(NULL, pLst->pNoCorr1);
+		    NOLST_LigarNos(NULL, pLstC->pNoCorr1);
 		    break;	    
              
         default:

@@ -3,9 +3,9 @@
 *	Arquivo:	NoLista.c
 *	Letras identificadoras:		NOLST
 *
-*	Autores:	rrc
-*			phf
-*			jnk
+*	Autores:	rrc	-	Rafael Rubim Cabral
+*				phf	-	Pedro Henrique Frayha
+*				jnk	-	Julio Neuman Kessel
 *
 *	$HA Histórico de evolução:
 *		Versâo	Autor	Data		Observações
@@ -15,6 +15,7 @@
 *		3.00	rrc		14/12/2016	Fim das implementações
 *		4.00	rrc		15/12/2016	Adições ao módulo, correção de bugs
 *		5.00	rrc		18/12/2016	Várias adições de funções a serem usadas pelo módulo ITFC
+*		6.00	jnk		19/12/2016	Editado 
 *******************************************************************************************************************************/
 
 #include <stdlib.h>

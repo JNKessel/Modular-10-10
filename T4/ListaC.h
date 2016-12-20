@@ -1,11 +1,20 @@
-/*******************************************************
-* $MCD Modulo de definiçao: Modulo ListaC
-* Arquivo:   ListaC.h
+/*******************************************************************************************************************************
+*	$MCD Módulo de definição: Módulo Lista Circular
+*	Arquivo:	ListaC.H
+*	Letras identificadoras:		LSTC
 *
-* Autores: jnk - Julio Neuman Kessel
-*          rrc - Rafael Rubim Cabral
-*          phf - Pedro Henrique Frayha
-*******************************************************/
+*	Autores:	rrc - Rafael Rubim Cabral
+*				jnk - Julio Neuman Kessel
+*				phf - Pedro Henrique Frayha
+*
+*		Última modificação:
+*			20/dez/2016
+*
+*	$ED Descrição do módulo:
+*		Este módulo permite a criação de listas circulares e sua manipulação. A lista pode receber um elemento qualquer genérico
+*		(ponteiro). A lista, em todo momento, possui um único nó corrente que serve de referência para as operações sobre a lista.
+*		Consequentemente, trocar (ou mover) o nó corrente muda a referência para todos os futuros usos da lista.
+*******************************************************************************************************************************/
 #pragma once
 
 #if defined( LISTAC_OWN )
@@ -225,3 +234,7 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRe
 #ifdef _DEBUG
 	LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod);
 #endif
+
+/***********************************************************************
+* Fim do módulo de definição
+***********************************************************************/

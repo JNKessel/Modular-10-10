@@ -271,7 +271,6 @@ LSTC_tpCondRet LSTC_EhListaCVazia(LSTC_tppListaC pLstC, int* pEhVaziaRet) {
 *  ****/
 
 LSTC_tpCondRet LSTC_EhListaCVaziaAlt(LSTC_tppListaC pLstC, int* pEhVazia) {
-	LSTC_tpCondRet assertiva;
 	
 	if (!pLstC){
 		#ifdef _DEBUG

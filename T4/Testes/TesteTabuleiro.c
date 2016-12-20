@@ -25,14 +25,13 @@
 
 #include    "Tabuleiro.h"
 
-
 static const char RESET_VETOR_CMD			 [ ] = "=resetteste"	;
 static const char CRIAR_TABULEIRO_CMD		 [ ] = "=cria"			;
 static const char DESTRUIR_TABULEIRO_CMD	 [ ] = "=destroi"		;
-static const char CHECAR_COR_CMD			 [ ] = "=checarcor"		;
 static const char RETORNAR_CASA_CMD			 [ ] = "=retornacasa"	;
 static const char RETORNAR_CASA_SAIDA_CMD	 [ ] = "=casasaida"		;
 static const char EH_CASA_FINAL_CMD			 [ ] = "=ehcasafinal"	;
+static const char CHECAR_COR_CMD			 [ ] = "=checarcor"		;
 static const char MUDAR_COR_PEAO_CASA_CMD	 [ ] = "=mudarcor"		;
 
 #define TRUE  1
@@ -46,11 +45,10 @@ static const char MUDAR_COR_PEAO_CASA_CMD	 [ ] = "=mudarcor"		;
 #define DIM_VALOR     100
 
 TAB_tppCasa			vtCasas[ DIM_VT_LISTA ] ;
-DEF_tpCor			vtCores[] = {AZUL, AMARELO, VERDE, VERMELHO};
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
-   static int ValidarInxVecCasas( int inxLista , int Modo ) ;
+	static int ValidarInxVecCasas( int inxLista , int Modo ) ;
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -70,7 +68,7 @@ DEF_tpCor			vtCores[] = {AZUL, AMARELO, VERDE, VERMELHO};
 *     =cria       CondRetEsp
 *     =destroi    CondRetEsp
 *     =checarcor inxCasa	iNum	corPeao	corEsp	CondRetEsp
-*     =retornacasa	inxCasa  inxCasaEsp	CondRetEsp
+*     =retornacasa	inxCasa  iNum	inxCasaEsp	CondRetEsp
 *     =casasaida	cor  inxCasaEsp	CondRetEsp
 *     =ehcasafinal	inxCasa	boolEsp	CondRetEsp
 *	  =mudarcor		inxCasa	cor	CondRetEsp
@@ -111,8 +109,7 @@ DEF_tpCor			vtCores[] = {AZUL, AMARELO, VERDE, VERMELHO};
          else if ( strcmp( ComandoTeste , CRIAR_TABULEIRO_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "i" ,
-										&debugEsp) ;
+            numLidos = LER_LerParametros("i", &debugEsp) ;
 
             if (( numLidos != 1 ))
             {
@@ -128,8 +125,7 @@ DEF_tpCor			vtCores[] = {AZUL, AMARELO, VERDE, VERMELHO};
          else if ( strcmp( ComandoTeste , DESTRUIR_TABULEIRO_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "i" ,
-										&debugEsp);
+            numLidos = LER_LerParametros("i", &debugEsp);
 
             if (( numLidos != 1))
             {
@@ -144,17 +140,38 @@ DEF_tpCor			vtCores[] = {AZUL, AMARELO, VERDE, VERMELHO};
 
     
 
-         else if ( strcmp( ComandoTeste , DISPONIBILIDADE_CASA_CMD ) == 0 )
+         else if ( strcmp(ComandoTeste , CHECAR_COR_CMD ) == 0 )
          {
-			/*FUNÇÃO NÃO É DO T2- NÃO IMPLEMENTADA!!!*/
-			 return TST_CondRetParm ;
+			DEF_tpCor corObtida;
+
+			numLidos = LER_LerParametros("iiiii", &parmInt[0], &parmInt[1], &parmInt[2], &parmInt[3], &debugEsp);
+
+            if (( numLidos != 5) || (!ValidarInxVecCasas( parmInt[0] , IRRELEVANTE )))
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+			debug = TAB_ChecarCor(vtCasas[parmInt[0]], parmInt[1], parmInt[2], &corObtida);
+			
+			return TST_CompararInt(debugEsp, debug, "Condicao de Retorno inesperado em teste ChecarCor");
          }
 
 
          else if ( strcmp( ComandoTeste , RETORNAR_CASA_CMD ) == 0 )
          {
-			/*FUNÇÃO NÃO É DO T2- NÃO IMPLEMENTADA!!!*/
-			 return TST_CondRetParm ;
+			 TAB_tppCasa casaRetornada;
+
+			numLidos = LER_LerParametros("iiii", &parmInt[0], &parmInt[1], &parmInt[2], &debugEsp);
+
+            if (( numLidos != 3) || (!ValidarInxVecCasas( parmInt[0] , IRRELEVANTE )) || (!ValidarInxVecCasas( parmInt[2] , IRRELEVANTE )))
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+
+			debug = TAB_RetornarCasa(vtCasas[parmInt[0]], parmInt[1], &casaRetornada);
+
+			return TST_CompararInt(debugEsp, debug, "Condicao de Retorno inesperado em teste retornar casa");
 
          } 
 
@@ -172,10 +189,10 @@ DEF_tpCor			vtCores[] = {AZUL, AMARELO, VERDE, VERMELHO};
 			debug = TAB_RetornarCasaDeSaida(parmInt[1], &retorno);
 			CondRet = TST_CompararInt( debugEsp, debug ,
                      "Condicao de retorno errada ao retornar casa de saida.") ;
-			if (CondRet)	return CondRet;
+			return CondRet;
 
-            return TST_CompararPonteiro(vtCasas[parmInt[2]], retorno ,
-                     "Retorno inesperado de casa de saida.") ;
+            /*return TST_CompararPonteiro(vtCasas[parmInt[2]], retorno ,	// TESTE NAO FUNCIONARA POIS NAO HA REFERENCIA PARA CASA!
+                     "Retorno inesperado de casa de saida.") ;*/
 
          }
 
@@ -193,10 +210,28 @@ DEF_tpCor			vtCores[] = {AZUL, AMARELO, VERDE, VERMELHO};
 			debug = TAB_EhCasaFinal(vtCasas[parmInt[0]], &retorno);
 			CondRet = TST_CompararInt( debugEsp , debug,
 				"Condição de retorno errada em EhCasaFinal.") ;
-			if (CondRet)	return CondRet;
+			return CondRet;
 
-            return TST_CompararInt( parmInt[1] , retorno,
-				"Retorno inesperado de EhCasaFinal.") ;
+            /*return TST_CompararInt( parmInt[1] , retorno,	// TESTE NAO FUNCIONARA POIS NAO HA REFERENCIA PARA CASA!
+				"Retorno inesperado de EhCasaFinal.") ;*/
+
+         }
+
+		else if ( strcmp( ComandoTeste , MUDAR_COR_PEAO_CASA_CMD ) == 0 )
+         {
+			DEF_tpBool retorno;
+            numLidos = LER_LerParametros( "iii" ,
+                  &parmInt[0] , &parmInt[1], &debugEsp) ;
+
+            if ( ( numLidos != 3 ) || (!ValidarInxVecCasas( parmInt[0] , IRRELEVANTE )))
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+			debug = TAB_MudarCorPeaoNaCasa(vtCasas[parmInt[0]], parmInt[1]);
+			CondRet = TST_CompararInt( debugEsp , debug,
+				"Condição de retorno errada ao mudar cor do peão na casa.") ;
+			return CondRet;
 
          }
 

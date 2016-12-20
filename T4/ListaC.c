@@ -1719,27 +1719,27 @@ void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, LSTC_tpCondRet direcao){
 *	$FV Valor retornado:
 *		LSTC_CondRetOK
 *******************************************************************************************************************************/
-
+#ifdef _DEBUG
 LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod){
     switch(cod){
         case(Corrente):
-		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_DeturpadoraCorrente");
-		#endif
+		
+		CNT_CONTAR("LSTC_DeturpadoraCorrente");
+		
             pLstC->pNoCorr1 = NULL;
             break;
          
         case(Cabeca):
-		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_DeturpadoraCabeca");
-		#endif
+		
+		CNT_CONTAR("LSTC_DeturpadoraCabeca");
+		
             pLstC = NULL;
             break;
              
         case(NumElem):
-		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_DeturpadoraNumElem");
-		#endif
+		
+		CNT_CONTAR("LSTC_DeturpadoraNumElem");
+		
             pLstC->NumElem = -1;
             break;
              
@@ -1747,10 +1747,11 @@ LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod){
 			;
     }
 
-	#ifdef _DEBUG
-			CNT_CONTAR("LSTC_DeturpadoraOK");
-	#endif
+	
+		CNT_CONTAR("LSTC_DeturpadoraOK");
+	
     return LSTC_CondRetOK;
 } /* Fim Funcao: LSTC &Deturpadora */
+#endif
 
 /********** Fim do módulo de implementação: LSTC  Lista circular duplamente encadeada **********/

@@ -393,11 +393,17 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 			#endif
 			debugNo = NOLST_CriarNoh(&novo, pInfo, NULL, NULL);
 			if (debugNo){
+				#ifdef _DEBUG
+					CNT_CONTAR("LSTC_InserirErroNo1");
+				#endif
 				return LSTC_CondRetNoNaoCriado;
 			}
 
 			debugNo = NOLST_LigarNos(novo, novo);
 			if (debugNo){
+				#ifdef _DEBUG
+					CNT_CONTAR("LSTC_InserirErroNo2");
+				#endif
 				return LSTC_CondRetErroNo;
 			}
 			
@@ -411,7 +417,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 			debugNo = NOLST_CriarNoh(&novo, pInfo, NULL, NULL);
 			if (debugNo){
 				#ifdef _DEBUG
-					CNT_CONTAR("LSTC_InserirErroNo1");
+					CNT_CONTAR("LSTC_InserirErroNo3");
 				#endif
 				return LSTC_CondRetNoNaoCriado;
 			}
@@ -419,7 +425,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 			debugNo = NOLST_ColocarNohEmFrente(pLstC->pNoCorr1, novo);
 			if (debugNo){
 				#ifdef _DEBUG
-					CNT_CONTAR("LSTC_InserirErroNo2");
+					CNT_CONTAR("LSTC_InserirErroNo4");
 				#endif
 				return LSTC_CondRetErroNo;
 			}
@@ -428,7 +434,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 		debugNo = NOLST_AtribuirInfoNoh(novo, pInfo);
 		if (debugNo){
 			#ifdef _DEBUG
-				CNT_CONTAR("LSTC_InserirErroNo3");
+				CNT_CONTAR("LSTC_InserirErroNo5");
 			#endif
 			return LSTC_CondRetErroNo;
 		}
@@ -470,7 +476,11 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 		return LSTC_CondRetErroNo;
 	}
 	
-	pLstC->NumElem++;
+	(pLstC->NumElem)++;
+	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_InserirOK");
+	#endif
 	
 	return LSTC_CondRetOK;
 } /* Fim Funcao: LSTC &Inserir Elemento */
@@ -538,6 +548,9 @@ LSTC_tpCondRet LSTC_InserirElementoAlt(LSTC_tppListaC pLstC, int iPos, void* pIn
 
 		/* Se a lista tem 5 elementos, inserir no índice -1 equivale a inserir no índice 4 (já que a lista é circular). */
 		if (iPos < 0)
+			#ifdef _DEBUG
+				CNT_CONTAR("LSTC_InserirAltPosMenorQue0");
+			#endif
 			iPos += pLstC->NumElem;
 	} else {
 			/* Se a lista está vazia */
@@ -580,6 +593,10 @@ LSTC_tpCondRet LSTC_InserirElementoAlt(LSTC_tppListaC pLstC, int iPos, void* pIn
     }
      
     (pLstC->NumElem)++;
+	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_InserirAltOK");
+	#endif
      
     return LSTC_CondRetOK;
 } /* Fim Funcao: LSTC &Inserir Elemento Alternativa */
@@ -721,6 +738,10 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 	
 	(pLstC->NumElem)--;
 	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_RetirarOK");
+	#endif
+	
 	return LSTC_CondRetOK;
 } /* Fim funcao: LSTC &Retirar Elemento */
 
@@ -842,6 +863,10 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
     }
     
 	(pLstC->NumElem)--;
+	
+	#ifdef _DEBUG
+	  	CNT_CONTAR("LSTC_RetirarAltOK");
+	#endif
      
 	return LSTC_CondRetOK;
 } /* Fim funcao: LSTC &Retirar Elemento Alternativa */
@@ -938,6 +963,10 @@ LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo
 		#endif
 		return LSTC_CondRetErroNo;
 	}
+	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_AtribuirOK");
+	#endif
 
 	return LSTC_CondRetOK;
 } /* Fim funcao: LSTC &Atribuir Elemento */
@@ -1033,6 +1062,10 @@ LSTC_tpCondRet LSTC_ObterElemento(LSTC_tppListaC pLstC, int iPos, void** pInfoRe
 		#endif
 		return LSTC_CondRetErroNo;
 	}
+	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_ObterOK");
+	#endif
 
 	return LSTC_CondRetOK;
 } /* Fim funcao: LSTC &Obter Elemento */
@@ -1075,7 +1108,7 @@ LSTC_tpCondRet LSTC_MoverCorrente(LSTC_tppListaC pLstC, int iN) {
 	}
 	
 	#ifdef _DEBUG
-		CNT_CONTAR("LSTC_MoverCorrenteFim");
+		CNT_CONTAR("LSTC_MoverCorrenteOK");
 	#endif
 	
 	pLstC->pNoCorr1 = no;
@@ -1156,6 +1189,10 @@ LSTC_tpCondRet LSTC_ProcurarElemento(LSTC_tppListaC pLstC, void* pElemBuscado, i
 		*pIndiceRet = -1;
 		return LSTC_CondRetElemInexistente;
 	}
+	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_ProcurarOK");
+	#endif
 
 	return LSTC_CondRetOK; 
 } /* Fim funcao: LSTC &Procurar Elemento */
@@ -1217,6 +1254,10 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaC(LSTC_tppListaC pLstC, int* pTamanhoRet) {
 	
 	}
 	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_TamanhoOK");
+	#endif
+	
 	return LSTC_CondRetOK;
 } /* Fim funcao: LSTC &Obter Tamanho ListaC */
 
@@ -1276,6 +1317,10 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt(LSTC_tppListaC pLstC, int* pTamanhoRet
 			(*pTamanhoRet) ++;
 		}
 	}
+	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_TamanhoAltOK");
+	#endif
 
 	return LSTC_CondRetOK;
 } /* Fim funcao: LSTC &Obter Tamanho ListaC Alternativa */
@@ -1335,6 +1380,10 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRe
 			(*pTamanhoRet) ++;
 		}
 	}
+	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_TamanhoAlt2OK");
+	#endif
 
 	return LSTC_CondRetOK;
 } /* Fim funcao: LSTC &Obter Tamanho ListaC Alternativa 2 */
@@ -1443,6 +1492,10 @@ static LSTC_tpCondRet JumpToPos(LSTC_tppListaC pLstC, int iPos, NOLST_tppNoLista
 	}
 
 	*pNoRet = aux;
+	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_JumpOK");
+	#endif
 
 	return LSTC_CondRetOK;
 } /* Fim funcao: LSTC &Jump To Pos */
@@ -1520,6 +1573,11 @@ void TratadorParaCorrentePerdida(LSTC_tppListaC pLstC){
 			pLstC->pNoCorr3 = pLstC->pNoCorr1;
 		}
 	}
+	
+	#ifdef _DEBUG
+		CNT_CONTAR("LSTC_TratadorCorrenteOK");
+	#endif
+	
 } /* Fim funcao: &TratadorParaCorrentePerdida */
 
 /*******************************************************************************************************************************
@@ -1705,6 +1763,10 @@ void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, LSTC_tpCondRet direcao){
 		}while(noProx != pLstC->pNoCorr1);
 		
 	}
+	#ifdef _DEBUG
+			CNT_CONTAR("LSTC_TratadorPonteiroOK");
+	#endif
+	
 }/* Fim funcao: &TratadorParaPonteiroPerdido */
 
 /*******************************************************************************************************************************
@@ -1749,6 +1811,9 @@ LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod){
 			;
     }
 
+	#ifdef _DEBUG
+			CNT_CONTAR("LSTC_DeturpadoraOK");
+	#endif
     return LSTC_CondRetOK;
 } /* Fim Funcao: LSTC &Deturpadora */
 

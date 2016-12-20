@@ -1,1 +1,72 @@
-//Sem as funcções do T4 ainda não dá pra testar o tabuleiro!
+// Script:    TestePeao.script
+// Autor:     Julio Neuman Kessel
+// Data:      20/dez/2016
+// Propósito: Testar o módulo tabuleiro
+//
+
+== Inicializar valores
+=declararparm   true                   int  0
+=declararparm   false                  int  1
+
+=declararparm   cor1                   int  1
+=declararparm   cor2                   int  2
+=declararparm   cor3                   int  3
+=declararparm   cor4                   int  4
+
+=declararparm   num1                   int  1
+=declararparm   num3                   int  3
+=declararparm   num5                   int  5
+
+=declararparm   casa0                  int  0
+=declararparm   casa1                  int  1
+=declararparm   casa2                  int  2
+=declararparm   casa3                  int  3
+
+=declararparm   OK                     int  0
+=declararparm   FaltouMemoria          int  1
+=declararparm   ErroListaCircular      int  2
+=declararparm   ErroLista              int  3
+=declararparm   TabuleiroJaExiste      int  4
+=declararparm   CasaInexistente        int  5
+
+== Criar tabuleiro
+=cria   OK
+=cria   TabuleiroJaExiste
+
+==Retornar casa
+=retornacasa    casa1   cor3    num3    casa2    CasaInexistente
+=retornacasa    casa3   cor3    num3    casa2    CasaInexistente
+
+==Retornar casa de saida
+=casasaida    cor1    casa1   OK
+=casasaida    cor2    casa3   OK
+=casasaida    cor3    casa1   OK
+=casasaida    cor4    casa3   OK
+
+==É casa final
+=ehcasafinal    casa1   true    CasaInexistente
+=ehcasafinal    casa2   true    CasaInexistente
+
+==Mudar cor peao na casa
+=mudarcor   casa1   cor2    CasaInexistente
+=mudarcor   casa3   cor1    CasaInexistente
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

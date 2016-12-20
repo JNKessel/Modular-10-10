@@ -29,10 +29,11 @@
 static const char RESET_VETOR_CMD			 [ ] = "=resetteste"	;
 static const char CRIAR_TABULEIRO_CMD		 [ ] = "=cria"			;
 static const char DESTRUIR_TABULEIRO_CMD	 [ ] = "=destroi"		;
-static const char DISPONIBILIDADE_CASA_CMD	 [ ] = "=disponivel"	;
+static const char CHECAR_COR_CMD			 [ ] = "=checarcor"		;
 static const char RETORNAR_CASA_CMD			 [ ] = "=retornacasa"	;
 static const char RETORNAR_CASA_SAIDA_CMD	 [ ] = "=casasaida"		;
 static const char EH_CASA_FINAL_CMD			 [ ] = "=ehcasafinal"	;
+static const char MUDAR_COR_PEAO_CASA_CMD	 [ ] = "=mudarcor"		;
 
 #define TRUE  1
 #define FALSE 0
@@ -45,6 +46,7 @@ static const char EH_CASA_FINAL_CMD			 [ ] = "=ehcasafinal"	;
 #define DIM_VALOR     100
 
 TAB_tppCasa			vtCasas[ DIM_VT_LISTA ] ;
+DEF_tpCor			vtCores[] = {AZUL, AMARELO, VERDE, VERMELHO};
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
@@ -65,13 +67,13 @@ TAB_tppCasa			vtCasas[ DIM_VT_LISTA ] ;
 *
 *     =resetteste
 *           - anula o vetor de listas. Provoca vazamento de memória
-*     =cria       inxLista
-*     =destroi    inxLista
-*     =disponivel	 inxLista  inxRet	
-*     =retornacasa	         inxLista  iPos		inxChar		CondRetEsp
-*     =casasaida		 inxLista  iPos		CondRetEsp
-*     =ehcasafinal		 inxLista  iPos		inxChar
-*
+*     =cria       CondRetEsp
+*     =destroi    CondRetEsp
+*     =checarcor inxCasa	iNum	corPeao	corEsp	CondRetEsp
+*     =retornacasa	inxCasa  inxCasaEsp	CondRetEsp
+*     =casasaida	cor  inxCasaEsp	CondRetEsp
+*     =ehcasafinal	inxCasa	boolEsp	CondRetEsp
+*	  =mudarcor		inxCasa	cor	CondRetEsp
 ***********************************************************************/
 
    TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )

@@ -115,7 +115,7 @@ TAB_tpCondRet TAB_ChecarCor(TAB_tppCasa casa, int n, DEF_tpCor corPeao, DEF_tpCo
 *     TAB_CondRetOK - Operaçao realizada sem problemas
 *	  TAB_CondRetErro
 ***********************************************************************/
-TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor c, TAB_tppCasa* casaRetorno); 
+TAB_tpCondRet TAB_RetornarCasaDeSaida(DEF_tpCor cor, TAB_tppCasa* casaRetorno); 
 
 
 /***********************************************************************

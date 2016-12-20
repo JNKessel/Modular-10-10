@@ -75,7 +75,7 @@ static void TratadorParaCorrentePerdida(LSTC_tppListaC pLstC);
 
 static void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao);
 
-static int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC);
+static LSTC_tpCondRet AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC);
 
 static int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3);
 
@@ -377,6 +377,7 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 		
 		#ifdef _DEBUG
 			CNT_CONTAR("LSTC_InserirListaVazia");
+		#endif
 
 		/* Independente do índice passado, a inserção ocorrerá na posição 0. Esse elemento será o novo corrente. */
 		iPos = 0;

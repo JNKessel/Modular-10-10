@@ -1742,6 +1742,21 @@ LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod){
 		
             pLstC->NumElem = -1;
             break;
+		    
+	case(pProx):
+		    
+		    CNT_CONTAR("LSTC_DeturpadorapProx");
+		    
+		    NOLST_LigarNos(pLst->pNoCorr1, NULL);
+		    break;
+	
+		    
+	case(pAnt):
+		    
+		    CNT_CONTAR("LSTC_DeturpadorapAnt");
+		    
+		    NOLST_LigarNos(NULL, pLst->pNoCorr1);
+		    break;	    
              
         default:
 			;

@@ -4,13 +4,10 @@
 *  Arquivo gerado:              ListaC.c
 *  Letras identificadoras:      LSTC
 *
-*
 *  Projeto: INF 1301 / Jogo de Ludo
 *  Autores: phf
 *	    rrc
 *	    jnk
-*
-*
 ***************************************************************************/
 #include <stdlib.h>
 
@@ -75,7 +72,7 @@ static void TratadorParaCorrentePerdida(LSTC_tppListaC pLstC);
 
 static void TratadorParaPonteiroPerdido(LSTC_tppListaC pLstC, int direcao);
 
-static int AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC);
+static LSTC_tpCondRet AssertivaParaPonteiroPerdido(LSTC_tppListaC pLstC);
 
 static int TratadorParaObterTamanhoInconsistente(int Tam1, int Tam2, int Tam3);
 

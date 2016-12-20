@@ -17,16 +17,32 @@
 typedef struct LSTC_tgListaC* LSTC_tppListaC;
 
 typedef enum {
-	LSTC_CondRetOK,
-	LSTC_CondRetSemMemoria,
-	LSTC_CondRetPosInvalida,
-	LSTC_CondRetElemInexistente,
-	LSTC_CondRetNoNaoCriado,
-	LSTC_CondRetErroNo,
-	LSTC_CondRetListaInexistente,
-	LSTC_CondRetListaVazia,
-	LSTC_CondRetPonteiroPerdidoProx,
-	LSTC_CondRetPonteiroPerdidoAnt
+	LSTC_CondRetOK					=	0,
+		/* Nenhum problema */
+
+	LSTC_CondRetSemMemoria			=	1,
+		/* Falta de memória */
+
+	LSTC_CondRetElemInexistente		=	2,
+		/* Elemento não existe */
+
+	LSTC_CondRetNoNaoCriado			=	3,
+		/* Nó não foi criado */
+
+	LSTC_CondRetErroNo				=	4,
+		/* Erro no uso do módulo NOLST */
+
+	LSTC_CondRetListaInexistente	=	5,
+		/* Lista passada não existe (é NULL) */
+
+	LSTC_CondRetListaVazia			=	6,
+		/* Lista está *pasme* vazia */
+
+	LSTC_CondRetPonteiroPerdidoProx	=	7,
+		/* Na estrutura da lista, há em algum lugar um ponteiro que não é válido apontando para a direita */
+
+	LSTC_CondRetPonteiroPerdidoAnt	=	8
+		/* Na estrutura da lista, há em algum lugar um ponteiro que não é válido apontando para a esquerda */
 } LSTC_tpCondRet;
 
 typedef enum {

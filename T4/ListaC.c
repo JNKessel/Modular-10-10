@@ -346,14 +346,6 @@ LSTC_tpCondRet LSTC_InserirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo)
 		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
-	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
-	if (iPos < 0 || (pLstC->NumElem != 0 && iPos >= pLstC->NumElem) || (pLstC->NumElem == 0 && iPos > 0)){
-		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_InserirPosInvalida");
-		#endif
-		return LSTC_CondRetPosInvalida;
-	}*/
-
 	if (pLstC->NumElem != 0) {
 			/* Se a lista não está vazia */
 		
@@ -526,15 +518,6 @@ LSTC_tpCondRet LSTC_InserirElementoAlt(LSTC_tppListaC pLstC, int iPos, void* pIn
 		#endif
 		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
-    
-	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
-    if(iPos < 0 
-       || iPos > pLstC->NumElem){
-	    #ifdef _DEBUG
-	    	CNT_CONTAR("LSTC_InserirAltPosInvalida");
-	    #endif
-	    return LSTC_CondRetPosInvalida;
-    }*/
 
 	if (pLstC->NumElem != 0) {
 			/* Se a lista não está vazia */
@@ -641,15 +624,6 @@ LSTC_tpCondRet LSTC_RetirarElemento(LSTC_tppListaC pLstC, int iPos) {
 		#endif
 		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
-
-	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
-	if (iPos < 0 
-	    || iPos >= pLstC->NumElem){
-		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_RetirarPosInvalida");
-		#endif
-		return LSTC_CondRetPosInvalida;
-	}*/
 
 	if (pLstC->NumElem != 0) {
 		
@@ -783,15 +757,6 @@ LSTC_tpCondRet LSTC_RetirarElementoAlt(LSTC_tppListaC pLstC, int iPos){
 		#endif
 		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
-    
-	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
-    if(iPos < 0 
-       || iPos >= pLstC->NumElem){
-	    #ifdef _DEBUG
-	    	CNT_CONTAR("LSTC_RetirarAltPosInvalida");
-	    #endif
-	    return LSTC_CondRetPosInvalida;
-    }*/
 
 	if (pLstC->NumElem != 0) {
 			/* Se a lista não está vazia */
@@ -911,15 +876,6 @@ LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo
 		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
 
-	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
-	if (iPos < 0 
-	    || iPos >= pLstC->NumElem){
-		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_AtribuirPosInvalida");
-		#endif
-		return LSTC_CondRetPosInvalida;
-	}*/
-
 	if (pLstC->NumElem != 0) {
 			/* Se a lista não está vazia */
 		
@@ -1010,15 +966,6 @@ LSTC_tpCondRet LSTC_ObterElemento(LSTC_tppListaC pLstC, int iPos, void** pInfoRe
 		#endif
 		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
-	
-	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
-	if (iPos < 0 
-	    || iPos >= pLstC->NumElem){
-		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_ObterPosInvalida");
-		#endif
-		return LSTC_CondRetPosInvalida;
-	}*/
 
 	if (pLstC->NumElem != 0) {
 			/* Se a lista não está vazia */
@@ -1441,16 +1388,6 @@ static LSTC_tpCondRet JumpToPos(LSTC_tppListaC pLstC, int iPos, NOLST_tppNoLista
 		#endif
 		TratadorParaPonteiroPerdido(pLstC, assertiva);
 	}
-	
-	/*   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> RETIREI POSSIBILIDADE DE POS_INVALIDA
-	if (iPos < 0 
-	    || iPos >= pLstC->NumElem){
-		#ifdef _DEBUG
-			CNT_CONTAR("LSTC_JumpPosInvalida");
-		#endif
-		return LSTC_CondRetPosInvalida;
-	}*/
-
 
 	if (pLstC->NumElem != 0) {
 			/* Se a lista não está vazia */

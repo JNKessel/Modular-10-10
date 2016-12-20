@@ -27,31 +27,31 @@
 typedef struct TAB_tgTabuleiro* TAB_tppTabuleiro;
 
 typedef enum{
-    TAB_CondRetOK,
+    TAB_CondRetOK					= 0,
 		/* Nenhum problema */
 
-    TAB_CondRetErro,
+    TAB_CondRetErro					= 1,
 		/* Erro de inconsistência */
 
-    TAB_CondRetSemMemoria,
+    TAB_CondRetSemMemoria			= 2,
 		/* Falta de memória */
 
-    TAB_CondRetErroListaCircular,
+    TAB_CondRetErroListaCircular	= 3,
 		/* Erro no uso do módulo LSTC */
 
-    TAB_CondRetErroLista,
+    TAB_CondRetErroLista			= 4,
 		/* Erro no uso do módulo LIS */
 
-    TAB_CondRetTabJaExiste,
+    TAB_CondRetTabJaExiste			= 5,
 		/* Tabuleiro já foi criado */
 
-    TAB_CondRetTabInexistente,
+    TAB_CondRetTabInexistente		= 6,
 		/* Tabuleiro ainda não foi criado ou já foi destruído */
 
-    TAB_CondRetCasaInexistente,
+    TAB_CondRetCasaInexistente		= 7,
 		/* Casa não existe no tabuleiro */
 
-    TAB_CondRetUltrapassouFinal
+    TAB_CondRetUltrapassouFinal		= 8
 		/* Casa desejada ultrapassa os limites do fim do tabuleiro (fim de um dos oscars) */
 	} TAB_tpCondRet;
 

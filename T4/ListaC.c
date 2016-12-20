@@ -101,6 +101,7 @@ LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(v
 	
 	#ifdef _DEBUG 
 		CED_MarcarEspacoAtivo(*pLstCRet);
+		CED_DefinirTipoEspaco(*pLstCRet, LSTC_TipoEspacoCabeca);
 	#endif
 	
 	(*pLstCRet)->pNoCorr1 = NULL;

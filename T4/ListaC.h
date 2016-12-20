@@ -46,7 +46,9 @@ typedef enum {
 } LSTC_tpCondRet;
 
 typedef enum {
-  	Corrente,
+  	Corrente1,
+	Corrente2,
+	Corrente3,
    	Cabeca,
  	NumElem,
 	pProx,

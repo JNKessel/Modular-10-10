@@ -1,0 +1,16 @@
+Data:           Horas Trabalhadas:      Tipo Tarefa:                     Descrição da Tarefa Realizada:
+
+07/12/2016	    1 hora	                Estudar				                   Estudei sobre exceções.
+08/12/2016	    2 horas	                Estudar				                   Estudei sobre tratadores e recuperaçãopor avanço.
+10/12/2016	    4 horas	                codificar			                   Implementei funções do peão e do tabuleiro que ainda não haviam
+sido implementadas pois tinham haver com a dinamica do jogo que só foi implementada no t4.
+
+11/12/2016	    2 horas	                projetar		                     Especificamos possiveis exceções para o programa
+13/12/2016	    4 horas   	          	codificar 		                   Implementei assertivas e seus tratadores
+14/12/2016	    3 horas		              Projetar		 	                   Atualizei a arquitetura e a estrutura de dados
+16/12/2016	    5 horas   		          Estudar		                       Estudei sobre modulo Conta e Cespedin
+17/12/2016	    4 horas	                Revisar         	               Completei parte da documentação faltando dos arquivos de implementação ".C"
+18/12/2016	    6 horas		              Codificar 	                     Codifiquei implementação que mapeia as posições x e y das casas na interface grafica
+19/12/2016	    6 horas		              Redigir script de teste 	       Atualizei scripts de teste dos modulso Peao e Tabuleiro
+20/12/2016	    10 horas		            Revisar e codificar 	           Implementar funcionalidades que faltavam em relação aos testes e corrigir
+problemas apontados pelos testes                                 

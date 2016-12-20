@@ -99,6 +99,10 @@ LSTC_tpCondRet LSTC_CriarListaC(LSTC_tppListaC* pLstCRet, void (* ExcluirElem)(v
 		CNT_CONTAR("LSTC_CriarSucesso");
 	#endif
 	
+	#ifdef _DEBUG 
+		CED_MarcarEspacoAtivo(*pLstCRet);
+	#endif
+	
 	(*pLstCRet)->pNoCorr1 = NULL;
 	(*pLstCRet)->pNoCorr2 = NULL;
 	(*pLstCRet)->pNoCorr3 = NULL;
@@ -208,6 +212,11 @@ LSTC_tpCondRet LSTC_DestruirListaC(LSTC_tppListaC pLstC) {
 		}
 	}
 	free(pLstC);
+	
+	#ifdef _DEBUG 
+		CED_MarcarEspacoNaoAtivo(pLstC);
+	#endif
+	
 	return LSTC_CondRetOK;
 } /* Fim função: LIS  &Destruir lista */
 

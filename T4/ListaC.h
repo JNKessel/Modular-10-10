@@ -218,4 +218,6 @@ LSTC_tpCondRet LSTC_ObterTamanhoListaCAlt2(LSTC_tppListaC pLstC, int* pTamanhoRe
 /***********************************************************************
 * $FC Função: LST_Deturpadora
 ***********************************************************************/
-LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod);
+#ifdef _DEBUG
+	LSTC_tpCondRet LSTC_Deturpadora(LSTC_tppListaC pLstC, LSTC_Deturpacao cod);
+#endif

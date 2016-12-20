@@ -845,7 +845,7 @@ LSTC_tpCondRet LSTC_AtribuirElemento(LSTC_tppListaC pLstC, int iPos, void* pInfo
 	NOLST_tppNoLista no;
 	LSTC_tpCondRet debug;
 	NOLST_tpCondRet debugNo;
-        LSTC_tpCondRet assertiva;
+    LSTC_tpCondRet assertiva;
 	
 	if (!pLstC){
 		#ifdef _DEBUG

@@ -1,0 +1,23 @@
+					Programação Modular, Relatório individual
+Rafael Rubim Cabral- 1511068
+ 
+ DATA	|   HORAS TRABALHADAS	|      TIPO TAREFA	|   DESCRIÇÃO TAREFA	
+26/09	|	1		|Especificar Módulos	| Equipe começou a pensar nos módulos e estruturas de dados
+27/09	|	2,5		|Especificar Funções 	| Equipe discutiu módulos e funções que precisariam fazer
+28/09	|	2		|Revisar Especificações	| Equipe definiu estruturas, funcionamento e interdependência entre módulos
+12/10	|	3		|Revisar Especificações	| Equipe permanece com dificuldade com tratamento de módulo peão/jogador
+?/09	|	5		|Codificar Módulo	| Implementei módulos NoLista e ListaC
+11/10	|	3		|Revisar Código Módulo	| Alterei Módulos para linguagem C, padronizei seu estilo
+13/10	|	1,5		|Revisar código Módulo	| Repadronizei módulos, mudei os tipos de retornos
+13/10	|	2		|	Estudar		| Estudei padronização
+14/10	|	2		|	Estudar		| Estudei o uso do prompt de comando e arquivos batch
+14/10	|	4		|Revisar especificações	| Refiz toda as especifições de requisitos duas vezes
+14/10	|	1		|Revisar especificações	| Equipe terminou objetivos das especializações dos módulos
+15/10	|	8		|	Estudar		| Leitura de scripts de arcabouço, compilação e teste de construtos
+16/10	|	1		|	Estudar		| Estudei apêndices
+17/10	|	1,5		| Revisar Espec. Módulos| Grupo terminou de espec. módulos! aêêê
+17/10	|	2,5		| Implementar Módulo	| Alterei ListaC.c e comecei Partida.c, documentação
+18/10	|	2		| Implementar Módulo	| Adaptei ListaC e comecei o módulo de teste específico, documentação
+18/10	|	3		|	Estudar		| Estudei uso dos módulos e scripts de teste
+18/10	|	7		| Revisar Código Módulo	| Aperfeiçoamento e finalização dos módulos do trabalho
+19/10	|	17		| Implementar Testes	| Criação de scripts de teste e módulos de teste específicos
